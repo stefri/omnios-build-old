@@ -30,7 +30,7 @@
 PROG=bind
 VER=9.9.2
 VERHUMAN=$VER
-PKG=uulm_mawi/server/dns/bind
+PKG=service/network/dns/bind
 SUMMARY="BIND DNS server and tools"
 DESC="$SUMMARY ($VER)"
 
