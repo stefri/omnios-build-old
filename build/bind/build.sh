@@ -30,14 +30,14 @@
 PROG=bind
 VER=9.9.2
 VERHUMAN=$VER
-PKG=network/dns/bind
-SUMMARY="BIND DNS tools"
+PKG=uulm_mawi/server/dns/bind
+SUMMARY="BIND DNS server and tools"
 DESC="$SUMMARY ($VER)"
 
 DEPENDS_IPS="library/libxml2 library/security/openssl library/zlib
              system/library system/library/gcc-4-runtime system/library/math"
 
-BUILDARCH=32
+BUILDARCH=64
 
 CONFIGURE_OPTS="
     --bindir=$PREFIX/sbin
@@ -46,14 +46,7 @@ CONFIGURE_OPTS="
     --sysconfdir=/etc
     --localstatedir=/var
     --with-libtool
-    --with-openssl
-    --enable-threads=yes
-    --enable-devpoll=yes
-    --disable-openssl-version-check
-    --enable-fixed-rrset
-    --disable-getifaddrs
-    --with-pkcs11
-    --enable-shared
+    --without-openssl
     --disable-static
 "
 
