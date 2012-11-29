@@ -34,11 +34,12 @@ PKG=service/network/netatalk
 SUMMARY="Open Source Apple Filing Protocol (AFP) fileserver"
 DESC="Netatalk is a freely-available, kernel level implementation of the AppleTalk Protocol Suite, originally for BSD-derived systems. A *NIX/*BSD system running netatalk is capable of serving many macintosh clients simultaneously as an AppleTalk router, AppleShare file server (AFP), *NIX/*BSD print server, and for accessing AppleTalk printers via Printer Access Protocol (PAP). Included are a number of minor printing and debugging utilities."
 
+
 DEPENDS_IPS="database/bdb service/network/dns/mdns
              system/library system/library/gcc-4-runtime system/library/math"
+MIRROR=downloads.sourceforge.net
 
 BUILDARCH=32
-
 CONFIGURE_OPTS="
     --bindir=$PREFIX/bin
     --mandir=$PREFIX/man
@@ -51,9 +52,23 @@ CONFIGURE_OPTS="
     --disable-ddp
     --enable-nfsv4acls
 "
-    #--with-init-style=solaris
 
-MIRROR=downloads.sourceforge.net
+
+# Extra script/file installs
+add_file() {
+    logcmd cp $SRCDIR/files/$1 $DESTDIR$PREFIX/$2
+    logcmd chown root:root $DESTDIR$PREFIX/$2
+    if [[ -n "$3" ]]; then
+        logcmd chmod $3 $DESTDIR$PREFIX/$2
+    else
+        logcmd chmod 0444 $DESTDIR$PREFIX/$2
+    fi
+}
+
+add_extra_files() {
+    logmsg "Installing custom files and scripts"
+    add_file manifest-netatalk.xml conf/netatalk.xml
+}
 
 init
 download_source $PROG $PROG $VER
@@ -61,6 +76,7 @@ patch_source
 prep_build
 build
 make_isa_stub
+add_extra_files
 make_package
 clean_up
 
