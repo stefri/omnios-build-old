@@ -27,8 +27,12 @@
 # Load support functions
 . ../../lib/functions.sh
 
+# http://download.oracle.com/berkeley-db/db-4.8.30.tar.gz
+MIRROR=download.oracle.com
+
 PROG=bdb
-VER=4.7.25
+#VER=4.7.25
+VER=4.8.30
 VERHUMAN=$VER
 PKG=database/bdb
 SUMMARY="$PROG - Berkeley DB: an embedded database library for key/value data"
@@ -49,7 +53,7 @@ build64() {
 }
 
 init
-download_source $PROG db $VER
+download_source berkeley-db db $VER
 patch_source
 prep_build
 build

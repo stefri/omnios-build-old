@@ -32,30 +32,26 @@ VER=3.0.1
 VERHUMAN=$VER
 PKG=service/network/netatalk
 SUMMARY="Open Source Apple Filing Protocol (AFP) fileserver"
-DESC="Netatalk is a freely-available, kernel level implementation of the 
-AppleTalk Protocol Suite, originally for BSD-derived systems. A *NIX/*BSD 
-system running netatalk is capable of serving many macintosh clients 
-simultaneously as an AppleTalk router, AppleShare file server (AFP), 
-*NIX/*BSD print server, and for accessing AppleTalk printers via 
-Printer Access Protocol (PAP). Included are a number of minor printing 
-and debugging utilities."
+DESC="Netatalk is a freely-available, kernel level implementation of the AppleTalk Protocol Suite, originally for BSD-derived systems. A *NIX/*BSD system running netatalk is capable of serving many macintosh clients simultaneously as an AppleTalk router, AppleShare file server (AFP), *NIX/*BSD print server, and for accessing AppleTalk printers via Printer Access Protocol (PAP). Included are a number of minor printing and debugging utilities."
 
-DEPENDS_IPS="database/bdb library/libevent service/network/dns/mdns
+DEPENDS_IPS="database/bdb service/network/dns/mdns
              system/library system/library/gcc-4-runtime system/library/math"
 
-BUILDARCH=64
+BUILDARCH=32
 
 CONFIGURE_OPTS="
     --bindir=$PREFIX/bin
     --mandir=$PREFIX/man
     --infodir=$PREFIX/info
-    --spooldir=/var/spool/netatalk
+    --with-spooldir=/var/spool/netatalk
     --with-uams-path=$PREFIX/lib/netatalk
     --sysconfdir=/etc
     --localstatedir=/var
+    --with-bdb=/usr/local/
     --disable-ddp
     --enable-nfsv4acls
 "
+    #--with-init-style=solaris
 
 MIRROR=downloads.sourceforge.net
 
