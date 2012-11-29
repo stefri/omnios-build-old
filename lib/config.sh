@@ -34,7 +34,7 @@ PVER=0.151004
 MIRROR=mirrors.omniti.com
 
 # Default prefix for packages (may be overridden)
-PREFIX=/usr
+PREFIX=/usr/local
 
 # Temporary directories
 # TMPDIR is used for source archives and build directories
