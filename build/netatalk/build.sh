@@ -53,21 +53,11 @@ CONFIGURE_OPTS="
     --enable-nfsv4acls
 "
 
-
-# Extra script/file installs
-add_file() {
-    logcmd cp $SRCDIR/files/$1 $DESTDIR$PREFIX/$2
-    logcmd chown root:root $DESTDIR$PREFIX/$2
-    if [[ -n "$3" ]]; then
-        logcmd chmod $3 $DESTDIR$PREFIX/$2
-    else
-        logcmd chmod 0444 $DESTDIR$PREFIX/$2
-    fi
-}
-
-add_extra_files() {
-    logmsg "Installing custom files and scripts"
-    add_file manifest-netatalk.xml conf/netatalk.xml
+service_configs() {
+    logmsg "Installing SMF"
+    logcmd mkdir -p $DESTDIR/lib/svc/manifest/network/
+    logcmd cp $SRCDIR/files/manifest-netatalk.xml \
+        $DESTDIR/lib/svc/manifest/network/netatalk.xml
 }
 
 init
@@ -76,7 +66,7 @@ patch_source
 prep_build
 build
 make_isa_stub
-add_extra_files
+service_configs
 make_package
 clean_up
 
