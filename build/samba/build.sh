@@ -36,7 +36,7 @@ DESC="$SUMMARY ($VERS)"
 
 MIRROR=download.samba.org/pub
 
-DEPENDS_IPS="database/bdb service/network/dns/mdns
+DEPENDS_IPS="service/network/dns/mdns developer/build/autoconf
              system/library system/library/gcc-4-runtime system/library/math"
 
 BUILDDIR=$PROG-$VER/source3
@@ -46,11 +46,14 @@ CONFIGURE_OPTS="
     --sbindir=$PREFIX/sbin
     --mandir=$PREFIX/man
     --infodir=$PREFIX/info
-    --sysconfdir=/etc
-    --localstatedir=/var
+    --sysconfdir=/etc/samba
+    --with-configdir=/etc/samba
+    --with-privatedir=/etc/samba/private
+    --localstatedir=/var/samba
+    --sharedstatedir=/var/samba
+    --enable-static=no
+    --disable-static
     --enable-fhs
-    --enable-debug
-    --enable-selftest
 "
 
 init
