@@ -35,7 +35,7 @@ SUMMARY="Open Source Apple Filing Protocol (AFP) fileserver"
 DESC="Netatalk is a freely-available, kernel level implementation of the AppleTalk Protocol Suite, originally for BSD-derived systems. A *NIX/*BSD system running netatalk is capable of serving many macintosh clients simultaneously as an AppleTalk router, AppleShare file server (AFP), *NIX/*BSD print server, and for accessing AppleTalk printers via Printer Access Protocol (PAP). Included are a number of minor printing and debugging utilities."
 
 
-DEPENDS_IPS="database/bdb service/network/dns/mdns
+DEPENDS_IPS="database/bdb library/libevent service/network/dns/mdns
              system/library system/library/gcc-4-runtime system/library/math"
 MIRROR=downloads.sourceforge.net
 
@@ -49,6 +49,8 @@ CONFIGURE_OPTS="
     --sysconfdir=/etc
     --localstatedir=/var
     --with-bdb=/usr/local/
+    --with-libevent-header=/usr/local/include/
+    --with-libevent-lib=/usr/local/lib/
     --disable-ddp
     --enable-nfsv4acls
 "
