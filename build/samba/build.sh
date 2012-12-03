@@ -54,7 +54,19 @@ CONFIGURE_OPTS="
     --enable-static=no
     --disable-static
     --enable-fhs
+    --disable-swat
 "
+
+service_configs() {
+    logmsg "Installing SMF"
+    logcmd mkdir -p $DESTDIR/lib/svc/manifest/network/samba
+    logcmd cp $SRCDIR/files/manifest-samba-nmbd.xml \
+        $DESTDIR/lib/svc/manifest/network/samba/nmbd.xml
+    logcmd cp $SRCDIR/files/manifest-samba-smbd.xml \
+        $DESTDIR/lib/svc/manifest/network/samba/smbd.xml
+    logcmd cp $SRCDIR/files/manifest-samba-winbindd.xml \
+        $DESTDIR/lib/svc/manifest/network/samba/winbindd.xml
+}
 
 init
 download_source $PROG $PROG $VER
@@ -63,6 +75,7 @@ run_autogen
 prep_build
 build
 make_isa_stub
+service_configs
 make_package
 clean_up
 
