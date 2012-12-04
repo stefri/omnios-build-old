@@ -1,0 +1,14 @@
+;
+; reverse pointers for localhost
+;
+$TTL 1d
+$ORIGIN 0.0.127.IN-ADDR.ARPA.
+@	IN	SOA	localhost. root.localhost. (
+			1   ; Serial
+			8H  ; Refresh
+			15M ; retry
+			1W  ; expire
+			1d  ; minimum
+			)
+	IN	NS	localhost.
+1	IN	PTR	localhost.
