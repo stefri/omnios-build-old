@@ -35,34 +35,58 @@ SUMMARY="ISC DHCP server"
 DESC="$SUMMARY ($VERHUMAN)"
 
 MIRROR=ftp.isc.org/isc
+BUILDDIR=$PROG-$VERHUMAN
+BUILDARCH=32
 
 DEPENDS_IPS="system/library system/library/gcc-4-runtime"
-
-BUILDARCH=32
 
 CONFIGURE_OPTS="
     --bindir=$PREFIX/sbin
     --sbindir=$PREFIX/sbin
     --libdir=$PREFIX/lib
-    --sysconfdir=/etc
-    --localstatedir=/var
+    --sysconfdir=/etc/$PROG
+    --localstatedir=/var/$PROG
     --mandir=$PREFIX/man
     --docdir=$PREFIX/doc
-    --with-srv-lease-file=/var/db/dhcp/dhcpd.leases
-    --with-srv6-lease-file=/var/db/dhcp/dhcpd6.leases
-    --with-cli-lease-file=/var/db/dhcp/dhclient.leases
-    --with-cli6-lease-file=/var/db/dhcp/dhclient6.leases
+    --with-srv-lease-file=/var/db/$PROG/dhcpd.leases
+    --with-srv6-lease-file=/var/db/$PROG/dhcpd6.leases
+    --with-cli-lease-file=/var/db/$PROG/dhclient.leases
+    --with-cli6-lease-file=/var/db/$PROG/dhclient6.leases
     --with-ldap=no
     --with-ldapcrypto=no
 "
 
+service_configs() {
+    logmsg "Installing SMF"
+    logcmd mkdir -p $DESTDIR/lib/svc/manifest/network/dhcp
+    logcmd cp $SRCDIR/files/manifest-isc-dhcp-server.xml \
+        $DESTDIR/lib/svc/manifest/network/dhcp/isc-dhcp-server.xml
+    logcmd cp $SRCDIR/files/manifest-isc-dhcp-relay.xml \
+        $DESTDIR/lib/svc/manifest/network/dhcp/isc-dhcp-relay.xml
+    logmsg "Installing SMF control methods"
+    logcmd mkdir -p $DESTDIR/lib/svc/method
+    logcmd cp $SRCDIR/files/isc-dhcp \
+        $DESTDIR/lib/svc/method/isc-dhcp
+    logcmd chmod 555 $DESTDIR/lib/svc/method/isc-dhcp
+}
+
+rename_config_examples() {
+    logmsg "Renaming configuration examples"
+    logcmd mv $DESTDIR/etc/$PROG/dhcpd.conf \
+        $DESTDIR/etc/$PROG/dhcpd.conf.sample
+    logcmd mv $DESTDIR/etc/$PROG/dhclient.conf \
+        $DESTDIR/etc/$PROG/dhclient.conf.sample
+}
+
 init
 # url ftp://ftp.isc.org/isc/dhcp/4.2.4-P2/dhcp-4.2.4-P2.tar.gz
-download_source $PROG/$VER $PROG $VERHUMAN
+download_source $PROG/$VERHUMAN $PROG $VERHUMAN
 patch_source
 prep_build
 build
 make_isa_stub
+service_configs
+rename_config_examples
 make_package
 clean_up
 
