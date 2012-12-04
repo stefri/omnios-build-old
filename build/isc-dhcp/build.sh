@@ -44,14 +44,14 @@ CONFIGURE_OPTS="
     --bindir=$PREFIX/sbin
     --sbindir=$PREFIX/sbin
     --libdir=$PREFIX/lib
-    --sysconfdir=/etc/$PROG
-    --localstatedir=/var/$PROG
+    --sysconfdir=/etc/isc-dhcp
+    --localstatedir=/var/isc-dhcp
     --mandir=$PREFIX/man
     --docdir=$PREFIX/doc
-    --with-srv-lease-file=/var/db/$PROG/dhcpd.leases
-    --with-srv6-lease-file=/var/db/$PROG/dhcpd6.leases
-    --with-cli-lease-file=/var/db/$PROG/dhclient.leases
-    --with-cli6-lease-file=/var/db/$PROG/dhclient6.leases
+    --with-srv-lease-file=/var/db/isc-dhcp/dhcpd.leases
+    --with-srv6-lease-file=/var/db/isc-dhcp/dhcpd6.leases
+    --with-cli-lease-file=/var/db/isc-dhcp/dhclient.leases
+    --with-cli6-lease-file=/var/db/isc-dhcp/dhclient6.leases
     --with-ldap=no
     --with-ldapcrypto=no
 "
@@ -72,10 +72,12 @@ service_configs() {
 
 rename_config_examples() {
     logmsg "Renaming configuration examples"
-    logcmd mv $DESTDIR/etc/$PROG/dhcpd.conf \
-        $DESTDIR/etc/$PROG/dhcpd.conf.sample
-    logcmd mv $DESTDIR/etc/$PROG/dhclient.conf \
-        $DESTDIR/etc/$PROG/dhclient.conf.sample
+    logcmd mv $DESTDIR/etc/isc-dhcp/dhcpd.conf \
+        $DESTDIR/etc/isc-dhcp/dhcpd.conf.sample
+    logcmd mv $DESTDIR/etc/isc-dhcp/dhclient.conf \
+        $DESTDIR/etc/isc-dhcp/dhclient.conf.sample
+    logmsg "Creating var-directory"
+    logcmd mkdir -p $DESTDIR/var/db/isc-dhcp
 }
 
 init

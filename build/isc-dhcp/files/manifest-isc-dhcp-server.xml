@@ -97,9 +97,9 @@
 		<property_group name="config" type="application">
 			<propval name="debug" type="boolean" value="false"/>
 			<propval name="config_file" type="astring" 
-				value="/etc/dhcp/dhcpd.conf"/>
+				value="/etc/isc-dhcp/dhcpd.conf"/>
 			<propval name="lease_file" type="astring"
-				value="/var/db/dhcp/dhcpd.leases"/>
+				value="/var/db/isc-dhcp/dhcpd.leases"/>
 			<property name="listen_ifnames" type="astring" >
 				<astring_list>
 					<value_node value="" />
@@ -114,9 +114,9 @@
 		<property_group name="config" type="application">
 			<propval name="debug" type="boolean" value="false"/>
 			<propval name="config_file" type="astring"
-				value="/etc/dhcp/dhcpd6.conf"/>
+				value="/etc/isc-dhcp/dhcpd6.conf"/>
 			<propval name="lease_file" type="astring"
-				value="/var/db/dhcp/dhcpd6.leases"/>
+				value="/var/db/isc-dhcp/dhcpd6.leases"/>
 			<property name="listen_ifnames" type="astring">
 				<astring_list>
 					<value_node value="" />
