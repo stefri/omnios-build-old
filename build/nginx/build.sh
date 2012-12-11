@@ -30,7 +30,7 @@
 PROG=nginx
 VER=1.2.6
 VERHUMAN=$VER
-PKG=service/network/nginx
+PKG=ulm/service/network/nginx
 SUMMARY="Nginx, http server and reverse proxy"
 DESC="Nginx (pronounced engine-x) is a free, open-source, high-performance HTTP server and reverse proxy, as well as an IMAP/POP3 proxy server."
 
@@ -64,7 +64,7 @@ CONFIGURE_OPTS="
     --with-mail
     --with-mail_ssl_module
 "
-#    --with-google_perftools_module ; requires google perftools library
+#   TODO --with-google_perftools_module ; requires google perftools library
 
 service_configs() {
     logmsg "Installing SMF"

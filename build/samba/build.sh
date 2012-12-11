@@ -30,7 +30,7 @@
 PROG=samba
 VER="3.6.9"
 VERHUMAN=$VER
-PKG=service/network/samba
+PKG=ulm/service/network/samba
 SUMMARY="$PROG - CIFS server and domain controller"
 DESC="$SUMMARY ($VERS)"
 

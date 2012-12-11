@@ -30,7 +30,7 @@
 PROG=jpeg
 VER=8d
 VERHUMAN=$VER
-PKG=library/libjpeg
+PKG=ulm/library/libjpeg
 SUMMARY="$PROG - Free Library for JPEG Image Compression (v$VER)"
 DESC="$SUMMARY"
 

@@ -31,10 +31,9 @@
 MIRROR=download.oracle.com
 
 PROG=bdb
-#VER=4.7.25
 VER=4.8.30
 VERHUMAN=$VER
-PKG=database/bdb
+PKG=ulm/database/bdb
 SUMMARY="$PROG - Berkeley DB: an embedded database library for key/value data"
 DESC="$SUMMARY"
 
