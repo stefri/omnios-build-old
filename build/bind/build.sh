@@ -37,8 +37,6 @@ DESC="$SUMMARY ($VER)"
 DEPENDS_IPS="library/libxml2 library/security/openssl library/zlib
              system/library system/library/gcc-4-runtime system/library/math"
 
-BUILDARCH=64
-
 CONFIGURE_OPTS="
     --bindir=$PREFIX/sbin
     --sbindir=$PREFIX/sbin
@@ -50,12 +48,41 @@ CONFIGURE_OPTS="
     --disable-static
 "
 
+basic_named_config() {
+    logmsg "Installing basic named.conf"
+    logcmd mkdir -p $DESTDIR/etc
+    logcmd cp $SRCDIR/files/named.conf \
+        $DESTDIR/etc/named.conf.sample
+    logcmd mkdir -p $DESTDIR/var/named/master
+    logcmd mkdir -p $DESTDIR/var/named/rev
+    logcmd cp $SRCDIR/files/root.servers \
+        $DESTDIR/var/named/root.servers
+    logcmd cp $SRCDIR/files/zone.localhost \
+        $DESTDIR/var/named/master/zone.localhost
+    logcmd cp $SRCDIR/files/127.0.0.rev \
+        $DESTDIR/var/named/rev/127.0.0.rev
+}
+
+service_configs() {
+    logmsg "Installing SMF"
+    logcmd mkdir -p $DESTDIR/lib/svc/manifest/network/dns
+    logcmd cp $SRCDIR/files/manifest-dns-server.xml \
+        $DESTDIR/lib/svc/manifest/network/dns/server.xml
+    logmsg "Installing SMF control methods"
+    logcmd mkdir -p $DESTDIR/lib/svc/method
+    logcmd cp $SRCDIR/files/dns-server \
+        $DESTDIR/lib/svc/method/dns-server
+    logcmd chmod 555 $DESTDIR/lib/svc/method/dns-server
+}
+
 init
 download_source $PROG $PROG $VER
 patch_source
 prep_build
 build
 make_isa_stub
+basic_named_config
+service_configs
 VER=${VER//-P/.}
 make_package
 clean_up
