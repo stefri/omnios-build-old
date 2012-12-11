@@ -30,7 +30,7 @@
 PROG=tmux
 VER=1.7
 VERHUMAN=$VER
-PKG=ulm/terminal/tmux
+PKG=custom/terminal/tmux
 SUMMARY="terminal multiplexer"
 DESC="$SUMMARY"
 LIBEVENT_VER=2.0.20

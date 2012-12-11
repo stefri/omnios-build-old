@@ -30,7 +30,7 @@
 PROG=smartmontools
 VER=6.0
 VERHUMAN=$VER
-PKG=ulm/system/storage/smartmontools
+PKG=system/storage/smartmontools
 SUMMARY="Control and monitor storage systems using SMART"
 DESC="Control and monitor storage systems using the Self-Monitoring, Analysis and Reporting Technology System (SMART) built into most modern ATA and SCSI harddisks."
 

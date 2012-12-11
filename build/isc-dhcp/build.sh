@@ -30,7 +30,7 @@
 PROG=dhcp
 VER=4.2.4
 VERHUMAN=$VER-P2
-PKG=ulm/service/network/dhcp/isc-dhcp
+PKG=service/network/dhcp/isc-dhcp
 SUMMARY="ISC DHCP server"
 DESC="$SUMMARY ($VERHUMAN)"
 

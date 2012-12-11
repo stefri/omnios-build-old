@@ -30,7 +30,7 @@
 PROG=libevent
 VER=2.0.20
 VERHUMAN=$VER
-PKG=ulm/library/libevent
+PKG=library/libevent
 SUMMARY="$PROG - an event notification library"
 DESC="The libevent API provides a mechanism to execute a callback function when a specific event occurs on a file descriptor or after a timeout has been reached. Furthermore, libevent also support callbacks due to signals or regular timeouts."
 
