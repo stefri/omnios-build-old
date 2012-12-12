@@ -34,7 +34,6 @@ PKG=service/network/dhcp/isc-dhcp
 SUMMARY="ISC DHCP server"
 DESC="$SUMMARY ($VERHUMAN)"
 
-MIRROR=ftp.isc.org/isc
 BUILDDIR=$PROG-$VERHUMAN
 BUILDARCH=32
 
@@ -81,8 +80,7 @@ rename_config_examples() {
 }
 
 init
-# url ftp://ftp.isc.org/isc/dhcp/4.2.4-P2/dhcp-4.2.4-P2.tar.gz
-download_source $PROG/$VERHUMAN $PROG $VERHUMAN
+download_source isc-$PROG $PROG $VERHUMAN
 patch_source
 prep_build
 build

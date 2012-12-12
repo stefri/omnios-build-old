@@ -34,7 +34,6 @@ PKG=service/network/nginx
 SUMMARY="Nginx, http server and reverse proxy"
 DESC="Nginx (pronounced engine-x) is a free, open-source, high-performance HTTP server and reverse proxy, as well as an IMAP/POP3 proxy server."
 
-MIRROR=nginx.org
 BUILDARCH=32
 
 CONFIGURE_OPTS_32=""
@@ -78,7 +77,7 @@ service_configs() {
 }
 
 init
-download_source "download" $PROG $VER
+download_source $PROG $PROG $VER
 patch_source
 prep_build
 build

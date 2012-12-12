@@ -34,8 +34,8 @@ PKG=library/libpng
 SUMMARY="$PROG - Portable Network Graphics Library"
 DESC="$SUMMARY"
 
-LDFLAGS32="-L/opt/omni/lib -R/opt/omni/lib"
-LDFLAGS64="-L/opt/omni/lib/$ISAPART64 -R/opt/omni/lib/$ISAPART64"
+LDFLAGS32="-L/usr/local/lib -R/usr/local/lib"
+LDFLAGS64="-L/usr/local/lib/$ISAPART64 -R/usr/local/lib/$ISAPART64"
 
 init
 download_source $PROG $PROG $VER

@@ -54,7 +54,7 @@ make_package() {
 }
 
 init
-download_source $PROG jpegsrc.v${VER}
+download_source libjpeg jpegsrc.v${VER}
 patch_source
 prep_build
 build
