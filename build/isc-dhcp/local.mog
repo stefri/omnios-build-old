@@ -1,1 +1,2 @@
+<transform dir path=var/db.* -> set group sys>
 license LICENSE license=ISC

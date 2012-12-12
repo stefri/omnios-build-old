@@ -47,10 +47,10 @@ CONFIGURE_OPTS="
     --localstatedir=/var/isc-dhcp
     --mandir=$PREFIX/man
     --docdir=$PREFIX/doc
-    --with-srv-lease-file=/var/isc-dhcp/dhcpd.leases
-    --with-srv6-lease-file=/var/isc-dhcp/dhcpd6.leases
-    --with-cli-lease-file=/var/isc-dhcp/dhclient.leases
-    --with-cli6-lease-file=/var/isc-dhcp/dhclient6.leases
+    --with-srv-lease-file=/var/db/isc-dhcp/dhcpd.leases
+    --with-srv6-lease-file=/var/db/isc-dhcp/dhcpd6.leases
+    --with-cli-lease-file=/var/db/isc-dhcp/dhclient.leases
+    --with-cli6-lease-file=/var/db/isc-dhcp/dhclient6.leases
     --with-ldap=no
     --with-ldapcrypto=no
 "
@@ -76,7 +76,7 @@ rename_config_examples() {
     logcmd mv $DESTDIR/etc/isc-dhcp/dhclient.conf \
         $DESTDIR/etc/isc-dhcp/dhclient.conf.sample
     logmsg "Creating var-directory"
-    logcmd mkdir -p $DESTDIR/var/isc-dhcp
+    logcmd mkdir -p $DESTDIR/var/db/isc-dhcp
 }
 
 init
