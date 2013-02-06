@@ -28,7 +28,7 @@
 . ../../lib/functions.sh
 
 PROG=postfix
-VER=2.9.4
+VER=2.9.6
 VERHUMAN=$VER
 PKG=service/network/smtp/postfix
 SUMMARY="[WIP][UNTESTED] Postfix Mail Transport Agent"
@@ -46,13 +46,13 @@ make_clean() {
 
 CONFIGURE_OPTS_32=""
 CONFIGURE_OPTS_64=""
-CONFIGURE_OPTS="-DNO_NIS"
+CONFIGURE_OPTS='-DNO_NIS'
 CONFIGURE_CMD=create_makefiles
 
 create_makefiles() {
     CCARGS='-DDEF_COMMAND_DIR=\"/usr/local/sbin\" -DDEF_DAEMON_DIR=\"/usr/local/libexec/postfix\"'
     logmsg "--- creating postfix makefiles"
-    $MAKE -f Makefile.init makefiles CCARGS=$CCARGS $CONFIGURE_OPTS
+    $MAKE -f Makefile.init makefiles CCARGS="$CCARGS $CONFIGURE_OPTS"
     unset CCARGS
 }
 
