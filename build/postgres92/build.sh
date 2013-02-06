@@ -30,16 +30,14 @@
 PROG=postgresql
 VER=9.2.2
 VERHUMAN=$VER
-PKG=database/postgresql-${VER//./}
+PKG=database/postgresql-92
 SUMMARY="$PROG - Open Source Database System"
 DESC="$SUMMARY"
 
 BUILD_DEPENDS_IPS="system/library/gcc-4-runtime"
 DEPENDS_IPS="database/postgresql/common system/library/gcc-4-runtime"
 
-DOWNLOADDIR=postgres
 BUILDARCH=64
-PREFIX=/opt/pgsql${VER//./}
 reset_configure_opts
 
 CFLAGS="-O3"
@@ -55,7 +53,7 @@ CONFIGURE_OPTS="--enable-thread-safety
 CONFIGURE_OPTS_64="--enable-dtrace DTRACEFLAGS=\"-64\""
 
 init
-download_source $DOWNLOADDIR $PROG $VER
+download_source $PROG $PROG $VER
 patch_source
 prep_build
 build
