@@ -28,16 +28,15 @@
 . ../../lib/functions.sh
 
 PROG=samba
-VER="3.6.10"
+VER="4.0.0"
 VERHUMAN=$VER
 PKG=service/network/samba
-SUMMARY="$PROG - CIFS server and domain controller"
+SUMMARY="$PROG - CIFS server and active directory controller"
 DESC="$SUMMARY ($VERS)"
 
 DEPENDS_IPS="service/network/dns/mdns developer/build/autoconf
              system/library system/library/gcc-4-runtime system/library/math"
 
-BUILDDIR=$PROG-$VER/source3
 BUILDARCH=32
 CONFIGURE_OPTS="
     --bindir=$PREFIX/bin
@@ -49,10 +48,7 @@ CONFIGURE_OPTS="
     --with-privatedir=/etc/samba/private
     --localstatedir=/var/samba
     --sharedstatedir=/var/samba
-    --enable-static=no
-    --disable-static
     --enable-fhs
-    --disable-swat
 "
 
 service_configs() {
@@ -69,11 +65,11 @@ service_configs() {
 init
 download_source $PROG $PROG $VER
 patch_source
-run_autogen
+#run_autogen
 prep_build
 build
 make_isa_stub
-service_configs
+#service_configs
 make_package
 clean_up
 
