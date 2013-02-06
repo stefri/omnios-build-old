@@ -28,14 +28,13 @@
 . ../../lib/functions.sh
 
 PROG=dhcp
-VER=4.2.4
-VERHUMAN=$VER-P2
+VER=4.2.4-P2
+VERHUMAN=$VER
 PKG=service/network/dhcp/isc-dhcp
 SUMMARY="ISC DHCP server"
-DESC="$SUMMARY ($VERHUMAN)"
+DESC="$SUMMARY ($VER)"
 
-MIRROR=ftp.isc.org/isc
-BUILDDIR=$PROG-$VERHUMAN
+BUILDDIR=$PROG-$VER
 BUILDARCH=32
 
 DEPENDS_IPS="system/library system/library/gcc-4-runtime"
@@ -81,14 +80,14 @@ rename_config_examples() {
 }
 
 init
-# url ftp://ftp.isc.org/isc/dhcp/4.2.4-P2/dhcp-4.2.4-P2.tar.gz
-download_source $PROG/$VERHUMAN $PROG $VERHUMAN
+download_source isc-$PROG $PROG $VER
 patch_source
 prep_build
 build
 make_isa_stub
 service_configs
 rename_config_examples
+VER=${VER//-P/.}
 make_package
 clean_up
 

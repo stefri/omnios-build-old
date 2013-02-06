@@ -34,8 +34,6 @@ PKG=system/storage/smartmontools
 SUMMARY="Control and monitor storage systems using SMART"
 DESC="Control and monitor storage systems using the Self-Monitoring, Analysis and Reporting Technology System (SMART) built into most modern ATA and SCSI harddisks."
 
-MIRROR=download.sourceforge.net
-
 DEPENDS_IPS="system/library/g++-4-runtime system/library/gcc-4-runtime"
 
 BUILDARCH=32

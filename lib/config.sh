@@ -31,7 +31,7 @@
 PVER=0.151004
 
 # Which server to fetch files from
-MIRROR=mirrors.omniti.com
+MIRROR=scott.mathematik.uni-ulm.de/src
 
 # Default prefix for packages (may be overridden)
 PREFIX=/usr/local

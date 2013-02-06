@@ -28,13 +28,11 @@
 . ../../lib/functions.sh
 
 PROG=samba
-VER="3.6.9"
+VER="3.6.10"
 VERHUMAN=$VER
 PKG=service/network/samba
 SUMMARY="$PROG - CIFS server and domain controller"
 DESC="$SUMMARY ($VERS)"
-
-MIRROR=download.samba.org/pub
 
 DEPENDS_IPS="service/network/dns/mdns developer/build/autoconf
              system/library system/library/gcc-4-runtime system/library/math"

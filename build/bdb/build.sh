@@ -27,11 +27,7 @@
 # Load support functions
 . ../../lib/functions.sh
 
-# http://download.oracle.com/berkeley-db/db-4.8.30.tar.gz
-MIRROR=download.oracle.com
-
 PROG=bdb
-#VER=4.7.25
 VER=4.8.30
 VERHUMAN=$VER
 PKG=database/bdb
@@ -41,19 +37,19 @@ DESC="$SUMMARY"
 BUILDDIR=db-$VER/build_unix
 CONFIGURE_CMD="../dist/configure"
 CONFIGURE_OPTS="--enable-compat185"
-LDFLAGS32="$LDFLAGS32 -L/opt/omni/lib -R/opt/omni/lib"
-LDFLAGS64="$LDFLAGS64 -L/opt/omni/lib/$ISAPART64 -R/opt/omni/lib/$ISAPART64"
+LDFLAGS32="$LDFLAGS32 -L/usr/local/lib -R/usr/local/lib"
+LDFLAGS64="$LDFLAGS64 -L/usr/local/lib/$ISAPART64 -R/usr/local/lib/$ISAPART64"
 
 export EXTLIBS=-lm
 
 save_function build64 build64_orig
 build64() {
-  export DLDFLAGS="-L/opt/omni/lib/$ISAPART64 -R/opt/omni/lib/$ISAPART64"
+  export DLDFLAGS="-L/usr/local/lib/$ISAPART64 -R/usr/local/lib/$ISAPART64"
   build64_orig
 }
 
 init
-download_source berkeley-db db $VER
+download_source bdb db $VER
 patch_source
 prep_build
 build
