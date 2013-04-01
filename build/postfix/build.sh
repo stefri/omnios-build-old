@@ -34,7 +34,7 @@ PKG=service/network/smtp/postfix
 SUMMARY="Postfix Mail Transport Agent"
 DESC="Postfix is a Mail Transport Agent (MTA), this is a very basic configuration only supporting Berkeley DB based configuration"
 
-DEPENDS_IPS="database/bdb"
+DEPENDS_IPS="database/bdb library/libpq5"
 
 BUILDARCH=32
 USER=postfix
@@ -48,12 +48,12 @@ make_clean() {
 
 CONFIGURE_OPTS_32=""
 CONFIGURE_OPTS_64=""
-CONFIGURE_OPTS='-DNO_NIS'
+CONFIGURE_OPTS='-DNO_NIS -DHAS_PGSQL'
 CONFIGURE_CMD=create_makefiles
 
 create_makefiles() {
     CCARGS='-DDEF_COMMAND_DIR=\"/usr/local/sbin\" -DDEF_DAEMON_DIR=\"/usr/local/libexec/postfix\" -DHAS_DB -I/usr/local/include'
-    AUXLIBS="-R/usr/local/lib -L/usr/local/lib -ldb"
+    AUXLIBS="-R/usr/local/lib -L/usr/local/lib -ldb -lpq"
     logmsg "--- creating postfix makefiles"
     $MAKE -f Makefile.init makefiles CCARGS="$CCARGS $CONFIGURE_OPTS" AUXLIBS="$AUXLIBS"
     unset CCARGS
