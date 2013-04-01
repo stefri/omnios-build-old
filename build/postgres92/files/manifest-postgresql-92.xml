@@ -63,19 +63,19 @@
         <exec_method
                 type='method'
                 name='start'
-                exec='/lib/svc/method/postgres_92 start'
+                exec='/lib/svc/method/postgresql_92 start'
                 timeout_seconds='60' />
 
         <exec_method
                 type='method'
                 name='stop'
-                exec='/lib/svc/method/postgres_92 stop'
+                exec='/lib/svc/method/postgresql_92 stop'
                 timeout_seconds='60' />
 
         <exec_method
                 type='method'
                 name='refresh'
-                exec='/lib/svc/method/postgres_92 refresh'
+                exec='/lib/svc/method/postgresql_92 refresh'
                 timeout_seconds='60' />
 
         <!--
@@ -90,11 +90,7 @@
 			value='solaris.smf.manage.postgres' />
         </property_group>
 
-        <!--
-          We define 2 instances of PostgreSQL 9.2 as examples (32 & 64 bit).
-        -->
-
-        <instance name='default_32bit' enabled='false'>
+        <instance name='default' enabled='false'>
 
         	<method_context>
                 	<method_credential user='postgres' group='postgres' />
@@ -107,39 +103,13 @@
 		-->
         	<property_group name='postgresql_92' type='application'>
                 	<propval name='bin' type='astring'
-                    	   value='/usr/postgres/9.2/bin' />
+                    	   value='/usr/local/postgresql/9.2/bin' />
                 	<propval name='data' type='astring'
                     	   value='/var/postgres/9.2/data' />
                 	<propval name='log' type='astring'
 			   value='server.log' />
 			<propval name='initialized' type='boolean'
 			   value='false' />
-			<propval name='value_authorization' type='astring'
-			   value='solaris.smf.value.postgres' />
-        	</property_group>
-
-        </instance>
-
-        <instance name='default_64bit' enabled='false'>
-
-        	<method_context>
-                	<method_credential user='postgres' group='postgres' />
-        	</method_context>
-
-		<!-- 
-		   Make sure the data configurable property points to the
-		   appropriate database directory and port number in 
-		   postgresql.conf is different than the other instances.
-		-->
-        	<property_group name='postgresql_92' type='application'>
-                	<propval name='bin' type='astring'
-                    	   value='/usr/postgres/9.2/bin/64' />
-                	<propval name='data' type='astring'
-                    	   value='/var/postgres/9.2/data_64' />
-                	<propval name='log' type='astring'
-			   value='server.log' />
-			<propval name='initialized' type='boolean'
-                           value='false' />
 			<propval name='value_authorization' type='astring'
 			   value='solaris.smf.value.postgres' />
         	</property_group>

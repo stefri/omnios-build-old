@@ -28,11 +28,13 @@
 . ../../lib/functions.sh
 
 PROG=postfix
-VER=2.9.6
+VER=2.10.0
 VERHUMAN=$VER
 PKG=service/network/smtp/postfix
 SUMMARY="Postfix Mail Transport Agent"
 DESC="Postfix is a Mail Transport Agent (MTA), this is a very basic configuration only supporting Berkeley DB based configuration"
+
+DEPENDS_IPS="database/bdb"
 
 BUILDARCH=32
 USER=postfix
