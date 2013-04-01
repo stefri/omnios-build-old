@@ -52,8 +52,9 @@ CONFIGURE_OPTS='-DNO_NIS -DHAS_PGSQL'
 CONFIGURE_CMD=create_makefiles
 
 create_makefiles() {
-    CCARGS='-DDEF_COMMAND_DIR=\"/usr/local/sbin\" -DDEF_DAEMON_DIR=\"/usr/local/libexec/postfix\" -DHAS_DB -I/usr/local/include'
-    AUXLIBS="-R/usr/local/lib -L/usr/local/lib -ldb -lpq"
+    CCARGS='-DDEF_COMMAND_DIR=\"/usr/local/sbin\" -DDEF_DAEMON_DIR=\"/usr/local/libexec/postfix\" -DHAS_PGSQL -DHAS_DB -I/usr/local/include'
+    AUXLIBS="-R/usr/local/lib -L/usr/local/lib -ldb \
+             -R/usr/local/lib -L/usr/local/lib -lpq"
     logmsg "--- creating postfix makefiles"
     $MAKE -f Makefile.init makefiles CCARGS="$CCARGS $CONFIGURE_OPTS" AUXLIBS="$AUXLIBS"
     unset CCARGS
