@@ -1,3 +1,4 @@
+#!/bin/bash
 #
 # CDDL HEADER START
 #
@@ -28,7 +29,7 @@
 
 
 PROG=postgresql
-VER=9.2.3
+VER=9.2.4
 VERHUMAN=$VER
 PKG=database/postgresql/client
 SUMMARY="PostgreSQL standalone client utilities"

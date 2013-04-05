@@ -1,3 +1,5 @@
+#!/bin/bash
+
 #
 # CDDL HEADER START
 #
@@ -26,9 +28,8 @@
 # Load support functions
 . ../../lib/functions.sh
 
-
 PROG=postgresql
-VER=9.2.3
+VER=9.2.4
 VERHUMAN=$VER
 PKG=library/libpq5
 SUMMARY="PostgreSQL Libs (libpq.so.5)"
