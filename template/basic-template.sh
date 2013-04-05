@@ -27,7 +27,7 @@
 # Load support functions
 . ../../lib/functions.sh
 
-PROG=myapp
+PROG=
 VER=
 VERHUMAN=$VER
 PKG=
