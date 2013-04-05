@@ -27,13 +27,12 @@
 # Load support functions
 . ../../lib/functions.sh
 
-PROG=myapp      # App name
-VER=            # App version
-VERHUMAN=$VER   # Human-readable version
-#PVER=          # Branch (set in config.sh, override here if needed)
-PKG=            # Package name (e.g. library/foo)
-SUMMARY=""      # One-liner, must be filled in
-DESC=""         # Longer description, must be filled in
+PROG=myapp
+VER=
+VERHUMAN=$VER
+PKG=
+SUMMARY=""
+DESC=""
 
 init
 download_source $PROG $PROG $VER
