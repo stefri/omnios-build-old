@@ -61,6 +61,7 @@ NOSCRIPTSTUB=
 PERLVERLIST="5.14.2"
 
 # Full paths to bins
+PERLBIN=/usr/perl5/5.14.2/bin
 PERL32=/usr/perl5/5.14.2/bin/$ISAPART/perl
 PERL64=/usr/perl5/5.14.2/bin/$ISAPART64/perl
 
