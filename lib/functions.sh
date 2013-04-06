@@ -507,6 +507,7 @@ make_package() {
     PKGMOGRIFY=/usr/bin/pkgmogrify
     PKGFMT=/usr/bin/pkgfmt
     PKGDEPEND=/usr/bin/pkgdepend
+    PKGLINT=/usr/bin/pkglint
     P5M_INT=$TMPDIR/${PKGE}.p5m.int
     P5M_INT2=$TMPDIR/${PKGE}.p5m.int.2
     P5M_INT3=$TMPDIR/${PKGE}.p5m.int.3
@@ -580,6 +581,15 @@ make_package() {
         $PKGDEPEND resolve -m $P5M_INT3
         mv ${P5M_INT3}.res $P5M_FINAL 
     ) || logerr "--- Dependency resolution failed"
+    logmsg "--- Linting manifest"
+    if ! [ -d "$LINTCACHE" ]; then
+        logmsg "------ Creating lint cache at $LINTCACHE using current publishers"
+        pkg image-create "${LINTCACHE}/ref_image"
+        pkg publisher -H | while read publisher type status uri; do
+            pkg -R "${LINTCACHE}/ref_image" set-publisher -g "$uri" "$publisher"
+        done
+    fi
+    $PKGLINT -c "$LINTCACHE" $P5M_FINAL || logerr '--- Lint failed'
     logmsg "--- Publishing package"
     logmsg "Intentional pause: Last chance to sanity-check before publication!"
     ask_to_continue

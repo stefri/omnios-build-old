@@ -34,6 +34,9 @@ PVER=0.$RELVER
 # Which server to fetch files from
 MIRROR=mirrors.omniti.com
 
+# pkglint cache directory (best to be persistent)
+LINTCACHE=${HOME}/pkglint.cache
+
 # Default prefix for packages (may be overridden)
 PREFIX=/usr
 
