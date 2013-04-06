@@ -27,20 +27,19 @@
 # Load support functions
 . ../../lib/functions.sh
 
-PROG=rsnapshot
-VER=1.3.1
+PROG=Lchown
+VER=1.00
 VERHUMAN=$VER
-PKG="application/backup/rsnapshot"
-SUMMARY="A filesystem backup utility based on rsync."
+PKG=library/lchown
+SUMMARY="Change the owner and group of a symbolic link"
 DESC="$SUMMARY ($VER)"
 
-BUILD_DEPENDS_IPS="system/library/gcc-4-runtime network/rsync"
-DEPENDS_IPS="network/rsync library/lchown"
-BUILDARCH=32
-CONFIGURE_OPTS="--sysconfdir=/etc/rsnapshot"
+CONFIGURE_CMD=create_makefile
+create_makefile() {
+    logmsg "--- creating lchown makefile"
+    /usr/bin/perl Makefile.PL
+}
 
-PATH="$PERLBIN:$PATH"
-export PATH
 
 init
 download_source $PROG $PROG $VER
