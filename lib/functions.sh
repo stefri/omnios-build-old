@@ -411,7 +411,7 @@ download_source() {
         # Try all possible archive names
         logmsg "--- Archive not found."
         logmsg "Downloading archive"
-        URLPREFIX=http://$MIRROR/$DLDIR/$ARCHIVEPREFIX
+        URLPREFIX=$MIRROR/$DLDIR/$ARCHIVEPREFIX
         $WGET -a $LOGFILE $URLPREFIX.tar.gz || \
             $WGET -a $LOGFILE $URLPREFIX.tar.bz2 || \
             $WGET -a $LOGFILE $URLPREFIX.tar.xz || \
