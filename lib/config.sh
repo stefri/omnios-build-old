@@ -137,8 +137,8 @@ CFLAGS32=""
 CFLAGS64="-m64"
 
 # Linker flags
-LDFLAGS="-R/usr/local/lib -L/usr/local/lib"
-LDFLAGS32=""
+LDFLAGS=""
+LDFLAGS32="-R/usr/local/lib -L/usr/local/lib"
 LDFLAGS64="-m64 -R/usr/local/lib/$ISAPART64 -L/usr/local/lib/$ISAPART64"
 
 # C pre-processor flags
