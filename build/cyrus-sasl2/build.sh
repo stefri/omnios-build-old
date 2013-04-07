@@ -41,13 +41,15 @@ BUILDDIR=$ARCHIVENAME-$VER
 CONFIGURE_OPTS="--sysconfdir=/etc
     --enable-shared=yes
     --enable-static=no
-    --enable-gssapi=no
+    --enable-gssapi=yes
     --enable-sql=yes
     --with-dbpath=/etc/sasldb2"
 CONFIGURE_OPTS_32="$CONFIGURE_OPTS_32
     --with-pgsql=/usr/local/lib"
 CONFIGURE_OPTS_64="$CONFIGURE_OPTS_64
     --with-pgsql=/usr/local/lib/$ISAPART64"
+
+CFLAGS="$CFLAGS -I/usr/include/gssapi"
 
 
 init
