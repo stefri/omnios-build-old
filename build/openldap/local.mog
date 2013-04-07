@@ -1,0 +1,4 @@
+license LICENSE license="The OpenLDAP Public License"
+license COPYRIGHT license="Addtional Copyright Information"
+<transform dir path=var/openldap-data.* -> set owner openldap>
+<transform dir path=var/openldap-data.* -> set group openldap>
