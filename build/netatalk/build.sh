@@ -28,7 +28,7 @@
 . ../../lib/functions.sh
 
 PROG=netatalk
-VER=3.0.2
+VER=3.0.3
 VERHUMAN=$VER
 PKG=service/network/netatalk
 SUMMARY="Open Source Apple Filing Protocol (AFP) fileserver"
@@ -53,6 +53,8 @@ CONFIGURE_OPTS="
     --with-libevent-lib=/usr/local/lib/
     --disable-ddp
     --enable-nfsv4acls
+    --enable-krbV-uam
+    --with-dtrace
 "
 
 service_configs() {
