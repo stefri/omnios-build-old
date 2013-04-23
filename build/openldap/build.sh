@@ -34,16 +34,40 @@ PKG=database/ldap/openldap
 SUMMARY="OpenLDAP - LDAP Server, Tools and Libraries"
 DESC="$SUMMARY ($VER)"
 
-DEPENDS_IPS="system/library/gcc-4-runtime database/bdb"
+BUILDARCH=32
+BUILD_DEPENDS_IPS="developer/build/libtool library/libtool/libltdl"
+DEPENDS_IPS="system/library/gcc-4-runtime database/bdb library/security/cyrus-sasl service/network/slp"
 
 CONFIGURE_OPTS="--sysconfdir=/etc
-    --localstatedir=/var
+    --localstatedir=/var/run/slapd
     --enable-static=no
+    --enable-modules
+    --enable-wrappers
     --enable-ipv6=yes
     --enable-crypt=yes
     --enable-spasswd=yes
     --with-tls=openssl
-    --with-cyrus-sasl"
+    --with-cyrus-sasl
+    --enable-aci
+    --enable-bdb
+    --enable-hdb
+    --enable-rewrite
+    --enable-ldap=yes
+    --enable-meta=mod
+    --enable-monitor=yes
+    --enable-slp
+    --enable-overlays=mod
+    --enable-syncprov=yes
+    --enable-ppolicy=yes
+    --with-yielding-select"
+
+save_function make_prog make_prog_orig
+make_prog(){
+    logmsg "--- make depend"
+    logcmd $MAKE depend || \
+        logerr "--- make depend failed"
+    make_prog_orig
+}
 
 init
 download_source $PROG $PROG $VER
