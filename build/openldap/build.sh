@@ -39,7 +39,7 @@ BUILD_DEPENDS_IPS="developer/build/libtool library/libtool/libltdl"
 DEPENDS_IPS="system/library/gcc-4-runtime database/bdb library/security/cyrus-sasl service/network/slp"
 
 CONFIGURE_OPTS="--sysconfdir=/etc
-    --localstatedir=/var/run/slapd
+    --localstatedir=/var/slapd
     --enable-static=no
     --enable-modules
     --enable-wrappers
@@ -69,12 +69,23 @@ make_prog(){
     make_prog_orig
 }
 
+service_configs() {
+    logmsg "Installing SMF"
+    logcmd mkdir -p $DESTDIR/lib/svc/manifest/network/ldap
+    logcmd cp $SRCDIR/files/manifest-slapd.xml \
+        $DESTDIR/lib/svc/manifest/network/ldap/slapd.xml
+    logcmd mkdir -p $DESTDIR/lib/svc/method
+    logcmd cp $SRCDIR/files/slapd \
+        $DESTDIR/lib/svc/method/slapd
+}
+
 init
 download_source $PROG $PROG $VER
 patch_source
 prep_build
 build
 make_isa_stub
+service_configs
 make_package
 clean_up
 
