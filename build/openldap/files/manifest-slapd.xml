@@ -98,6 +98,8 @@
                            value='/var/slapd/openldap-data' />
                         <propval name='config_dir' type='astring'
                            value='/etc/openldap/slapd.conf.d' />
+                        <propval name='listen_urls' type='astring'
+                           value='ldap://127.0.0.1:389 ldaps://127.0.0.1:636 ldapi:///' />
                         <propval name='pid' type='astring'
                            value='/var/slapd/run/slapd.pid' />
                         <propval name='debug_level' type='astring'

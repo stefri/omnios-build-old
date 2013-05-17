@@ -57,6 +57,7 @@ check_config_dir() {
 
 DATA=`getproparg slapd/data`
 CONFDIR=`getproparg slapd/config_dir`
+LISTEN=`getproparg slapd/listen_urls`
 PID=`getproparg slapd/pid`
 DEBUG_LEVEL=`getproparg slapd/debug_level`
 
@@ -75,6 +76,11 @@ if [ -z $CONFDIR ]; then
         exit $SMF_EXIT_ERR_CONFIG
 fi
 
+if [ -z $LISTEN ]; then
+        echo "Error: slapd/listen_urls property not set"
+        exit $SMF_EXIT_ERR_CONFIG
+fi
+
 if [ -z $PID ]; then
         echo "Error: slapd/pid property not set"
         exit $SMF_EXIT_ERR_CONFIG
@@ -89,7 +95,7 @@ case "$1" in
 'start')
         check_data_dir
         check_config_dir 
-        exec /usr/local/libexec/slapd -F $CONFDIR -d $DEBUG_LEVEL
+        exec /usr/local/libexec/slapd -F $CONFDIR -d $DEBUG_LEVEL -h "$LISTEN" &
         ;;
 
 'stop')
