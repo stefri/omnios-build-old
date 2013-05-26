@@ -28,7 +28,7 @@
 . ../../lib/functions.sh
 
 PROG=nginx
-VER=1.2.7
+VER=1.4.1
 VERHUMAN=$VER
 PKG=service/network/nginx
 SUMMARY="Nginx, http server and reverse proxy"
