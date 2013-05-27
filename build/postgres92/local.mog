@@ -1,0 +1,2 @@
+license COPYRIGHT license=postgresql
+<transform file path=lib/svc/method/postgresql_92 -> set mode 0555>

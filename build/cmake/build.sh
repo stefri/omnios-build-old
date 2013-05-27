@@ -27,16 +27,17 @@
 # Load support functions
 . ../../lib/functions.sh
 
-PROG=smartmontools
-VER=6.1
+PROG=cmake
+VER=2.8.10.2
 VERHUMAN=$VER
-PKG=system/storage/smartmontools
-SUMMARY="Control and monitor storage systems using SMART"
-DESC="Control and monitor storage systems using the Self-Monitoring, Analysis and Reporting Technology System (SMART) built into most modern ATA and SCSI harddisks."
+PKG="developer/build/cmake"
+SUMMARY="cmake"
+DESC="$SUMMARY ($VER) - CMake - A cross-platform, open-source make system."
 
-DEPENDS_IPS="system/library/g++-4-runtime system/library/gcc-4-runtime"
+CONFIGURE_OPTS="--prefix=$PREFIX"
+CONFIGURE_OPTS_32=""
+CONFIGURE_OPTS_64=""
 
-BUILDARCH=32
 
 init
 download_source $PROG $PROG $VER

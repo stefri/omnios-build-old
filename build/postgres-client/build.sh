@@ -1,4 +1,4 @@
-#!/usr/bin/bash
+#!/bin/bash
 #
 # CDDL HEADER START
 #
@@ -27,16 +27,38 @@
 # Load support functions
 . ../../lib/functions.sh
 
-PROG=smartmontools
-VER=6.1
+
+PROG=postgresql
+VER=9.2.4
 VERHUMAN=$VER
-PKG=system/storage/smartmontools
-SUMMARY="Control and monitor storage systems using SMART"
-DESC="Control and monitor storage systems using the Self-Monitoring, Analysis and Reporting Technology System (SMART) built into most modern ATA and SCSI harddisks."
+PKG=database/postgresql/client
+SUMMARY="PostgreSQL standalone client utilities"
+DESC="$SUMMARY (psql, pg_dump, pg_dumpall, pg_restore)"
 
-DEPENDS_IPS="system/library/g++-4-runtime system/library/gcc-4-runtime"
+DEPENDS_IPS="system/library/gcc-4-runtime library/libpq5"
 
-BUILDARCH=32
+BUILDARCH=64
+
+CFLAGS="-g -O3"
+CPPFLAGS="-D_REENTRANT"
+
+CONFIGURE_OPTS="
+    --enable-thread-safety
+    --enable-debug
+    --with-openssl
+    --prefix=$PREFIX
+    --with-readline"
+
+make_prog() {
+    make_in src/bin/psql
+    make_in src/bin/pg_dump
+}
+
+# Redefine the make install function to only install the client
+make_install() {
+    make_install_in src/bin/psql
+    make_install_in src/bin/pg_dump
+}
 
 init
 download_source $PROG $PROG $VER

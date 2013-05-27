@@ -28,7 +28,7 @@
 . ../../lib/functions.sh
 
 PROG=netatalk
-VER=3.0.1
+VER=3.0.4
 VERHUMAN=$VER
 PKG=service/network/netatalk
 SUMMARY="Open Source Apple Filing Protocol (AFP) fileserver"
@@ -36,7 +36,8 @@ DESC="Netatalk is a freely-available, kernel level implementation of the AppleTa
 
 
 DEPENDS_IPS="database/bdb library/libevent service/network/dns/mdns
-             system/library system/library/gcc-4-runtime system/library/math"
+             system/library system/library/gcc-4-runtime system/library/math 
+             system/library/security/libgcrypt"
 
 BUILDARCH=32
 CONFIGURE_OPTS="
@@ -52,6 +53,8 @@ CONFIGURE_OPTS="
     --with-libevent-lib=/usr/local/lib/
     --disable-ddp
     --enable-nfsv4acls
+    --enable-krbV-uam
+    --with-dtrace
 "
 
 service_configs() {

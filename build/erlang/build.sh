@@ -27,23 +27,54 @@
 # Load support functions
 . ../../lib/functions.sh
 
-PROG=smartmontools
-VER=6.1
+PATH=$SRCDIR/bin:$PATH
+export PATH
+
+PROG=erlang
+OTPVER=R15B01
+VER=15.0.1
 VERHUMAN=$VER
-PKG=system/storage/smartmontools
-SUMMARY="Control and monitor storage systems using SMART"
-DESC="Control and monitor storage systems using the Self-Monitoring, Analysis and Reporting Technology System (SMART) built into most modern ATA and SCSI harddisks."
+PKG=runtime/erlang
+SUMMARY="Erlang OTP Platform -- WIP --"
+DESC="$SUMMARY ($OTPVER)"
 
-DEPENDS_IPS="system/library/g++-4-runtime system/library/gcc-4-runtime"
+TAR=gtar
+BUILDDIR=otp_src_$OTPVER
+ERL_TOP=$TMPDIR/$BUILDDIR
+export ERL_TOP
+##
+BUILDARCH=64
+BUILD_DEPENDS_IPS="archiver/gnu-tar developer/java/jdk"
+DEPENDS_IPS="library/security/openssl developer/dtrace
+    system/library system/library/math"
+NO_PARALLEL_MAKE=1
 
-BUILDARCH=32
+CONFIGURE_OPTS32="--prefix=$PREFIX"
+CONFIGURE_OPTS="--sysconfdir=/etc
+    --bindir=/usr/local/bin
+    --sbindir=/usr/local/sbin
+    --enable-smp-support
+    --enable-threads
+    --enable-dtrace
+    --with-ssl=/usr
+    --enable-dynamic-ssl-lib
+    --enable-m64-build"
 
 init
-download_source $PROG $PROG $VER
+download_source $PROG otp_src_$OTPVER
 patch_source
 prep_build
 build
 make_isa_stub
+
+# Copy in an XML manifest for the Erlang Port Mapper Daemon
+logcmd mkdir -p $DESTDIR/lib/svc/manifest/network/
+logcmd cp $SRCDIR/files/erlang-empd.xml $DESTDIR/lib/svc/manifest/network/
+
+# Setup working dir for epmd
+logcmd mkdir -p $DESTDIR/var/lib/epmd
+logcmd chown nobody:nobody $DESTDIR/var/lib/epmd
+
 make_package
 clean_up
 

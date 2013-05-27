@@ -27,23 +27,16 @@
 # Load support functions
 . ../../lib/functions.sh
 
-PROG=smartmontools
-VER=6.1
+PROG=postgres-common
+VER=1
 VERHUMAN=$VER
-PKG=system/storage/smartmontools
-SUMMARY="Control and monitor storage systems using SMART"
-DESC="Control and monitor storage systems using the Self-Monitoring, Analysis and Reporting Technology System (SMART) built into most modern ATA and SCSI harddisks."
-
-DEPENDS_IPS="system/library/g++-4-runtime system/library/gcc-4-runtime"
-
-BUILDARCH=32
+PKG=database/postgresql/common
+SUMMARY="Common system config for PostgreSQL"
+DESC="Provides local postgres user/group. All versions of Postgres server packages must depend on this package."
 
 init
-download_source $PROG $PROG $VER
-patch_source
 prep_build
-build
-make_isa_stub
+unset DESTDIR
 make_package
 clean_up
 

@@ -27,16 +27,20 @@
 # Load support functions
 . ../../lib/functions.sh
 
-PROG=smartmontools
-VER=6.1
+PROG=rsnapshot
+VER=1.3.1
 VERHUMAN=$VER
-PKG=system/storage/smartmontools
-SUMMARY="Control and monitor storage systems using SMART"
-DESC="Control and monitor storage systems using the Self-Monitoring, Analysis and Reporting Technology System (SMART) built into most modern ATA and SCSI harddisks."
+PKG="application/backup/rsnapshot"
+SUMMARY="A filesystem backup utility based on rsync."
+DESC="$SUMMARY ($VER)"
 
-DEPENDS_IPS="system/library/g++-4-runtime system/library/gcc-4-runtime"
-
+BUILD_DEPENDS_IPS="system/library/gcc-4-runtime network/rsync"
+DEPENDS_IPS="network/rsync library/lchown"
 BUILDARCH=32
+CONFIGURE_OPTS="--sysconfdir=/etc/rsnapshot"
+
+PATH="$PERLBIN:$PATH"
+export PATH
 
 init
 download_source $PROG $PROG $VER

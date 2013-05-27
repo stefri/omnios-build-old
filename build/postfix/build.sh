@@ -28,11 +28,13 @@
 . ../../lib/functions.sh
 
 PROG=postfix
-VER=2.9.4
+VER=2.10.0
 VERHUMAN=$VER
 PKG=service/network/smtp/postfix
-SUMMARY="[WIP][UNTESTED] Postfix Mail Transport Agent"
-DESC="Postfix is a Mail Transport Agent (MTA), supporting LDAP, SMTP AUTH (SASL), TLS"
+SUMMARY="Postfix Mail Transport Agent"
+DESC="Postfix is a Mail Transport Agent (MTA), this is a very basic configuration only supporting Berkeley DB based configuration"
+
+DEPENDS_IPS="database/bdb library/libpq5 library/security/cyrus-sasl"
 
 BUILDARCH=32
 USER=postfix
@@ -46,13 +48,16 @@ make_clean() {
 
 CONFIGURE_OPTS_32=""
 CONFIGURE_OPTS_64=""
-CONFIGURE_OPTS="-DNO_NIS"
+CONFIGURE_OPTS='-DNO_NIS -DHAS_PGSQL -DUSE_SASL_AUTH -DUSE_CYRUS_SASL'
 CONFIGURE_CMD=create_makefiles
 
 create_makefiles() {
-    CCARGS='-DDEF_COMMAND_DIR=\"/usr/local/sbin\" -DDEF_DAEMON_DIR=\"/usr/local/libexec/postfix\"'
+    CCARGS='-DDEF_COMMAND_DIR=\"/usr/local/sbin\" -DDEF_DAEMON_DIR=\"/usr/local/libexec/postfix\" -DHAS_PGSQL -DHAS_DB -DUSE_SASL_AUTH -DUSE_CYRUS_SASL -I/usr/local/include -I/usr/local/include/sasl'
+    AUXLIBS="-R/usr/local/lib -L/usr/local/lib -ldb \
+             -R/usr/local/lib -L/usr/local/lib -lsasl2 \
+             -R/usr/local/lib -L/usr/local/lib -lpq"
     logmsg "--- creating postfix makefiles"
-    $MAKE -f Makefile.init makefiles CCARGS=$CCARGS $CONFIGURE_OPTS
+    $MAKE -f Makefile.init makefiles CCARGS="$CCARGS $CONFIGURE_OPTS" AUXLIBS="$AUXLIBS"
     unset CCARGS
 }
 
@@ -82,6 +87,12 @@ service_configs() {
         $DESTDIR/lib/svc/manifest/network/smtp/postfix.xml
 }
 
+sendmail_compat() {
+    logmsg "Creating symlinks for sendmail compatibility"
+    logcmd mkdir -p $DESTDIR/usr/lib
+    logcmd ln -s ../local/sbin/sendmail $DESTDIR/usr/lib/sendmail
+}
+
 init
 download_source $PROG $PROG $VER
 patch_source
@@ -89,6 +100,7 @@ prep_build
 build
 make_isa_stub
 service_configs
+sendmail_compat
 make_package
 clean_up
 

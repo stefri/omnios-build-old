@@ -1,4 +1,5 @@
-#!/usr/bin/bash
+#!/bin/bash
+
 #
 # CDDL HEADER START
 #
@@ -27,16 +28,41 @@
 # Load support functions
 . ../../lib/functions.sh
 
-PROG=smartmontools
-VER=6.1
+PROG=postgresql
+VER=9.2.4
 VERHUMAN=$VER
-PKG=system/storage/smartmontools
-SUMMARY="Control and monitor storage systems using SMART"
-DESC="Control and monitor storage systems using the Self-Monitoring, Analysis and Reporting Technology System (SMART) built into most modern ATA and SCSI harddisks."
+PKG=library/libpq5
+SUMMARY="PostgreSQL Libs (libpq.so.5)"
+DESC="Use this package if you just need to link and/or build against libpq"
 
-DEPENDS_IPS="system/library/g++-4-runtime system/library/gcc-4-runtime"
+DEPENDS_IPS="system/library/gcc-4-runtime"
 
-BUILDARCH=32
+CFLAGS="-O3"
+CPPFLAGS="-D_REENTRANT"
+
+CONFIGURE_OPTS="
+    --enable-thread-safety
+    --enable-debug
+    --with-openssl
+    --prefix=$PREFIX
+    --with-readline"
+
+# Which directories should we make/make install in?
+MAKE_DIRS="src/include src/interfaces/libpq src/makefiles src/port src/backend
+    src/bin/pg_config"
+INSTALL_DIRS="src/include src/interfaces/libpq src/makefiles src/port
+    src/bin/pg_config"
+
+make_prog() {
+    logmsg "--- make"
+    for d in $MAKE_DIRS; do make_in $d; done
+}
+
+make_install() {
+    logmsg "--- make install"
+    for d in $INSTALL_DIRS; do make_install_in $d; done
+}
+
 
 init
 download_source $PROG $PROG $VER

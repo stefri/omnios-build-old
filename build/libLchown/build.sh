@@ -27,16 +27,19 @@
 # Load support functions
 . ../../lib/functions.sh
 
-PROG=smartmontools
-VER=6.1
+PROG=Lchown
+VER=1.00
 VERHUMAN=$VER
-PKG=system/storage/smartmontools
-SUMMARY="Control and monitor storage systems using SMART"
-DESC="Control and monitor storage systems using the Self-Monitoring, Analysis and Reporting Technology System (SMART) built into most modern ATA and SCSI harddisks."
+PKG=library/lchown
+SUMMARY="Change the owner and group of a symbolic link"
+DESC="$SUMMARY ($VER)"
 
-DEPENDS_IPS="system/library/g++-4-runtime system/library/gcc-4-runtime"
+CONFIGURE_CMD=create_makefile
+create_makefile() {
+    logmsg "--- creating lchown makefile"
+    /usr/bin/perl Makefile.PL
+}
 
-BUILDARCH=32
 
 init
 download_source $PROG $PROG $VER

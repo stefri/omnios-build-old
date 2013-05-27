@@ -27,19 +27,33 @@
 # Load support functions
 . ../../lib/functions.sh
 
-PROG=smartmontools
-VER=6.1
+PROG=cyrus-sasl2
+VER=2.1.25
 VERHUMAN=$VER
-PKG=system/storage/smartmontools
-SUMMARY="Control and monitor storage systems using SMART"
-DESC="Control and monitor storage systems using the Self-Monitoring, Analysis and Reporting Technology System (SMART) built into most modern ATA and SCSI harddisks."
+PKG=library/security/cyrus-sasl
+SUMMARY="Simple Authentication and Security Layer library"
+DESC="$SUMMARY ($VER)"
 
-DEPENDS_IPS="system/library/g++-4-runtime system/library/gcc-4-runtime"
+DEPENDS_IPS="system/library/gcc-4-runtime library/libpq5 database/bdb"
 
-BUILDARCH=32
+ARCHIVENAME=cyrus-sasl
+BUILDDIR=$ARCHIVENAME-$VER
+CONFIGURE_OPTS="--sysconfdir=/etc/sasl2
+    --enable-shared=yes
+    --enable-static=no
+    --enable-gssapi=yes
+    --enable-sql=yes
+    --with-dbpath=/etc/sasl2/db"
+CONFIGURE_OPTS_32="$CONFIGURE_OPTS_32
+    --with-pgsql=/usr/local/lib"
+CONFIGURE_OPTS_64="$CONFIGURE_OPTS_64
+    --with-pgsql=/usr/local/lib/$ISAPART64"
+
+CFLAGS="$CFLAGS -I/usr/include/gssapi"
+
 
 init
-download_source $PROG $PROG $VER
+download_source $PROG $ARCHIVENAME $VER
 patch_source
 prep_build
 build

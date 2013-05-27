@@ -1,2 +1,5 @@
+user ftpuser=false gcos-field="DHCP Daemon Reserved UID" group=netadm password=NP uid=18 username=dhcpserv home-dir=/
 <transform dir path=var/db.* -> set group sys>
+<transform dir path=var/db/isc-dhcp.* -> set owner dhcpserv>
+<transform dir path=var/db/isc-dhcp.* -> set group netadm>
 license LICENSE license=ISC

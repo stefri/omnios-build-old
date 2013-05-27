@@ -27,16 +27,42 @@
 # Load support functions
 . ../../lib/functions.sh
 
-PROG=smartmontools
-VER=6.1
+PROG=postgresql
+VER=9.2.4
 VERHUMAN=$VER
-PKG=system/storage/smartmontools
-SUMMARY="Control and monitor storage systems using SMART"
-DESC="Control and monitor storage systems using the Self-Monitoring, Analysis and Reporting Technology System (SMART) built into most modern ATA and SCSI harddisks."
+PKG=database/postgresql-92
+SUMMARY="$PROG - Open Source Database System"
+DESC="$SUMMARY"
 
-DEPENDS_IPS="system/library/g++-4-runtime system/library/gcc-4-runtime"
+BUILD_DEPENDS_IPS="system/library/gcc-4-runtime"
+DEPENDS_IPS="database/postgresql/common system/library/gcc-4-runtime"
 
-BUILDARCH=32
+PREFIX="/usr/local/postgresql/9.2"
+BUILDARCH=64
+reset_configure_opts
+
+CFLAGS="-O3"
+
+CONFIGURE_OPTS="--sysconfdir=/etc/postgresql/9.2
+    --enable-thread-safety
+    --enable-debug
+    --with-openssl
+    --with-libxml
+    --prefix=$PREFIX
+    --with-readline"
+
+# We don't want the default settings for CONFIGURE_OPTS_64
+CONFIGURE_OPTS_64="--enable-dtrace DTRACEFLAGS=\"-64\""
+
+service_configs() {
+    logmsg "Installing SMF"
+    logcmd mkdir -p $DESTDIR/lib/svc/manifest/application/database
+    logcmd cp $SRCDIR/files/manifest-postgresql-92.xml \
+        $DESTDIR/lib/svc/manifest/application/database/postgresql.xml
+    logcmd mkdir -p $DESTDIR/lib/svc/method
+    logcmd cp $SRCDIR/files/postgresql_92 \
+        $DESTDIR/lib/svc/method/postgresql_92
+}
 
 init
 download_source $PROG $PROG $VER
@@ -44,6 +70,7 @@ patch_source
 prep_build
 build
 make_isa_stub
+service_configs
 make_package
 clean_up
 

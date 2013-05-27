@@ -28,7 +28,7 @@
 #############################################################################
 
 # Default branch
-PVER=0.151004
+PVER=0.151006
 
 # Which server to fetch files from
 MIRROR=scott.mathematik.uni-ulm.de/src
@@ -58,11 +58,12 @@ NOSCRIPTSTUB=
 #############################################################################
 
 # Perl versions we currently build against
-PERLVERLIST="5.14.2"
+PERLVERLIST="5.16.1"
 
 # Full paths to bins
-PERL32=/usr/perl5/5.14.2/bin/$ISAPART/perl
-PERL64=/usr/perl5/5.14.2/bin/$ISAPART64/perl
+PERLBIN=/usr/perl5/5.16.1/bin
+PERL32=/usr/perl5/5.16.1/bin/$ISAPART/perl
+PERL64=/usr/perl5/5.16.1/bin/$ISAPART64/perl
 
 # Default Makefile.PL options
 PERL_MAKEFILE_OPTS="INSTALLSITEBIN=$PREFIX/bin/_ARCHBIN_ \
@@ -137,8 +138,8 @@ CFLAGS64="-m64"
 
 # Linker flags
 LDFLAGS=""
-LDFLAGS32=""
-LDFLAGS64="-m64"
+LDFLAGS32="-R/usr/local/lib -L/usr/local/lib"
+LDFLAGS64="-m64 -R/usr/local/lib/$ISAPART64 -L/usr/local/lib/$ISAPART64"
 
 # C pre-processor flags
 CPPFLAGS=""
