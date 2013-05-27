@@ -28,14 +28,13 @@
 . ../../lib/functions.sh
 
 PROG=samba
-VER="4.0.0"
+VER="4.0.6"
 VERHUMAN=$VER
-PKG=service/network/samba
+PKG=service/network/samba4
 SUMMARY="$PROG - CIFS server and active directory controller"
 DESC="$SUMMARY ($VERS)"
 
-DEPENDS_IPS="service/network/dns/mdns developer/build/autoconf
-             system/library system/library/gcc-4-runtime system/library/math"
+DEPENDS_IPS="service/network/dns/mdns system/library system/library/gcc-4-runtime system/library/math"
 
 BUILDARCH=32
 CONFIGURE_OPTS="
