@@ -123,7 +123,7 @@ logerr() {
     fi
 }
 ask_to_continue() {
-    # Ask the user if they want to continue or quit in the event of an error
+    # Ask the user if they want to continue or quit
     echo -n "${1}Do you wish to continue anyway? (y/n) "
     read
     while [[ ! "$REPLY" =~ [yYnN] ]]; do
@@ -613,8 +613,9 @@ make_package() {
     fi
     $PKGLINT -c "$LINTCACHE" $P5M_FINAL || logerr '--- Lint failed'
     logmsg "--- Publishing package"
-    logmsg "Intentional pause: Last chance to sanity-check before publication!"
-    ask_to_continue
+    if [[ -z "$BATCH" ]]; then
+        ask_to_continue "Last chance to sanity-check before publication! "
+    fi
     logcmd $PKGSEND -s $PKGSRVR publish -d $DESTDIR -d $TMPDIR/$BUILDDIR \
         -d $SRCDIR $P5M_FINAL || logerr "------ Failed to publish package"
     logmsg "--- Published $FMRI" 
