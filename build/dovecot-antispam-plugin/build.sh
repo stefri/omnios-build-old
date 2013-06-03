@@ -28,36 +28,26 @@
 . ../../lib/functions.sh
 
 PROG=dovecot-antispam-plugin
-VER=0.2.1
+VER=2.0.0.1
 VERHUMAN=$VER
 COMMIT="5ebc6aae4d7c"
-PKG=service/network/imap/dovecot
+PKG=plugins/imap/dovecot-antispam
 SUMMARY="Dovecot antispam plugin."
 DESC="$SUMMARY ($VER)"
 
 BUILDDIR=$PROG-$COMMIT
 BUILDARCH=32
-BUILD_DEPENDS_IPS=""
+BUILD_DEPENDS_IPS="developer/build/autoconf developer/build/automake"
 DEPENDS_IPS="system/library/gcc-4-runtime database/bdb library/libpq5
-             system/network/imap/dovecot"
+             service/network/imap/dovecot"
 
-CONFIGURE_OPTS="--sysconfdir=/etc
-    --localstatedir=/var/$PROG
-    --mandir=$PREFIX/man
-    --enable-static=no
-    --with-nnss
-    --with-gssapi=plugin
-    --with-ldap=plugin
-    --with-sql=plugin
-    --with-pgsql
-    --with-zlib
-    --with-bzlib
-    --with-libwrap
-    --with-ssl=openssl"
+export ACLOCAL="aclocal -I /usr/share/aclocal -I /usr/local/share/aclocal"  
+CONFIGURE_OPTS="--mandir=$PREFIX/man"
 
 init
 download_source $PROG $PROG $VER
 patch_source
+run_autogen
 prep_build
 build
 make_isa_stub
