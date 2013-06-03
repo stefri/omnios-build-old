@@ -45,6 +45,11 @@ CONFIGURE_OPTS="
     --http-log-path=/var/log/$PROG/access.log
     --pid-path=/var/$PROG/nginx.pid
     --lock-path=/var/$PROG/nginx.lock
+    --http-client-body-temp-path=/var/$PROG/tmp/client-body
+    --http-proxy-temp-path=/var/$PROG/tmp/proxy
+    --http-fastcgi-temp-path=/var/$PROG/tmp/fastcgi
+    --http-uwsgi-temp-path=/var/$PROG/tmp/uwsgi
+    --http-scgi-temp-path=/var/$PROG/tmp/scgi
     --user=webservd
     --group=webservd
     --with-ipv6
