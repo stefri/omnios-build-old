@@ -81,6 +81,11 @@ service_configs() {
     logcmd chmod 555 $DESTDIR/lib/svc/method/http-nginx
 }
 
+mk_tmp_dir() {
+    logmsg "Creating temporary directory"
+    logcmd mkdir -p $DESTDIR/var/$PROG/tmp 
+}
+
 init
 download_source $PROG $PROG $VER
 patch_source
@@ -88,6 +93,7 @@ prep_build
 build
 make_isa_stub
 service_configs
+mk_tmp_dir
 make_package
 clean_up
 
