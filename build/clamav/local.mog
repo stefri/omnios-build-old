@@ -1,0 +1,3 @@
+group gid=98 groupname=clamav
+user ftpuser=false gcos-field="ClamAV Reserved UID" group=clamav password=NP uid=98 username=dspam home-dir=/var/clamav
+license COPYING license="GPLv2"
