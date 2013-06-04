@@ -1,0 +1,108 @@
+<?xml version="1.0"?>
+<!DOCTYPE service_bundle SYSTEM "/usr/share/lib/xml/dtd/service_bundle.dtd.1">
+<!--
+  Copyright 2004 Sun Microsystems, Inc.  All rights reserved.
+  Use is subject to license terms.
+-->
+
+<service_bundle type='manifest' name='dovecot'>
+
+<service name='network/dovecot'
+         type='service' 
+         version='1'>
+
+  <single_instance />
+
+  <dependency name='fs-local' 
+              grouping='require_all' 
+              restart_on='none' 
+              type='service'>
+    <service_fmri value='svc:/system/filesystem/local' />
+  </dependency>
+
+  <dependency name='network-service' 
+              grouping='require_all' 
+              restart_on='none' 
+              type='service'>
+    <service_fmri value='svc:/network/service' />
+  </dependency>
+
+  <dependency name='name-services' 
+              grouping='require_all' 
+              restart_on='refresh' 
+              type='service'>
+    <service_fmri value='svc:/milestone/name-services' />
+  </dependency>
+
+  <dependency name='identity' 
+              grouping='optional_all' 
+              restart_on='refresh' 
+              type='service'>
+    <service_fmri value='svc:/system/identity:domain' />
+  </dependency>
+
+  <dependency name='system-log' 
+              grouping='optional_all' 
+              restart_on='none' 
+              type='service'>
+    <service_fmri value='svc:/system/system-log' />
+  </dependency>
+
+  <exec_method type='method' 
+               name='start' 
+               exec='/lib/svc/method/dovecot start' 
+               timeout_seconds='30'/>
+
+  <exec_method type='method' 
+               name='stop' 
+               exec='/lib/svc/method/dovecot stop' 
+               timeout_seconds='180' />
+
+  <exec_method type='method' 
+               name='refresh' 
+               exec='/lib/svc/method/dovecot refresh' 
+               timeout_seconds='180' />
+
+
+  <instance name='default' enabled='false'>
+
+    <dependency name='master-config' 
+                grouping='require_all' 
+                restart_on='refresh' 
+                type='path'>
+      <service_fmri value='file://localhost/etc/dovecot/dovecot.conf' />
+    </dependency>
+
+    <dependency name='nsswitch' 
+                grouping='require_all' 
+                restart_on='refresh' 
+                type='path'>
+      <service_fmri value='file://localhost/etc/nsswitch.conf' />
+    </dependency>
+
+    <dependent name='imap-dovecot_multi-user' 
+               grouping='optional_all' 
+               restart_on='none'>
+        <service_fmri value='svc:/milestone/multi-user' />
+    </dependent>
+
+    <property_group name='method_context' type='framework'>
+         <propval name='project' type='astring' value=':default'/>
+         <propval name='resource_pool' type='astring' value=':default'/>
+         <propval name='working_directory' type='astring' value=':default'/>
+    </property_group>
+
+    <property_group name='startd' type='framework'>
+      <propval name='ignore_error' type='astring' value='core,signal' />
+    </property_group>
+  </instance>
+
+  <stability value='Unstable' />
+
+  <template>
+    <common_name>
+      <loctext xml:lang='C'>Dovecot IMAP server</loctext>
+    </common_name>
+  </template>
+</service>
+</service_bundle>

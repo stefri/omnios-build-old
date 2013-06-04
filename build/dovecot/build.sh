@@ -39,7 +39,7 @@ BUILD_DEPENDS_IPS=""
 DEPENDS_IPS="system/library/gcc-4-runtime database/bdb library/libpq5"
 
 CONFIGURE_OPTS="--sysconfdir=/etc
-    --localstatedir=/var/$PROG
+    --localstatedir=/var
     --mandir=$PREFIX/man
     --enable-static=no
     --with-nnss
@@ -52,15 +52,15 @@ CONFIGURE_OPTS="--sysconfdir=/etc
     --with-libwrap
     --with-ssl=openssl"
 
-#service_configs() {
-#    logmsg "Installing SMF"
-#    logcmd mkdir -p $DESTDIR/lib/svc/manifest/network/ldap
-#    logcmd cp $SRCDIR/files/manifest-slapd.xml \
-#        $DESTDIR/lib/svc/manifest/network/ldap/slapd.xml
-#    logcmd mkdir -p $DESTDIR/lib/svc/method
-#    logcmd cp $SRCDIR/files/slapd \
-#        $DESTDIR/lib/svc/method/slapd
-#}
+service_configs() {
+    logmsg "Installing SMF"
+    logcmd mkdir -p $DESTDIR/lib/svc/manifest/network
+    logcmd cp $SRCDIR/files/manifest-dovecot.xml \
+        $DESTDIR/lib/svc/manifest/network/dovecot.xml
+    logcmd mkdir -p $DESTDIR/lib/svc/method
+    logcmd cp $SRCDIR/files/dovecot \
+        $DESTDIR/lib/svc/method/dovecot
+}
 
 init
 download_source $PROG $PROG $VER
@@ -68,7 +68,7 @@ patch_source
 prep_build
 build
 make_isa_stub
-#service_configs
+service_configs
 make_package
 clean_up
 

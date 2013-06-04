@@ -1,0 +1,29 @@
+#!/sbin/sh
+
+PID=/var/run/dovecot/master.pid
+
+case "$1" in 
+'refresh')
+    if [ -f /etc/dovecot/dovecot.conf -a -f $PID ]; then
+        kill -HUP `cat $PID`
+    fi  
+    ;;
+
+'start')
+    if [ -f /etc/dovecot/dovecot.conf ]; then
+        /usr/local/sbin/dovecot -c /etc/dovecot/dovecot.conf
+    fi  
+    ;;
+
+'stop')
+    if [ -f $PID ]; then
+        kill `cat $PID` || true
+    fi
+    ;;
+
+*)
+    echo "Usage: $0 { start | stop | refresh }"
+    exit 1
+    ;;
+esac
+exit 0
