@@ -42,7 +42,6 @@ CONFIGURE_OPTS="--sysconfdir=/etc
     --localstatedir=/var
     --mandir=$PREFIX/man
     --enable-static=no
-    --with-nnss
     --with-gssapi=plugin
     --with-ldap=plugin
     --with-sql=plugin
