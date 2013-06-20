@@ -27,39 +27,35 @@
 # Load support functions
 . ../../lib/functions.sh
 
-PROG=dovecot
-VER=2.2.2
+PROG=openldap
+VER=2.4.35
 VERHUMAN=$VER
-PKG=service/network/imap/dovecot
-SUMMARY="Dovecot is an open source IMAP and POP3 email server."
+PKG=library/libldap
+SUMMARY="OpenLDAP - Tools and Libraries"
 DESC="$SUMMARY ($VER)"
 
-BUILDARCH=32
-BUILD_DEPENDS_IPS=""
-DEPENDS_IPS="system/library/gcc-4-runtime database/bdb library/libpq5
-             library/libldap library/security/cyrus-sasl"
+BUILD_DEPENDS_IPS="developer/build/libtool library/libtool/libltdl"
+DEPENDS_IPS="system/library/gcc-4-runtime"
 
 CONFIGURE_OPTS="--sysconfdir=/etc
-    --localstatedir=/var
-    --mandir=$PREFIX/man
+    --disable-slapd
+    --disable-bdb
+    --disable-hdb
+    --disable-mdb
+    --disable-monitor
+    --disable-relay
+    --disable-wrappers
+    --disable-syncprov
     --enable-static=no
-    --with-gssapi=plugin
-    --with-ldap=plugin
-    --with-sql=plugin
-    --with-pgsql
-    --with-zlib
-    --with-bzlib
-    --with-libwrap
-    --with-ssl=openssl"
+    --enable-ipv6=yes
+    --with-tls=openssl"
 
-service_configs() {
-    logmsg "Installing SMF"
-    logcmd mkdir -p $DESTDIR/lib/svc/manifest/network
-    logcmd cp $SRCDIR/files/manifest-dovecot.xml \
-        $DESTDIR/lib/svc/manifest/network/dovecot.xml
-    logcmd mkdir -p $DESTDIR/lib/svc/method
-    logcmd cp $SRCDIR/files/dovecot \
-        $DESTDIR/lib/svc/method/dovecot
+save_function make_prog make_prog_orig
+make_prog(){
+    logmsg "--- make depend"
+    logcmd $MAKE depend || \
+        logerr "--- make depend failed"
+    make_prog_orig
 }
 
 init
@@ -68,7 +64,6 @@ patch_source
 prep_build
 build
 make_isa_stub
-service_configs
 make_package
 clean_up
 

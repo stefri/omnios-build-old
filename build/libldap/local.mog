@@ -1,0 +1,6 @@
+license LICENSE license="The OpenLDAP Public License"
+license COPYRIGHT license="Addtional Copyright Information"
+group gid=76 groupname=slapd
+user ftpuser=false gcos-field="OpenLDAP SLAPD Reserved UID" group=slapd password=NP uid=76 username=slapd home-dir=/
+<transform dir path=var/slapd.* -> set owner slapd>
+<transform dir path=var/slapd.* -> set group slapd>
