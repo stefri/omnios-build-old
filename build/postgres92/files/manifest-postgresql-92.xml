@@ -70,13 +70,13 @@
                 type='method'
                 name='stop'
                 exec='/lib/svc/method/postgresql_92 stop'
-                timeout_seconds='60' />
+                timeout_seconds='300' />
 
         <exec_method
                 type='method'
                 name='refresh'
                 exec='/lib/svc/method/postgresql_92 refresh'
-                timeout_seconds='60' />
+                timeout_seconds='300' />
 
         <!--
           Both action_authorization and value_authorization are needed
