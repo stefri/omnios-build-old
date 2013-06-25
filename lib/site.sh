@@ -1,3 +1,3 @@
 # Package server URL and publisher
-PKGPUBLISHER=lotheac.fi
+PKGPUBLISHER=cs.hut.fi
 PKGSRVR=/export/pkg
