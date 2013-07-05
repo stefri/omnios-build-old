@@ -28,7 +28,7 @@
 . ../../lib/functions.sh
 
 PROG=postfix
-VER=2.10.0
+VER=2.10.1
 VERHUMAN=$VER
 PKG=service/network/smtp/postfix
 SUMMARY="Postfix Mail Transport Agent"
