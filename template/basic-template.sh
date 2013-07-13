@@ -21,7 +21,7 @@
 # CDDL HEADER END
 #
 #
-# Copyright 2011-2012 OmniTI Computer Consulting, Inc.  All rights reserved.
+# Copyright 2011-2013 OmniTI Computer Consulting, Inc.  All rights reserved.
 # Use is subject to license terms.
 #
 # Load support functions
@@ -33,6 +33,9 @@ VERHUMAN=$VER
 PKG=
 SUMMARY=""
 DESC=""
+
+BUILD_DEPENDS_IPS=
+RUN_DEPENDS_IPS=
 
 init
 download_source $PROG $PROG $VER
