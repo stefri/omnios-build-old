@@ -91,6 +91,8 @@ sendmail_compat() {
     logmsg "Creating symlinks for sendmail compatibility"
     logcmd mkdir -p $DESTDIR/usr/lib
     logcmd ln -s ../local/sbin/sendmail $DESTDIR/usr/lib/sendmail
+    logcmd mkdir -p $DESTDIR/usr/sbin
+    logcmd ln -s ../local/sbin/sendmail $DESTDIR/usr/sbin/sendmail
 }
 
 init
