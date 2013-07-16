@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<!DOCTYPE service_bundle SYSTEM "/usr/share/lib/xml/dtd/service_bundle.dtd.1">
+<service_bundle type="manifest" name="export">
+ <service name="monitoring/munin-node" type="service" version="0">
+   <create_default_instance enabled="true"/>
+   <single_instance/>
+   <dependency name="fs" grouping="require_all" restart_on="none" type="service">
+     <service_fmri value="svc:/system/filesystem/local"/>
+   </dependency>
+   <dependency name="network" grouping="require_all" restart_on="none" type="service">
+     <service_fmri value="svc:/milestone/network:default"/>
+   </dependency>
+   <dependency name="name-services" grouping="require_all" restart_on="none" type="service">
+     <service_fmri value="svc:/milestone/name-services:default"/>
+   </dependency>
+   <exec_method name="start" type="method" exec="munin-node" timeout_seconds="60">
+     <method_context>
+       <method_credential user="root" group="root"/>
+       <method_environment>
+         <envvar name="PATH" value="/usr/local/bin:/usr/local/sbin:/usr/gnu/bin:/usr/bin:/usr/sbin:/sbin"/>
+         <envvar name="PERL5LIB" value="/usr/perl5/lib/site_perl:/usr/perl5/lib/site_perl/5.16.1"/>
+       </method_environment>
+     </method_context>
+   </exec_method>
+   <exec_method name="stop" type="method" exec=":kill" timeout_seconds="60">
+     <method_context/>
+   </exec_method>
+ </service>
+</service_bundle>

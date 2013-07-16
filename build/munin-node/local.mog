@@ -1,0 +1,13 @@
+group gid=98 groupname=munin
+user ftpuser=false gcos-field="Munin Reserved UID" group=munin password=NP uid=98 username=munin home-dir=/
+license COPYING license="GNU General Public License Version 2"
+<transform dir path=var/log/munin.* -> set owner munin>
+<transform dir path=var/log/munin.* -> set group munin>
+<transform dir path=var/spool/munin.* -> set owner munin>
+<transform dir path=var/spool/munin.* -> set group munin>
+<transform dir path=var/munin/run.* -> set owner munin>
+<transform dir path=var/munin/run.* -> set group munin>
+<transform dir path=var/munin/plugin-state.* -> set owner root>
+<transform dir path=var/munin/plugin-state.* -> set group root>
+<transform dir path=var/munin/plugin-state.* -> set mode 0755>
+<transform dir path=etc/munin/plugin-conf.d.* -> set mode 0755>
