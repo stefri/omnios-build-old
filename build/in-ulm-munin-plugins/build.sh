@@ -28,7 +28,7 @@
 . ../../lib/functions.sh
 
 PROG="in-ulm-munin-plugins"
-VER=0.1
+VER=0.4
 VERHUMAN=$VER
 PKG="monitoring/munin/in-ulm-plugins"
 SUMMARY="Customized and self-developed munin plugins for in-ulm NAS"
