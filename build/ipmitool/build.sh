@@ -37,7 +37,7 @@ DESC="$SUMMARY"
 DEPENDS_IPS="driver/ipmi"
 
 BUILDARCH=32
-CONFIGURE_OPTS_32="$CONFIGURE_OPTS_32 --bindir=/usr/local/sbin --sbindir=/usr/loacl/lib"
+CONFIGURE_OPTS_32="$CONFIGURE_OPTS_32 --bindir=/usr/local/sbin --sbindir=/usr/local/lib"
 CONFIGURE_OPTS="$CONFIGURE_OPTS --mandir=/usr/local/share/man
 	--enable-intf-free=no
 	--enable-solaris-opt"
