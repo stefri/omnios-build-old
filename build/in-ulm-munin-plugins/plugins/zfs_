@@ -340,11 +340,11 @@ sub cache_misses_by_datatype {
 		print "prefetch.info .\n";
 		print "prefetch.min 0\n";
 		print "prefetch.max 100\n";
-		print "demand_meta.label Demand\n";
+		print "demand_meta.label Demand Meta\n";
 		print "demand_meta.info .\n";
 		print "demand_meta.min 0\n";
 		print "demand_meta.max 100\n";
-		print "prefetch_meta.label Prefetch\n";
+		print "prefetch_meta.label Prefetch Meta\n";
 		print "prefetch_meta.info .\n";
 		print "prefetch_meta.min 0\n";
 		print "prefetch_meta.max 100\n";
