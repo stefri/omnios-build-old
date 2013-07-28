@@ -186,7 +186,7 @@ sub l2arc_cache_sizes {
 sub cache_accesses {
 # =======================================================
 	if ($ARGV[0] and $ARGV[0] eq "config") {
-		print "graph_args --base 1024 -l 0 --vertical-label count\n";
+		print "graph_args --base 1000 -l 0 --vertical-label count\n";
 		print "graph_title Cache Accesses\n";
 		print "graph_category ZFS\n";
 		print "graph_info This graph shows the total cache access.\n";
