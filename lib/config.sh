@@ -38,7 +38,7 @@ MIRROR=mirrors.omniti.com
 LINTCACHE=${HOME}/pkglint.cache
 
 # Default prefix for packages (may be overridden)
-PREFIX=/usr
+PREFIX=/opt/lotheac
 
 # Temporary directories
 # TMPDIR is used for source archives and build directories
@@ -141,8 +141,8 @@ CFLAGS64="-m64"
 
 # Linker flags
 LDFLAGS=""
-LDFLAGS32=""
-LDFLAGS64="-m64"
+LDFLAGS32="-L${PREFIX}/lib -R${PREFIX}/lib"
+LDFLAGS64="-m64 -L${PREFIX}/lib/${ISAPART64} -R${PREFIX}/lib/${ISAPART64}"
 
 # C pre-processor flags
 CPPFLAGS=""
