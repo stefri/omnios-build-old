@@ -38,7 +38,7 @@ MIRROR=mirrors.omniti.com
 LINTCACHE=${HOME}/pkglint.cache
 
 # Default prefix for packages (may be overridden)
-PREFIX=/opt/cs.hut.fi
+PREFIX=/opt/niksula
 
 # Temporary directories
 # TMPDIR is used for source archives and build directories
