@@ -1,3 +1,3 @@
 # Package server URL and publisher
-PKGPUBLISHER=cs.hut.fi
-PKGSRVR=/export/pkg/cs.hut.fi
+PKGPUBLISHER=niksula.hut.fi
+PKGSRVR=/niksula/pkg/niksula.hut.fi
