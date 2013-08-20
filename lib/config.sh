@@ -32,7 +32,7 @@ RELVER=151006
 PVER=0.$RELVER
 
 # Which server to fetch files from
-MIRROR=mirrors.omniti.com
+MIRROR=http://srcmirror.niksula.hut.fi/
 
 # pkglint cache directory (best to be persistent)
 LINTCACHE=${HOME}/pkglint.cache
