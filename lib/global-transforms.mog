@@ -102,3 +102,4 @@
     add restart_fmri svc:/system/manifest-import:default>
 
 <transform file path=opt/niksula/etc/ -> set preserve renamenew>
+<transform file path=etc/ -> set preserve renamenew>
