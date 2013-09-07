@@ -1,0 +1,8 @@
+license LICENSE.txt license="GNU General Public License Version 3"
+group gid=94 groupname=neo4j
+user ftpuser=false gcos-field="Neo4j Reserved UID" group=neo4j password=NP uid=94 username=neo4j home-dir=/opt/neo4j
+<transform file path=opt/etc/neo4j/.* -> set preserve true>
+<transform file path=opt/neo4j/data -> set owner neo4j>
+<transform file path=opt/neo4j/data -> set group neo4j>
+<transform file path=opt/neo4j/data/.* -> set owner neo4j>
+<transform file path=opt/neo4j/data/.* -> set group neo4j>

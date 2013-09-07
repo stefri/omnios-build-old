@@ -1,0 +1,75 @@
+diff -rupN neo4j-community-2.0.0-M04.org/bin/neo4j neo4j-community-2.0.0-M04/bin/neo4j
+--- neo4j-community-2.0.0-M04.org/bin/neo4j	2013-09-07 14:24:10.330296745 +0200
++++ neo4j-community-2.0.0-M04/bin/neo4j	2013-09-07 16:26:59.853687857 +0200
+@@ -31,6 +31,7 @@
+ 
+ FRIENDLY_NAME="Neo4j Server"
+ LAUNCHD_NAME="org.neo4j.server"
++EGREP=gegrep
+ 
+ function findBaseDirAndCdThere {
+ # This seems to not be safe to run at any time. If that
+@@ -138,9 +139,15 @@ buildclasspath() {
+ }
+ 
+ detectrunning() {
+-  ## This could be achieved with filtering using -sTCP:LISTEN but this option is not available
+-  ## on lsof v4.78 which is the one bundled with some distros. So we have to do this grep below
+-  newpid=$(lsof -i :$NEO4J_SERVER_PORT -F T -Ts | grep -i "TST=LISTEN" -B1 | head -n1)
++  if [ $DIST_OS = "solaris" ] ; then
++    if [ -n $STARTED_ID ]; then
++      newpid=$(pfiles $STARTED_PID | gegrep -oq "port: $NEO4J_SERVER_PORT" | echo "p$STARTED_PID")
++    fi
++  else
++    ## This could be achieved with filtering using -sTCP:LISTEN but this option is not available
++    ## on lsof v4.78 which is the one bundled with some distros. So we have to do this grep below
++    newpid=$(lsof -i :$NEO4J_SERVER_PORT -F T -Ts | grep -i "TST=LISTEN" -B1 | head -n1)
++  fi
+   newpid=${newpid:1}
+ }
+ 
+@@ -471,4 +478,5 @@ case "${!OPTIND}" in
+ 
+ esac
+ 
+-exit $?
+\ No newline at end of file
++exit $?
++
+diff -rupN neo4j-community-2.0.0-M04.org/bin/utils neo4j-community-2.0.0-M04/bin/utils
+--- neo4j-community-2.0.0-M04.org/bin/utils	2013-09-07 14:24:10.330409903 +0200
++++ neo4j-community-2.0.0-M04/bin/utils	2013-09-07 15:47:02.751813487 +0200
+@@ -18,7 +18,6 @@
+ # You should have received a copy of the GNU General Public License
+ # along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ 
+-
+ # getconfig <filename>
+ #   - plain key-value pairs become environment variables
+ #   - keys have '.' chars changed to '_'
+@@ -345,12 +344,12 @@ selectinittool() {
+ 
+ # check if running JDK 6, warn if not
+ checkjvmcompatibility() {
+-  $JAVACMD -version 2>&1 | egrep -q "Java HotSpot\\(TM\\) (64-Bit Server|Client) VM"
++  $JAVACMD -version 2>&1 | $EGREP -q "Java HotSpot\\(TM\\) (64-Bit Server|Client) VM"
+   if [ $? -eq 1 ]
+   then
+     echo "WARNING! You are using an unsupported Java runtime. Please use Oracle(R) Java(TM) Runtime Environment 7."
+   else
+-    $JAVACMD -version 2>&1 | egrep -q "java version \"1.7"
++    $JAVACMD -version 2>&1 | $EGREP -q "java version \"1.7"
+     if [ $? -eq 1 ]
+     then
+       echo "WARNING! You are using an unsupported version of the Java runtime. Please use Oracle(R) Java(TM) Runtime Environment 7."
+@@ -359,6 +358,7 @@ checkjvmcompatibility() {
+ }
+ 
+ checkclasspath() {
+-  echo $CLASSPATH | egrep -q 'neo4j-kernel-[0-9.]{2,8}-SNAPSHOT' && \
++  echo $CLASSPATH | $EGREP -q 'neo4j-kernel-[0-9.]{2,8}-SNAPSHOT' && \
+   echo -e "\nWARNING! Latest Development Build. Not intended for general-purpose use. May be unstable."
+-}
+\ No newline at end of file
++}
++
