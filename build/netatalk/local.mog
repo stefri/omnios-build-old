@@ -1,1 +1,2 @@
 license COPYRIGHT license=bsd
+<transform file path=etc/afp.conf -> set preserve true>
