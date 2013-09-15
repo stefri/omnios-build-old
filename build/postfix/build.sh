@@ -28,13 +28,13 @@
 . ../../lib/functions.sh
 
 PROG=postfix
-VER=2.10.1
+VER=2.10.2
 VERHUMAN=$VER
 PKG=service/network/smtp/postfix
 SUMMARY="Postfix Mail Transport Agent"
 DESC="Postfix is a Mail Transport Agent (MTA), this is a very basic configuration only supporting Berkeley DB based configuration"
 
-DEPENDS_IPS="database/bdb library/libpq5 library/security/cyrus-sasl"
+DEPENDS_IPS="database/bdb library/libpq5 library/libldap library/security/cyrus-sasl"
 
 BUILDARCH=32
 USER=postfix
@@ -52,9 +52,11 @@ CONFIGURE_OPTS='-DNO_NIS -DHAS_PGSQL -DUSE_SASL_AUTH -DUSE_CYRUS_SASL'
 CONFIGURE_CMD=create_makefiles
 
 create_makefiles() {
-    CCARGS='-DDEF_COMMAND_DIR=\"/usr/local/sbin\" -DDEF_DAEMON_DIR=\"/usr/local/libexec/postfix\" -DHAS_PGSQL -DHAS_DB -DUSE_SASL_AUTH -DUSE_CYRUS_SASL -I/usr/local/include -I/usr/local/include/sasl'
+    CCARGS='-DDEF_COMMAND_DIR=\"/usr/local/sbin\" -DDEF_DAEMON_DIR=\"/usr/local/libexec/postfix\" -DHAS_PGSQL -DHAS_DB -DHAS_LDAP -DUSE_SASL_AUTH -DUSE_CYRUS_SASL -I/usr/local/include -I/usr/local/include/sasl'
     AUXLIBS="-R/usr/local/lib -L/usr/local/lib -ldb \
              -R/usr/local/lib -L/usr/local/lib -lsasl2 \
+             -R/usr/local/lib -L/usr/local/lib -lldap \
+             -R/usr/local/lib -L/usr/local/lib -llber \
              -R/usr/local/lib -L/usr/local/lib -lpq"
     logmsg "--- creating postfix makefiles"
     $MAKE -f Makefile.init makefiles CCARGS="$CCARGS $CONFIGURE_OPTS" AUXLIBS="$AUXLIBS"
