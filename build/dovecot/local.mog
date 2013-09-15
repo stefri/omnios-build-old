@@ -5,3 +5,5 @@ user ftpuser=false gcos-field="Dovecot Reserved UID" group=dovenull password=NP 
 license COPYING license="General Copyright Information"
 license COPYING.MIT license="MIT"
 license COPYING.LGPL license="LGPL"
+<transform file path=/etc/dovecot/.* -> set preserve true>
+<transform file path=/etc/dovecot/conf.d/.* -> set preserve true>

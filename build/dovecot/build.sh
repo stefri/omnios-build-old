@@ -28,7 +28,7 @@
 . ../../lib/functions.sh
 
 PROG=dovecot
-VER=2.2.2
+VER=2.2.5
 VERHUMAN=$VER
 PKG=service/network/imap/dovecot
 SUMMARY="Dovecot is an open source IMAP and POP3 email server."
