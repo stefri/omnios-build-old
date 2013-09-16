@@ -31,14 +31,14 @@ PROG=dspam
 VER=3.10.2
 VERHUMAN=$VER
 PKG=service/network/dspam
-SUMMARY="Dovecot antispam plugin."
+SUMMARY="DSPAM Statistical anti-spam filter"
 DESC="$SUMMARY ($VER)"
 
 BUILDARCH=32
 BUILD_DEPENDS_IPS=""
 DEPENDS_IPS="system/library/gcc-4-runtime database/bdb library/libpq5"
 
-CONFIGURE_OPTS="--sysconfdir=/etc
+CONFIGURE_OPTS="--sysconfdir=/etc/dspam
     --localstatedir=/var/$PROG
     --mandir=$PREFIX/man
     --enable-daemon
@@ -55,12 +55,20 @@ CONFIGURE_OPTS="--sysconfdir=/etc
     --with-logdir=/var/log/$PROG
     --with-storage-driver=hash_drv,pgsql_drv"
 
+service_configs() {
+    logmsg "Installing SMF"
+    logcmd mkdir -p $DESTDIR/lib/svc/manifest/network
+    logcmd cp $SRCDIR/files/manifest-dspam.xml \
+        $DESTDIR/lib/svc/manifest/network/dspam.xml
+}
+
 init
 download_source $PROG $PROG $VER
 patch_source
 prep_build
 build
 make_isa_stub
+service_configs
 make_package
 clean_up
 
