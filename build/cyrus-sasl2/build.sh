@@ -38,6 +38,9 @@ DEPENDS_IPS="system/library/gcc-4-runtime library/libpq5 database/bdb"
 
 ARCHIVENAME=cyrus-sasl
 BUILDDIR=$ARCHIVENAME-$VER
+
+BUILDARCH=32
+
 CONFIGURE_OPTS="--sysconfdir=/etc/sasl2
     --enable-shared=yes
     --enable-static=no
@@ -45,9 +48,11 @@ CONFIGURE_OPTS="--sysconfdir=/etc/sasl2
     --enable-sql=yes
     --with-dbpath=/etc/sasl2/db"
 CONFIGURE_OPTS_32="$CONFIGURE_OPTS_32
-    --with-pgsql=/usr/local/lib"
+    --with-pgsql=/usr/local/lib
+    --with-plugindir=/usr/local/lib/sasl2"
 CONFIGURE_OPTS_64="$CONFIGURE_OPTS_64
-    --with-pgsql=/usr/local/lib/$ISAPART64"
+    --with-pgsql=/usr/local/lib/$ISAPART64
+    --with-plugindir=/usr/local/lib/sasl2/$ISAPART64"
 
 CFLAGS="$CFLAGS -I/usr/include/gssapi"
 
