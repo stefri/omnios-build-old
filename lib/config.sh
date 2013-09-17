@@ -145,9 +145,9 @@ LDFLAGS32="-L${PREFIX}/lib -R${PREFIX}/lib"
 LDFLAGS64="-m64 -L${PREFIX}/lib/${ISAPART64} -R${PREFIX}/lib/${ISAPART64}"
 
 # C pre-processor flags
-CPPFLAGS="-I${PREFIX}/include"
-CPPFLAGS32=""
-CPPFLAGS64=""
+CPPFLAGS=""
+CPPFLAGS32="-I${PREFIX}/include"
+CPPFLAGS64="-I${PREFIX}/include/$ISAPART64"
 
 # C++ flags
 CXXFLAGS=""
