@@ -29,7 +29,7 @@
 . ../../lib/functions.sh
 
 PROG=postgresql
-VER=9.2.4
+VER=9.3.0
 VERHUMAN=$VER
 PKG=library/libpq5
 SUMMARY="PostgreSQL Libs (libpq.so.5)"
@@ -47,11 +47,8 @@ CONFIGURE_OPTS="
     --prefix=$PREFIX
     --with-readline"
 
-# Which directories should we make/make install in?
-MAKE_DIRS="src/include src/interfaces/libpq src/makefiles src/port src/backend
-    src/bin/pg_config"
-INSTALL_DIRS="src/include src/interfaces/libpq src/makefiles src/port
-    src/bin/pg_config"
+# Which directories should we make install in?
+INSTALL_DIRS="src/interfaces/libpq"
 
 make_prog() {
     logmsg "--- make"

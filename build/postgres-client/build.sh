@@ -64,6 +64,7 @@ init
 download_source $PROG $PROG $VER
 patch_source
 prep_build
+logcmd mkdir -p $DESTDIR/usr/local/share/postgresql
 build
 make_isa_stub
 make_package
