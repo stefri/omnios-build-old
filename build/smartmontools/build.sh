@@ -28,7 +28,7 @@
 . ../../lib/functions.sh
 
 PROG=smartmontools
-VER=6.1
+VER=6.2
 VERHUMAN=$VER
 PKG=system/storage/smartmontools
 SUMMARY="Control and monitor storage systems using SMART"

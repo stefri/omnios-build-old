@@ -39,23 +39,46 @@ DEPENDS_IPS="system/library/gcc-4-runtime library/libpq5 database/bdb"
 ARCHIVENAME=cyrus-sasl
 BUILDDIR=$ARCHIVENAME-$VER
 
-BUILDARCH=32
+#BUILDARCH=32
 
-CONFIGURE_OPTS="--sysconfdir=/etc/sasl2
+#reset_configure_opts
+CONFIGURE_OPTS="--prefix=$PREFIX
+    --includedir=$PREFIX/include
+    --sysconfdir=/etc/sasl2
     --enable-shared=yes
     --enable-static=no
     --enable-gssapi=yes
     --enable-sql=yes
     --with-dbpath=/etc/sasl2/db"
-CONFIGURE_OPTS_32="$CONFIGURE_OPTS_32
+CONFIGURE_OPTS_32="--includedir=$PREFIX/include
+    --bindir=$PREFIX/bin/$ISAPART
+    --sbindir=$PREFIX/sbin/$ISAPART
+    --libdir=$PREFIX/lib
+    --libexecdir=$PREFIX/libexec
     --with-pgsql=/usr/local/lib
-    --with-plugindir=/usr/local/lib/sasl2"
-CONFIGURE_OPTS_64="$CONFIGURE_OPTS_64
-    --with-pgsql=/usr/local/lib/$ISAPART64
-    --with-plugindir=/usr/local/lib/sasl2/$ISAPART64"
+    --with-plugindir=/usr/local/lib/sasl2
+    --with-configdir=/usr/local/lib/sasl2"
+CONFIGURE_OPTS_64="--bindir=$PREFIX/bin/$ISAPART64
+    --sbindir=$PREFIX/sbin/$ISAPART64
+    --libdir=$PREFIX/lib/$ISAPART64
+    --libexecdir=$PREFIX/libexec/$ISAPART64
+    --with-pgsql=/usr/local/lib/$ISAPART64 
+    --with-plugindir=/usr/local/lib/$ISAPART64/sasl2
+    --with-configdir=/usr/local/lib/$ISAPART64/sasl2"
 
 CFLAGS="$CFLAGS -I/usr/include/gssapi"
 
+
+make_install64() {
+    logmsg "--- Move 32-bit plugin-dir out of the way"
+    logcmd mv $DESTDIR/$PREFIX/lib/sasl2 $DESTDIR/$PREFIX/lib/sasl2-32
+    make_install
+    logmsg "--- Move 64-bit plugin-dir to right place"
+    logcmd mkdir -p $DESTDIR/$PREFIX/lib/$ISAPART64
+    logcmd mv $DESTDIR/$PREFIX/lib/sasl2 $DESTDIR/$PREFIX/lib/$ISAPART64/sasl2
+    logmsg "--- Move 32-bit plugin-dir back into place"
+    logcmd mv $DESTDIR/$PREFIX/lib/sasl2-32 $DESTDIR/$PREFIX/lib/sasl2
+}
 
 init
 download_source $PROG $ARCHIVENAME $VER

@@ -48,7 +48,8 @@ CONFIGURE_OPTS="
     --with-readline"
 
 # Which directories should we make install in?
-INSTALL_DIRS="src/interfaces/libpq"
+MAKE_DIRS="src/include src/interfaces/libpq src/makefiles src/port src/common src/backend src/bin/pg_config"
+INSTALL_DIRS="src/include src/interfaces/libpq src/makefiles src/port src/bin/pg_config"
 
 make_prog() {
     logmsg "--- make"
