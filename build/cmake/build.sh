@@ -28,16 +28,15 @@
 . ../../lib/functions.sh
 
 PROG=cmake
-VER=2.8.10.2
+VER=2.8.11.2
 VERHUMAN=$VER
 PKG="developer/build/cmake"
 SUMMARY="cmake"
 DESC="$SUMMARY ($VER) - CMake - A cross-platform, open-source make system."
 
-CONFIGURE_OPTS="--prefix=$PREFIX"
-CONFIGURE_OPTS_32=""
-CONFIGURE_OPTS_64=""
-
+BUILDARCH=32
+CONFIGURE_OPTS_32="--prefix=$PREFIX"
+CONFIGURE_OPTS_64="--prefix=$PREFIX"
 
 init
 download_source $PROG $PROG $VER
