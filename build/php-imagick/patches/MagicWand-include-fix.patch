@@ -1,0 +1,11 @@
+--- imagick-3.1.2/config.m4	2013-09-25 07:42:37.000000000 +0200
++++ imagick-3.1.2.new/config.m4	2013-09-26 19:29:28.330090565 +0200
+@@ -58,7 +58,7 @@ if test $PHP_IMAGICK != "no"; then
+   else
+     AC_MSG_CHECKING(for MagickWand.h header file)
+ 
+-    if test -r $WAND_DIR/include/ImageMagick/wand/MagickWand.h; then
++    if test -r $WAND_DIR/include/ImageMagick-6/wand/MagickWand.h; then
+       AC_MSG_RESULT(found in $WAND_DIR/include/ImageMagick/wand/MagickWand.h)
+     else
+       AC_MSG_ERROR(Cannot locate header file MagickWand.h)
