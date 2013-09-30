@@ -1,0 +1,63 @@
+diff -rupN mbuffer-20130220/config.h.in mbuffer-20130220.new/config.h.in
+--- mbuffer-20130220/config.h.in	2013-02-20 23:37:08.000000000 +0100
++++ mbuffer-20130220.new/config.h.in	2013-09-30 14:44:18.020283034 +0200
+@@ -24,7 +24,7 @@
+ #undef PACKAGE
+ 
+ /* version of mbuffer */
+-#undef VERSION
++#undef MBUFFER_VERSION
+ 
+ /* Define if you want support for debugging messages. */
+ #undef DEBUG
+diff -rupN mbuffer-20130220/configure mbuffer-20130220.new/configure
+--- mbuffer-20130220/configure	2013-02-20 23:37:08.000000000 +0100
++++ mbuffer-20130220.new/configure	2013-09-30 14:47:46.864059041 +0200
+@@ -623,7 +623,7 @@ ac_includes_default="\
+ ac_subst_vars='LTLIBOBJS
+ LIBOBJS
+ AUTOCONF
+-VERSION
++MBUFFER_VERSION
+ PACKAGE
+ DEBUG
+ ALLOCA
+@@ -2372,7 +2372,7 @@ test -n "$target_alias" &&
+ 
+ 
+ PACKAGE=mbuffer
+-VERSION=20130220
++MBUFFER_VERSION=20130220
+ 
+ if test "${LD_LIBRARY_PATH}" != "" ; then
+ 	echo ""
+@@ -5815,7 +5815,7 @@ cat >>confdefs.h <<_ACEOF
+ _ACEOF
+ 
+ cat >>confdefs.h <<_ACEOF
+-#define VERSION "${VERSION}"
++#define MBUFFER_VERSION "${MBUFFER_VERSION}"
+ _ACEOF
+ 
+ 
+diff -rupN mbuffer-20130220/mbuffer.1.in mbuffer-20130220.new/mbuffer.1.in
+--- mbuffer-20130220/mbuffer.1.in	2013-02-20 23:37:08.000000000 +0100
++++ mbuffer-20130220.new/mbuffer.1.in	2013-09-30 14:48:20.001682329 +0200
+@@ -1,4 +1,4 @@
+-.TH "mbuffer" "1" "@VERSION@" "Thomas Maier-Komor" "console utility"
++.TH "mbuffer" "1" "@MBUFFER_VERSION@" "Thomas Maier-Komor" "console utility"
+ .SH "NAME"
+ mbuffer \- measuring buffer
+ .SH "SYNTAX"
+diff -rupN mbuffer-20130220/mbuffer.c mbuffer-20130220.new/mbuffer.c
+--- mbuffer-20130220/mbuffer.c	2013-02-20 23:37:08.000000000 +0100
++++ mbuffer-20130220.new/mbuffer.c	2013-09-30 14:48:37.252205747 +0200
+@@ -1366,7 +1366,7 @@ static void *outputThread(void *arg)
+ static void version(void)
+ {
+ 	(void) fprintf(stderr,
+-		"mbuffer version "VERSION"\n"\
++		"mbuffer version "MBUFFER_VERSION"\n"\
+ 		"Copyright 2001-2011 - T. Maier-Komor\n"\
+ 		"License: GPLv3 - see file LICENSE\n"\
+ 		"This program comes with ABSOLUTELY NO WARRANTY!!!\n"
