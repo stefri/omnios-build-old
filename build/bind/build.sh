@@ -28,8 +28,7 @@
 . ../../lib/functions.sh
 
 PROG=bind
-VER=9.9.2-P2
-VERHUMAN=$VER
+VER=9.9.4
 PKG=service/network/dns/bind
 SUMMARY="BIND DNS server and tools"
 DESC="$SUMMARY ($VER)"

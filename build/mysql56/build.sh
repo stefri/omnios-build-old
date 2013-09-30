@@ -48,7 +48,7 @@ case $FLAVORRUN in
         BUILDARCH=64
         PREFIX=/usr/local/mysql/5.6
         LOCAL_MOG_FILE=$SRCDIR/server.mog
-        CONFIGURE_OPTS_64=""
+        CONFIGURE_OPTS_64="-DINSTALL_MYSQLSHAREDIR=share"
     ;;
     client)
         # For use with external programs - dual-arch, lives in /opt/omni
@@ -59,10 +59,12 @@ case $FLAVORRUN in
         PREFIX=/usr/local
         CONFIGURE_OPTS_32="-DINSTALL_BINDIR=bin/$ISAPART
                            -DINSTALL_SBINDIR=sbin/$ISAPART
+                           -DINSTALL_MYSQLSHAREDIR=share/mysql
                            -DINSTALL_INCLUDEDIR=include/mysql"
         CONFIGURE_OPTS_64="-DINSTALL_BINDIR=bin/$ISAPART64
                            -DINSTALL_SBINDIR=sbin/$ISAPART64
                            -DINSTALL_LIBDIR=lib/$ISAPART64
+                           -DINSTALL_MYSQLSHAREDIR=share/mysql
                            -DINSTALL_INCLUDEDIR=include/mysql"
         LOCAL_MOG_FILE=$SRCDIR/client.mog
     ;;
@@ -76,11 +78,13 @@ case $FLAVORRUN in
         CONFIGURE_OPTS_32="-DWITHOUT_SERVER=1
                            -DINSTALL_BINDIR=bin/$ISAPART
                            -DINSTALL_SBINDIR=sbin/$ISAPART
+                           -DINSTALL_MYSQLSHAREDIR=share/mysql
                            -DINSTALL_INCLUDEDIR=include/mysql"
         CONFIGURE_OPTS_64="-DWITHOUT_SERVER=1
                            -DINSTALL_BINDIR=bin/$ISAPART64
                            -DINSTALL_SBINDIR=sbin/$ISAPART64
                            -DINSTALL_LIBDIR=lib/$ISAPART64
+                           -DINSTALL_MYSQLSHAREDIR=share/mysql
                            -DINSTALL_INCLUDEDIR=include/mysql"
         LOCAL_MOG_FILE=$SRCDIR/libs.mog
     ;;
@@ -91,8 +95,8 @@ CPPFLAGS="-D__EXTENSIONS__"
 CONFIGURE_OPTS="-DCMAKE_INSTALL_PREFIX=$PREFIX
                 -DENABLE_DTRACE=1
                 -DMYSQL_DATADIR=/var/mysql/5.6/data
-                -DMYSQL_SHAREDIR=$PREFIX/share/mysql
-                -DMYSQL_UNIX_ADDR=/var/run/mysql56.socket
+                -DMYSQL_UNIX_ADDR=/var/mysql/5.6/run/mysqld.socket
+                -DSYSCONFDIR=/var/mysql/5.6/etc
                 -DBUILD_CONFIG=mysql_release
                 -DHAVE_FAKE_PAUSE_INSTRUCTION=1
                 -DHAVE_PAUSE_INSTRUCTION=0"
@@ -176,6 +180,26 @@ prune_for_libs() {
     popd > /dev/null
 }
 
+service_configs() {
+    logmsg "Installing SMF"
+    logcmd mkdir -p $DESTDIR/lib/svc/manifest/application/database
+    logcmd cp $SRCDIR/files/manifest-mysql-56.xml \
+        $DESTDIR/lib/svc/manifest/application/database/mysql-56.xml
+    logcmd mkdir -p $DESTDIR/lib/svc/method
+    logcmd cp $SRCDIR/files/mysql_56 \
+        $DESTDIR/lib/svc/method/mysql_56
+}
+
+server_runtime_dirs() {
+    logmsg "Creating server runtime directories"
+    logcmd mkdir -p $DESTDIR/var/mysql/5.6/data
+    logcmd mkdir -p $DESTDIR/var/mysql/5.6/etc
+    logcmd mkdir -p $DESTDIR/var/mysql/5.6/run
+    logmsg "Copying empty my.cnf"
+    logcmd cp $SRCDIR/files/my.cnf \
+        $DESTDIR/var/mysql/5.6/etc/my.cnf
+}
+
 init
 remove_source
 download_source $PROG $PROG $VER
@@ -186,6 +210,8 @@ make_isa_stub
 case $FLAVORRUN in
     ""|default|server)
         prune_for_server
+        service_configs
+        server_runtime_dirs
     ;;
     client)
         prune_for_client

@@ -36,6 +36,7 @@ DESC="PHP is a widely-used general-purpose scripting language that is especially
 BUILD_DEPENDS_IPS="compress/bzip2
     database/sqlite-3
     database/bdb
+    database/mysql-client
     library/libtool/libltdl 
     library/libxml2 
     library/libxslt 
@@ -43,7 +44,8 @@ BUILD_DEPENDS_IPS="compress/bzip2
     system/library/iconv/utf-8 
     system/library/iconv/utf-8/manual 
     system/library/iconv/xsh4/latin 
-    web/curl 
+    local/web/curl 
+    local/library/zlib
     library/libldap
     library/freetype2 
     library/libgd  
@@ -60,7 +62,10 @@ BUILDARCH=64
 PREFIX=$PREFIX/php55
 reset_configure_opts
 
-CFLAGS="-O2 -I/usr/local/include"
+CFLAGS="-O2 -DZLIB_INTERNAL=1"
+CPPFLAGS=""
+CPPFLAGS64="-I/usr/local/include/$ISAPART64 -I/usr/local/include/$ISAPART64/curl \
+    -I/usr/local/include"
 LDFLAGS64="$LDFLAGS64 -L/usr/local/lib/$ISAPART64 -R/usr/local/lib/$ISAPART64 \
     -L$PREFIX/lib -R$PREFIX/lib"
 
@@ -83,12 +88,18 @@ CONFIGURE_OPTS="
         --enable-dtrace
         --enable-cgi
         --enable-fpm
+        --enable-zip=shared
+        --with-zlib=shared,/usr/local
+        --with-zlib-dir=/usr/local
         --with-sqlite3=shared
         --with-db4=/usr/local
         --enable-pdo=shared
         --with-pgsql=shared,/usr/local
         --with-pdo-pgsql=shared,/usr/local
         --with-pdo-sqlite=shared
+        --with-mysql=shared,mysqlnd
+        --with-mysqli=shared,mysqlnd
+        --with-pdo-mysql=shared,mysqlnd
         --enable-mbstring=shared
         --with-mhash=/usr/local
         --with-mcrypt=shared,/usr/local
@@ -103,13 +114,13 @@ CONFIGURE_OPTS="
         --enable-calendar=shared
         --enable-ftp=shared
         --enable-mbstring=shared
+        --with-curl=shared
         "
 
 # TEST TODO
 #        --with-bzip2=shared,/usr/local
 #        --with-libxml-dir=/usr/local
 #        --with-sqlite3=shared,/usr/local 
-#        --with-curl=shared,/usr/local
 #        --with-t1lib-dir=/usr/local # for gd
 
 
@@ -118,11 +129,6 @@ CONFIGURE_OPTS="
 #        --with-ldap=shared,/usr/local -> libsasl2.so not found when loading module
 #        --enable-intl=shared
 
-
-# NOT AVAILABLE YET
-#        --with-pdo-mysql=/opt/omni
-#        --with-mysql=/opt/omni
-#        --with-mysqli=/opt/omni/bin/$ISAPART64/mysql_config
 
 make_install() {
     logmsg "--- make install"
@@ -155,6 +161,15 @@ install_ext_calendar() {
     logcmd mv $INSTALLDIR/$EXTENSION_DIR/calendar.a $DESTDIR/$EXTENSION_DIR/ && \
         logcmd mv $INSTALLDIR/$EXTENSION_DIR/calendar.so $DESTDIR/$EXTENSION_DIR/ || \
             logerr "--- Moving calendar extensions failed."
+}
+
+# PHP curl extension
+install_ext_curl() {
+    create_extension_dir
+    logmsg "--- Moving files for curl extension"
+    logcmd mv $INSTALLDIR/$EXTENSION_DIR/curl.a $DESTDIR/$EXTENSION_DIR/ && \
+        logcmd mv $INSTALLDIR/$EXTENSION_DIR/curl.so $DESTDIR/$EXTENSION_DIR/ || \
+            logerr "--- Moving curl extensions failed."
 }
 
 # PHP exif extension
@@ -202,6 +217,19 @@ install_ext_mcrypt() {
             logerr "--- Moving mcrypt extensions failed."
 }
 
+# PHP mysql extension
+install_ext_mysql() {
+    create_extension_dir
+    logmsg "--- Moving files for mysql extensions"
+    logcmd mv $INSTALLDIR/$EXTENSION_DIR/mysql.a $DESTDIR/$EXTENSION_DIR/ && \
+        logcmd mv $INSTALLDIR/$EXTENSION_DIR/mysql.so $DESTDIR/$EXTENSION_DIR/ && \
+        logcmd mv $INSTALLDIR/$EXTENSION_DIR/mysqli.a $DESTDIR/$EXTENSION_DIR/ && \
+        logcmd mv $INSTALLDIR/$EXTENSION_DIR/mysqli.so $DESTDIR/$EXTENSION_DIR/ && \
+        logcmd mv $INSTALLDIR/$EXTENSION_DIR/pdo_mysql.a $DESTDIR/$EXTENSION_DIR/ && \
+        logcmd mv $INSTALLDIR/$EXTENSION_DIR/pdo_mysql.so $DESTDIR/$EXTENSION_DIR/ || \
+            logerr "--- Moving mysql extensions failed."
+}
+
 # PHP pdo extension
 install_ext_pdo() {
     create_extension_dir
@@ -231,6 +259,24 @@ install_ext_pgsql() {
         logcmd mv $INSTALLDIR/$EXTENSION_DIR/pdo_pgsql.a $DESTDIR/$EXTENSION_DIR/ && \
         logcmd mv $INSTALLDIR/$EXTENSION_DIR/pdo_pgsql.so $DESTDIR/$EXTENSION_DIR/ || \
             logerr "--- Moving pgsql extensions failed."
+}
+
+# PHP zlib extension
+install_ext_zlib() {
+    create_extension_dir
+    logmsg "--- Moving files for zlib extension"
+    logcmd mv $INSTALLDIR/$EXTENSION_DIR/zlib.a $DESTDIR/$EXTENSION_DIR/ && \
+        logcmd mv $INSTALLDIR/$EXTENSION_DIR/zlib.so $DESTDIR/$EXTENSION_DIR/ || \
+            logerr "--- Moving zlib extensions failed."
+}
+
+# PHP zip extension
+install_ext_zip() {
+    create_extension_dir
+    logmsg "--- Moving files for zip extension"
+    logcmd mv $INSTALLDIR/$EXTENSION_DIR/zip.a $DESTDIR/$EXTENSION_DIR/ && \
+        logcmd mv $INSTALLDIR/$EXTENSION_DIR/zip.so $DESTDIR/$EXTENSION_DIR/ || \
+            logerr "--- Moving zip extensions failed."
 }
 
 
@@ -271,6 +317,15 @@ DESC="PHP is a widely-used general-purpose scripting language that is especially
 DEPENDS_IPS=""
 prep_build
 install_ext_calendar
+make_package ext.mog
+
+PROG=php-curl
+PKG=runtime/php55/php-curl
+SUMMARY="PHP 5.5 - curl extension"
+DESC="PHP is a widely-used general-purpose scripting language that is especially suited for Web development and can be embedded into HTML."
+DEPENDS_IPS="local/web/curl library/security/cyrus-sasl library/libldap"
+prep_build
+install_ext_curl
 make_package ext.mog
 
 PROG=php-exif
@@ -321,6 +376,15 @@ prep_build
 install_ext_mcrypt
 make_package ext.mog
 
+PROG=php-mysql
+PKG=runtime/php55/php-mysql
+SUMMARY="PHP 5.5 - MySQL Extensions"
+DESC="PHP is a widely-used general-purpose scripting language that is especially suited for Web development and can be embedded into HTML."
+DEPENDS_IPS=""
+prep_build
+install_ext_mysql
+make_package ext_mysql.mog
+
 PROG=php-pdo
 PKG=runtime/php55/php-pdo
 SUMMARY="PHP 5.5 - pdo extension"
@@ -348,6 +412,24 @@ prep_build
 install_ext_sqlite
 make_package ext_sqlite.mog
 
+PROG=php-zib
+PKG=runtime/php55/php-zip
+SUMMARY="PHP 5.5 - zip extension"
+DESC="PHP is a widely-used general-purpose scripting language that is especially suited for Web development and can be embedded into HTML."
+DEPENDS_IPS="local/library/zlib"
+prep_build
+install_ext_zip
+make_package ext.mog
+
+PROG=php-zlib
+PKG=runtime/php55/php-zlib
+SUMMARY="PHP 5.5 - zlib extension"
+DESC="PHP is a widely-used general-purpose scripting language that is especially suited for Web development and can be embedded into HTML."
+DEPENDS_IPS="local/library/zlib"
+prep_build
+install_ext_zlib
+make_package ext.mog
+
 
 ##############################
 ### CREATE PHP 5.5 PACKAGE ###
@@ -364,6 +446,7 @@ DEPENDS_IPS="database/sqlite-3
     system/library/iconv/unicode 
     system/library/iconv/utf-8 
     system/library/iconv/xsh4/latin 
+    local/library/zlib
     library/libssh2 
     library/mhash"
 make_package php55.mog

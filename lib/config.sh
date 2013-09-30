@@ -142,7 +142,7 @@ LDFLAGS32="-R/usr/local/lib -L/usr/local/lib"
 LDFLAGS64="-m64 -R/usr/local/lib/$ISAPART64 -L/usr/local/lib/$ISAPART64"
 
 # C pre-processor flags
-CPPFLAGS=""
+CPPFLAGS="-I/usr/local/include"
 CPPFLAGS32=""
 CPPFLAGS64=""
 
