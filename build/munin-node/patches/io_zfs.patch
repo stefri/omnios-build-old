@@ -1,0 +1,36 @@
+diff -rupN munin-2.0.17/plugins/node.d.sunos/io_busy_.in munin-2.0.17.new/plugins/node.d.sunos/io_busy_.in
+--- munin-2.0.17/plugins/node.d.sunos/io_busy_.in	2013-07-19 18:30:03.000000000 +0200
++++ munin-2.0.17.new/plugins/node.d.sunos/io_busy_.in	2013-09-28 09:27:10.158979589 +0200
+@@ -83,6 +83,8 @@ elif [ $MODULE = "dad" ]; then
+ 	NAME="IDE Disk Device"
+ elif [ $MODULE = "md" ]; then
+ 	NAME="Disksuite"
++elif [ $MODULE = "zfs" ]; then
++        NAME="ZFS Pool"
+ elif [ $MODULE = "nfs" ]; then
+ 	NAME="NFS"
+ 	CLASS=nfs
+diff -rupN munin-2.0.17/plugins/node.d.sunos/io_bytes_.in munin-2.0.17.new/plugins/node.d.sunos/io_bytes_.in
+--- munin-2.0.17/plugins/node.d.sunos/io_bytes_.in	2013-07-19 18:30:03.000000000 +0200
++++ munin-2.0.17.new/plugins/node.d.sunos/io_bytes_.in	2013-09-28 09:28:46.734146535 +0200
+@@ -83,6 +83,8 @@ elif [ $MODULE = "dad" ]; then
+ 	NAME="IDE Disk Device"
+ elif [ $MODULE = "md" ]; then
+ 	NAME="Disksuite"
++elif [ $MODULE = "zfs" ]; then
++        NAME="ZFS Pool"
+ elif [ $MODULE = "nfs" ]; then
+ 	NAME="NFS"
+ 	CLASS=nfs
+diff -rupN munin-2.0.17/plugins/node.d.sunos/io_ops_.in munin-2.0.17.new/plugins/node.d.sunos/io_ops_.in
+--- munin-2.0.17/plugins/node.d.sunos/io_ops_.in	2013-07-19 18:30:03.000000000 +0200
++++ munin-2.0.17.new/plugins/node.d.sunos/io_ops_.in	2013-09-28 09:27:50.029314652 +0200
+@@ -83,6 +83,8 @@ elif [ $MODULE = "dad" ]; then
+ 	NAME="IDE Disk Device"
+ elif [ $MODULE = "md" ]; then
+ 	NAME="Disksuite"
++elif [ $MODULE = "zfs" ]; then
++        NAME="ZFS Pool"
+ elif [ $MODULE = "nfs" ]; then
+ 	NAME="NFS"
+ 	CLASS=nfs
