@@ -28,7 +28,7 @@
 . ../../lib/functions.sh
 
 PROG=php
-VER=5.5.4
+VER=5.5.5
 PKG=runtime/php55
 SUMMARY="PHP Server 5.5"
 DESC="PHP is a widely-used general-purpose scripting language that is especially suited for Web development and can be embedded into HTML."

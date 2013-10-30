@@ -1,0 +1,50 @@
+diff -rupN zetaback-1.0.6.1/Makefile.in zetaback-1.0.6.1.new/Makefile.in
+--- zetaback-1.0.6.1/Makefile.in	2013-09-30 15:19:02.000000000 +0200
++++ zetaback-1.0.6.1.new/Makefile.in	2013-09-30 17:57:44.900575934 +0200
+@@ -22,10 +22,10 @@ pod2man=@POD2MAN@
+ 
+ all:
+ 	sed -e "s#/usr/bin/perl#$(perl)#;" -e "s#__PREFIX__#$(prefix)#;" \
+-		-e "s#__ZFS__#$(zfs)#;" \
++		-e "s#__SYSCONFDIR__#$(sysconfdir)#;" -e "s#__ZFS__#$(zfs)#;" \
+ 	< zetaback.in > zetaback
+ 	sed -e "s#/usr/bin/perl#$(perl)#;" -e "s#__PREFIX__#$(prefix)#;" \
+-		-e "s#__ZFS__#$(zfs)#;" \
++		-e "s#__SYSCONFDIR__#$(sysconfdir)#;" -e "s#__ZFS__#$(zfs)#;" \
+ 	< zetaback_agent.in > zetaback_agent
+ 
+ install: all
+diff -rupN zetaback-1.0.6.1/zetaback_agent.in zetaback-1.0.6.1.new/zetaback_agent.in
+--- zetaback-1.0.6.1/zetaback_agent.in	2013-09-30 15:19:02.000000000 +0200
++++ zetaback-1.0.6.1.new/zetaback_agent.in	2013-09-30 18:07:48.185106673 +0200
+@@ -11,10 +11,11 @@ use Data::Dumper;
+ 
+ use vars qw/%conf $version_string
+             $PREFIX $CONF $LIST $FULL $SNAP $ZFS $BASE $RESTORE $VERSION
+-            $BUG_6343779 $NEEDSFD $DSET/;
++            $BUG_6343779 $NEEDSFD $DSET $SYSCONFDIR/;
+ $version_string = '1.0.6';
+ $PREFIX = q^__PREFIX__^;
+-$CONF = qq^$PREFIX/etc/zetaback_agent.conf^;
++$SYSCONFDIR = q^__SYSCONFDIR__^;
++$CONF = qq^$SYSCONFDIR/zetaback_agent.conf^;
+ $NEEDSFD = ($^O eq 'darwin') ? 1 : 0;
+ 
+ =pod
+diff -rupN zetaback-1.0.6.1/zetaback.in zetaback-1.0.6.1.new/zetaback.in
+--- zetaback-1.0.6.1/zetaback.in	2013-09-30 15:19:02.000000000 +0200
++++ zetaback-1.0.6.1.new/zetaback.in	2013-09-30 18:07:29.185972105 +0200
+@@ -21,10 +21,11 @@ use vars qw/%conf %locks $version_string
+             $LIST $SUMMARY $SUMMARY_EXT $SUMMARY_VIOLATORS
+             $SUMMARY_VIOLATORS_VERBOSE $FORCE_FULL $FORCE_INC
+             $EXPUNGE $NEUTERED $ZFS $SHOW_FILENAMES $ARCHIVE
+-            $VERSION $HELP/;
++            $VERSION $HELP $SYSCONFDIR/;
+ $version_string = '1.0.6';
+ $PREFIX = q^__PREFIX__^;
+-$CONF = qq^$PREFIX/etc/zetaback.conf^;
++$SYSCONFDIR = q^__SYSCONFDIR__^;
++$CONF = qq^$SYSCONFDIR/zetaback.conf^;
+ $BLOCKSIZE = 1024*64;
+ 
+ $conf{'default'}->{'time_format'} = "%Y-%m-%d %H:%M:%S";
