@@ -62,11 +62,11 @@ NOSCRIPTSTUB=
 #############################################################################
 
 # Perl versions we currently build against
-PERLVERLIST="5.16.1"
+PERLVERLIST="5.18.1"
 
 # Full paths to bins
-PERL32=/usr/perl5/5.16.1/bin/$ISAPART/perl
-PERL64=/usr/perl5/5.16.1/bin/$ISAPART64/perl
+PERL32=$PREFIX/bin/i386/perl
+PERL64=$PREFIX/bin/amd64/perl
 
 # Default Makefile.PL options
 PERL_MAKEFILE_OPTS="INSTALLSITEBIN=$PREFIX/bin/_ARCHBIN_ \
