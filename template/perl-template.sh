@@ -37,6 +37,8 @@ PKG=perl-$(echo $PROG | tr '[A-Z]' '[a-z]')  # Module name, lowercased
 SUMMARY=""                   # Change this
 DESC=""                      # Change this
 
+MIRROR=ftp://ftp.funet.fi/pub/languages/perl/
+
 PREFIX=/opt/niksula
 reset_configure_opts
 
