@@ -33,7 +33,7 @@ MODNAME=Module::Name         # Module name for testing
 VER=1.0                      # Module version
 VERHUMAN=$VER                # Human-readable version
 #PVER=                       # Branch (set in config.sh, override here if needed)
-PKG=perl-$(echo $PROG | tr '[A-Z]' '[a-z]')  # Module name, lowercased
+PKG=niksula/perl/$(echo $PROG | tr '[A-Z]' '[a-z]')  # Module name, lowercased
 SUMMARY=""                   # Change this
 DESC=""                      # Change this
 
