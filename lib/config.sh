@@ -65,14 +65,14 @@ NOSCRIPTSTUB=
 PERLVERLIST="5.18.1"
 
 # Full paths to bins
-PERL32=$PREFIX/bin/i386/perl
-PERL64=$PREFIX/bin/amd64/perl
+PERL32=$PREFIX/perl5/bin/i386/perl
+PERL64=$PREFIX/perl5/bin/amd64/perl
 
 # Default Makefile.PL options
-PERL_MAKEFILE_OPTS="INSTALLSITEBIN=$PREFIX/bin/_ARCHBIN_ \
-                    INSTALLSITESCRIPT=$PREFIX/bin/_ARCHBIN_ \
-                    INSTALLSITEMAN1DIR=$PREFIX/share/man/man1 \
-                    INSTALLSITEMAN3DIR=$PREFIX/share/man/man3 \
+PERL_MAKEFILE_OPTS="INSTALLSITEBIN=$PREFIX/perl5/bin/_ARCHBIN_ \
+                    INSTALLSITESCRIPT=$PREFIX/perl5/bin/_ARCHBIN_ \
+                    INSTALLSITEMAN1DIR=$PREFIX/perl5/man/man1 \
+                    INSTALLSITEMAN3DIR=$PREFIX/perl5/man/man3 \
                     INSTALLDIRS=site"
 
 # Accept MakeMaker defaults so as not to stall build scripts
