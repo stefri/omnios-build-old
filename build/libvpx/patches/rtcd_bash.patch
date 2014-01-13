@@ -1,0 +1,9 @@
+diff -rupN libvpx-v1.2.0.orig/build/make/rtcd.sh libvpx-v1.2.0/build/make/rtcd.sh
+--- libvpx-v1.2.0.orig/build/make/rtcd.sh	2013-09-04 20:49:22.000000000 +0200
++++ libvpx-v1.2.0/build/make/rtcd.sh	2013-09-23 19:50:59.329882919 +0200
+@@ -1,4 +1,4 @@
+-#!/bin/sh
++#!/bin/bash
+ self=$0
+ 
+ usage() {

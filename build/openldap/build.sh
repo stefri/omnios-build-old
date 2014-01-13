@@ -28,7 +28,7 @@
 . ../../lib/functions.sh
 
 PROG=openldap
-VER=2.4.35
+VER=2.4.38
 VERHUMAN=$VER
 PKG=database/ldap/openldap
 SUMMARY="OpenLDAP - LDAP Server, Tools and Libraries"

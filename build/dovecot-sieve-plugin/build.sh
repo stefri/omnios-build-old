@@ -28,7 +28,7 @@
 . ../../lib/functions.sh
 
 PROG=dovecot-2.2-pigeonhole
-VER=0.4.1
+VER=0.4.2
 VERHUMAN=$VER   # Human-readable version
 #PVER=          # Branch (set in config.sh, override here if needed)
 PKG=plugins/imap/dovecot-sieve

@@ -28,7 +28,7 @@
 . ../../lib/functions.sh
 
 PROG=bind
-VER=9.9.4
+VER=9.9.4-P1
 PKG=service/network/dns/bind
 SUMMARY="BIND DNS server and tools"
 DESC="$SUMMARY ($VER)"

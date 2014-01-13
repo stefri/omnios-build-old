@@ -27,20 +27,31 @@
 # Load support functions
 . ../../lib/functions.sh
 
-PROG=libevent
-VER=2.0.21
-VERHUMAN=$VER
-PKG=library/libevent
-SUMMARY="$PROG - an event notification library"
-DESC="The libevent API provides a mechanism to execute a callback function when a specific event occurs on a file descriptor or after a timeout has been reached. Furthermore, libevent also support callbacks due to signals or regular timeouts."
 
-DEPENDS_IPS="system/library/gcc-4-runtime"
+PATH=/usr/gnu/bin:$PATH
 
-BUILDDIR="$PROG-$VER-stable"
-CONFIGURE_OPTS="--disable-static"
+PROG=libvpx
+VER=1.2.0
+PKG=library/libvpx
+SUMMARY="WebM VP8/VP9 Codec"
+DESC="$SUMMARY ($VER)"
+
+BUILDDIR=$PROG-v$VER
+NO_PARALLEL_MAKE=1
+
+CONFIGURE_OPTS_32="--prefix=$PREFIX
+    --libdir=$PREFIX/lib"
+
+CONFIGURE_OPTS_64="--prefix=$PREFIX
+    --libdir=$PREFIX/lib/$ISAPART64"
+
+CONFIGURE_OPTS="--enable-shared \
+    --disable-install-bins \
+    --disable-examples \
+    --disable-docs"
 
 init
-download_source $PROG $PROG-$VER-stable
+download_source $PROG $PROG $VER
 patch_source
 prep_build
 build

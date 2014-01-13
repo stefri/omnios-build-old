@@ -28,7 +28,7 @@
 . ../../lib/functions.sh
 
 PROG=cyrus-sasl2
-VER=2.1.25
+VER=2.1.26
 VERHUMAN=$VER
 PKG=library/security/cyrus-sasl
 SUMMARY="Simple Authentication and Security Layer library"
@@ -47,8 +47,8 @@ CONFIGURE_OPTS="--prefix=$PREFIX
     --sysconfdir=/etc/sasl2
     --enable-shared=yes
     --enable-static=no
-    --enable-gssapi=yes
     --enable-sql=yes
+    --enable-gssapi=yes
     --with-dbpath=/etc/sasl2/db"
 CONFIGURE_OPTS_32="--includedir=$PREFIX/include
     --bindir=$PREFIX/bin/$ISAPART

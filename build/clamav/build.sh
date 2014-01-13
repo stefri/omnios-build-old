@@ -28,7 +28,7 @@
 . ../../lib/functions.sh
 
 PROG=clamav
-VER=0.97.8
+VER=0.98
 VERHUMAN=$VER
 PKG=service/network/clamav
 SUMMARY="ClamAV is an open source antivirus engine"

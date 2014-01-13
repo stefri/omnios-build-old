@@ -29,7 +29,7 @@
 
 
 PROG=postgresql
-VER=9.3.0
+VER=9.3.2
 VERHUMAN=$VER
 PKG=database/postgresql/client
 SUMMARY="PostgreSQL standalone client utilities"

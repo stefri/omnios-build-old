@@ -29,11 +29,11 @@
 . ../../lib/functions.sh
 
 PROG=mysql
-VER=5.6.14
+VER=5.6.15
 VERHUMAN=$VER
 
 BUILD_DEPENDS_IPS="developer/build/cmake system/library/g++-4-runtime system/library/gcc-4-runtime"
-DEPENDS_IPS="system/library/g++-4-runtime system/library/gcc-4-runtime"
+DEPENDS_IPS="system/library/g++-4-runtime system/library/gcc-4-runtime library/security/openssl"
 NO_PARALLEL_MAKE=1
 
 
@@ -73,7 +73,7 @@ case $FLAVORRUN in
         PKG=library/libmysqlclient18
         SUMMARY="MySQL Community Edition open source database (client and libraries)"
         DESC="$SUMMARY"
-        BUILDARCH=64
+        #BUILDARCH=64
         PREFIX=/usr/local
         CONFIGURE_OPTS_32="-DWITHOUT_SERVER=1
                            -DINSTALL_BINDIR=bin/$ISAPART
@@ -93,11 +93,12 @@ esac
 # Generic options for all flavors
 CPPFLAGS="-D__EXTENSIONS__"
 CONFIGURE_OPTS="-DCMAKE_INSTALL_PREFIX=$PREFIX
-                -DENABLE_DTRACE=1
+                -DENABLE_DTRACE=0
                 -DMYSQL_DATADIR=/var/mysql/5.6/data
                 -DMYSQL_UNIX_ADDR=/var/mysql/5.6/run/mysqld.socket
                 -DSYSCONFDIR=/var/mysql/5.6/etc
                 -DBUILD_CONFIG=mysql_release
+                -DWITH_SSL=system
                 -DHAVE_FAKE_PAUSE_INSTRUCTION=1
                 -DHAVE_PAUSE_INSTRUCTION=0"
 CONFIGURE_CMD="/usr/local/bin/cmake .."
@@ -176,6 +177,10 @@ prune_for_libs() {
     logmsg "Pruning destination directory"
     pushd $DESTDIR$PREFIX > /dev/null
     logcmd rm COPYING INSTALL-BINARY README
+    for file in `cat $SRCDIR/bins_to_prune`; do
+        logcmd rm bin/$file bin/$ISAPART/$file bin/$ISAPART64/$file
+    done
+    logcmd rm -rf include/mysql/mysql
     logcmd rm -rf docs support-files
     popd > /dev/null
 }

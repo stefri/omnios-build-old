@@ -28,14 +28,14 @@
 . ../../lib/functions.sh
 
 PROG=ImageMagick
-VER=6.8.6-10
+VER=6.8.8-1
 VERHUMAN=$VER
-PKG=image/imagemagick
+PKG=application/image/imagemagick
 SUMMARY="software suite to create, edit, compose, or convert bitmap images"
 DESC="$SUMMARY"
 
-BUILD_DEPENDS_IPS="library/freetype2 library/libjpeg library/libpng"
-DEPENDS_IPS="library/freetype2 library/libjpeg library/libpng"
+BUILD_DEPENDS_IPS="library/freetype2 library/libjpeg library/libpng library/libtiff"
+DEPENDS_IPS="library/freetype2 library/libjpeg library/libpng library/libtiff"
 
 CONFIGURE_OPTS="--disable-openmp \
         --disable-static \
