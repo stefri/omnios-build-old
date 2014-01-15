@@ -35,6 +35,7 @@ getproparg() {
 }
 
 check_data_dir() {
+    cd $PGDATA
     if [ ! -d $PGDATA ]; then
         echo "Error: postgresql_93/data directory $PGDATA does not exist"
         exit $SMF_EXIT_ERR_CONFIG
