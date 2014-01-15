@@ -1,0 +1,121 @@
+<?xml version="1.0"?>
+<!DOCTYPE service_bundle SYSTEM "/usr/share/lib/xml/dtd/service_bundle.dtd.1">
+<!--
+ Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+ Use is subject to license terms.
+
+ CDDL HEADER START
+
+ The contents of this file are subject to the terms of the
+ Common Development and Distribution License (the "License").
+ You may not use this file except in compliance with the License.
+
+ You can obtain a copy of the license at usr/src/OPENSOLARIS.LICENSE
+ or http://www.opensolaris.org/os/licensing.
+ See the License for the specific language governing permissions
+ and limitations under the License.
+
+ When distributing Covered Code, include this CDDL HEADER in each
+ file and include the License file at usr/src/OPENSOLARIS.LICENSE.
+ If applicable, add the following below this CDDL HEADER, with the
+ fields enclosed by brackets "[]" replaced with your own identifying
+ information: Portions Copyright [yyyy] [name of copyright owner]
+
+ CDDL HEADER END
+
+ ident	"@(#)postgresql_92.xml	1.1	09/10/13 SMI"
+
+        NOTE:  This service manifest is not editable; its contents will
+        be overwritten by package or patch operations, including
+        operating system upgrade.  Make customizations in a different
+        file.
+-->
+
+<service_bundle type='manifest' name='php-fpm'>
+
+<service
+        name='application/web/php-fpm'
+        type='service'
+        version='1'>
+
+	<!--
+	   Wait for network interfaces to be initialized.
+	-->
+        <dependency
+                name='network'
+                grouping='require_all'
+                restart_on='none'
+                type='service'>
+                <service_fmri value='svc:/milestone/network:default' />
+        </dependency> 
+
+	<!--
+	   Wait for all local filesystems to be mounted.
+	-->
+        <dependency
+                name='filesystem-local'
+                grouping='require_all'
+                restart_on='none'
+                type='service'>
+                <service_fmri value='svc:/system/filesystem/local:default' />
+        </dependency> 
+
+        <exec_method
+                type='method'
+                name='start'
+                exec='/lib/svc/method/php_fpm start'
+                timeout_seconds='10' />
+
+        <exec_method
+                type='method'
+                name='stop'
+                exec='/lib/svc/method/php_fpm stop'
+                timeout_seconds='60' />
+
+        <exec_method
+                type='method'
+                name='refresh'
+                exec='/lib/svc/method/php_fpm refresh'
+                timeout_seconds='10' />
+
+        <!--
+          Both action_authorization and value_authorization are needed
+          to allow the framework general/enabled property to be changed
+          when performing action (enable, disable, etc) on the service.
+        -->
+        <property_group name='general' type='framework'>
+		<propval name='value_authorization' type='astring'
+			value='solaris.smf.value.php' />
+		<propval name='action_authorization' type='astring'
+			value='solaris.smf.manage.php' />
+        </property_group>
+
+        <instance name='default' enabled='false'>
+        	<property_group name='php-fpm' type='application'>
+                	<propval name='bin' type='astring' value='/usr/local/php55/bin' />
+                	<propval name='sbin' type='astring' value='/usr/local/php55/sbin' />
+                	<propval name='conf' type='astring' value='/etc/php/php.ini' />
+                	<propval name='fpm_conf' type='astring' value='/etc/php/php-fpm.conf' />
+                	<propval name='fpm_pid' type='astring' value='/var/run/php-fpm.pid' />
+        	</property_group>
+
+        </instance>
+
+        <stability value='Evolving' />
+
+        <template>
+                <common_name>
+                        <loctext xml:lang='C'>
+                                PHP FastCGI Process Manager (FPM)
+                        </loctext>
+                </common_name>
+                <documentation>
+                        <manpage title='php-fpm' section='5' />
+                        <doc_link name='php-fpm' uri='http://www.php.net/manual/en/install.fpm.php' />
+                </documentation>
+        </template>
+
+</service>
+
+</service_bundle>
+
