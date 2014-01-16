@@ -28,12 +28,13 @@
 . ../../lib/functions.sh
 
 PROG=nginx
-VER=1.4.4
+VER=1.5.8
 VERHUMAN=$VER
 PKG=service/network/nginx
 SUMMARY="Nginx, http server and reverse proxy"
 DESC="Nginx (pronounced engine-x) is a free, open-source, high-performance HTTP server and reverse proxy, as well as an IMAP/POP3 proxy server."
 
+DEPENDS_IPS="library/libgd"
 BUILDARCH=32
 
 CONFIGURE_OPTS_32=""
@@ -54,27 +55,32 @@ CONFIGURE_OPTS="
     --group=webservd
     --with-ipv6
     --with-http_ssl_module
+    --with-http_spdy_module
+    --with-http_realip_module
     --with-http_addition_module 
     --with-http_xslt_module
-    --with-http_flv_module
-    --with-http_gzip_static_module
-    --with-http_mp4_module
-    --with-http_random_index_module
-    --with-http_realip_module
-    --with-http_secure_link_module
-    --with-http_stub_status_module
+    --with-http_image_filter_module
     --with-http_sub_module
     --with-http_dav_module
+    --with-http_flv_module
+    --with-http_mp4_module
+    --with-http_gunzip_module
+    --with-http_gzip_static_module
+    --with-http_auth_request_module
+    --with-http_random_index_module
+    --with-http_secure_link_module
+    --with-http_degradation_module
+    --with-http_stub_status_module
     --with-mail
-    --with-mail_ssl_module
-"
+    --with-mail_ssl_module"
+#    --with-pcre=/usr/local
 #    --with-google_perftools_module ; requires google perftools library
 
 service_configs() {
     logmsg "Installing SMF"
-    logcmd mkdir -p $DESTDIR/lib/svc/manifest/network
+    logcmd mkdir -p $DESTDIR/lib/svc/manifest/network/http
     logcmd cp $SRCDIR/files/manifest-http-nginx.xml \
-        $DESTDIR/lib/svc/manifest/network/http-nginx.xml
+        $DESTDIR/lib/svc/manifest/network/http/nginx.xml
     logcmd mkdir -p $DESTDIR/lib/svc/method
     logcmd cp $SRCDIR/files/http-nginx \
         $DESTDIR/lib/svc/method/http-nginx
