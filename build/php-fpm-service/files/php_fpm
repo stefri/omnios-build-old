@@ -35,6 +35,7 @@ getproparg() {
 }
 
 check_conf() {
+    cd $PHPCONF &> /dev/null
     if [ ! -d $PHPCONF -a ! -f $PHPCONF ]; then
         echo "Error: php/conf directory $PHPCONF does not exist"
         exit $SMF_EXIT_ERR_CONFIG
@@ -79,16 +80,18 @@ fi
 
 case "$1" in
 'refresh')
+        echo "Refreshing $PID"
         if [ -f $PID ]; then
             kill -USR2 `cat $PID`
         fi
         ;;
 'start')
         check_conf
-        $PHPSBIN/php-fpm -y $FPMCONF -c /etc/php/php.ini -g $PID
+        $PHPSBIN/php-fpm -y $FPMCONF -c $PHPCONF -g $PID
         ;;
 
 'stop')
+        echo "Stopping $PID"
         if [ -f $PID ]; then
             kill `cat $PID`
         fi

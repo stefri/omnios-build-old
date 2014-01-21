@@ -36,7 +36,6 @@ DESC="PHP is a widely-used general-purpose scripting language that is especially
 BUILD_DEPENDS_IPS="compress/bzip2
     database/sqlite-3
     database/bdb
-    library/libmysqlclient18
     library/libtool/libltdl 
     library/libxml2 
     library/libxslt 
@@ -55,6 +54,7 @@ BUILD_DEPENDS_IPS="compress/bzip2
     library/libpq5 
     library/libssh2 
     library/libtiff
+    library/security/cyrus-sasl
     library/mhash"
 
 # Though not strictly needed since we override build(), still nice to set
@@ -114,7 +114,10 @@ CONFIGURE_OPTS="
         --enable-calendar=shared
         --enable-ftp=shared
         --enable-mbstring=shared
+        --enable-soap=shared
         --with-curl=shared
+        --with-openssl
+        --with-ldap=shared,/usr/local
         "
 
 # TEST TODO
@@ -125,8 +128,8 @@ CONFIGURE_OPTS="
 
 
 # DID NOT WORK
+#        --with-ldap-sasl=shared,/usr/local -> did not find sasl.h in inc/sasl/sasl.h
 #        --enable-sockets
-#        --with-ldap=shared,/usr/local -> libsasl2.so not found when loading module
 #        --enable-intl=shared
 
 
