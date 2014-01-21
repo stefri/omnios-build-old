@@ -35,6 +35,7 @@ getproparg() {
 }
 
 check_conf() {
+    cat $CONF &> /dev/null
     if [ ! -f $CONF ]; then
         echo "Error: nginx/conf file $CONF does not exist"
         exit $SMF_EXIT_ERR_CONFIG
