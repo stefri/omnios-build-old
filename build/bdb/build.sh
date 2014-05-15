@@ -28,7 +28,7 @@
 . ../../lib/functions.sh
 
 PROG=bdb
-VER=4.8.30
+VER=6.0.30
 VERHUMAN=$VER
 PKG=database/bdb
 SUMMARY="$PROG - Berkeley DB: an embedded database library for key/value data"

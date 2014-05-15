@@ -34,7 +34,7 @@ PKG=library/security/cyrus-sasl
 SUMMARY="Simple Authentication and Security Layer library"
 DESC="$SUMMARY ($VER)"
 
-DEPENDS_IPS="system/library/gcc-4-runtime library/libpq5 database/bdb"
+DEPENDS_IPS="system/library/gcc-4-runtime library/libpq5 database/bdb library/libmysqlclient18"
 
 ARCHIVENAME=cyrus-sasl
 BUILDDIR=$ARCHIVENAME-$VER
@@ -63,6 +63,7 @@ CONFIGURE_OPTS_64="--bindir=$PREFIX/bin/$ISAPART64
     --libdir=$PREFIX/lib/$ISAPART64
     --libexecdir=$PREFIX/libexec/$ISAPART64
     --with-pgsql=/usr/local/lib/$ISAPART64 
+    --with-mysql=/usr/local/lib/$ISAPART64 
     --with-plugindir=/usr/local/lib/$ISAPART64/sasl2
     --with-configdir=/usr/local/lib/$ISAPART64/sasl2"
 
