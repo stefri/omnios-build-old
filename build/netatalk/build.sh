@@ -28,7 +28,7 @@
 . ../../lib/functions.sh
 
 PROG=netatalk
-VER=3.1.0
+VER=3.1.1
 VERHUMAN=$VER
 PKG=service/network/netatalk
 SUMMARY="Open Source Apple Filing Protocol (AFP) fileserver"
