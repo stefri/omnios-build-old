@@ -27,34 +27,15 @@
 # Load support functions
 . ../../lib/functions.sh
 
-PROG=jpeg
-VER=9
+PROG=libgpg-error
+VER=1.13
 VERHUMAN=$VER
-PKG=library/libjpeg
-SUMMARY="$PROG - Free Library for JPEG Image Compression (v$VER)"
-DESC="$SUMMARY"
-
-CONFIGURE_OPTS="--enable-shared"
-
-# Turn the letter component of the version into a number for IPS versioning
-ord26() {
-    local ASCII=$(printf '%d' "'$1")
-    ASCII=$((ASCII - 64))
-    [[ $ASCII -gt 32 ]] && ASCII=$((ASCII - 32))
-    echo $ASCII
-}
-
-#save_function make_package make_package_orig
-#make_package() {
-#    NUMVER=${VER::$((${#VER} -1))}
-#    ALPHAVER=${VER:$((${#VER} -1))}
-#
-#    VER=${NUMVER}.$(ord26 ${ALPHAVER}) \
-#    make_package_orig
-#}
+PKG=library/security/libgpg-error
+SUMMARY="Libgpg-error is a small library with error codes and descriptions shared by most GnuPG related software."
+DESC="$SUMMARY ($VER)"
 
 init
-download_source libjpeg jpegsrc.v${VER}
+download_source $PROG $PROG $VER
 patch_source
 prep_build
 build

@@ -28,7 +28,7 @@
 . ../../lib/functions.sh
 
 PROG=munin      # App name
-VER=2.0.17      # App version
+VER=2.0.21      # App version
 PKG=monitoring/munin-node     # Package name (e.g. library/foo)
 SUMMARY="Munin is a networked resource monitoring tool."
 DESC="Munin is a networked resource monitoring tool that can help analyze resource trends and 'what just happened to kill our performance?' problems. It is designed to be very plug and play. A default installation provides a lot of graphs with almost no work."

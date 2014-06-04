@@ -29,7 +29,7 @@
 . ../../lib/functions.sh
 
 PROG=freetype
-VER=2.5.0.1
+VER=2.5.3
 VERHUMAN=$VER
 PKG=library/freetype2 
 SUMMARY="A Free, High-Quality, and Portable Font Engine"

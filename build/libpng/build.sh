@@ -28,7 +28,7 @@
 . ../../lib/functions.sh
 
 PROG=libpng
-VER=1.6.8
+VER=1.6.10
 VERHUMAN=$VER
 PKG=library/libpng
 SUMMARY="$PROG - Portable Network Graphics Library"

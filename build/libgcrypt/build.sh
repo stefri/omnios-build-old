@@ -27,34 +27,18 @@
 # Load support functions
 . ../../lib/functions.sh
 
-PROG=jpeg
-VER=9
+PROG=libgcrypt
+VER=1.6.1
 VERHUMAN=$VER
-PKG=library/libjpeg
-SUMMARY="$PROG - Free Library for JPEG Image Compression (v$VER)"
-DESC="$SUMMARY"
+PKG=library/security/libgcrypt
+SUMMARY="Libgcrypt is GNU's basic cryptographic library."
+DESC="Libgcrypt is a general purpose cryptographic library based on the code from GnuPG. It provides functions for all cryptographic building blocks: symmetric ciphers, hash algorithms, MACs, public key algorithms, large integer functions, random numbers and a lot of supporting functions."
 
-CONFIGURE_OPTS="--enable-shared"
-
-# Turn the letter component of the version into a number for IPS versioning
-ord26() {
-    local ASCII=$(printf '%d' "'$1")
-    ASCII=$((ASCII - 64))
-    [[ $ASCII -gt 32 ]] && ASCII=$((ASCII - 32))
-    echo $ASCII
-}
-
-#save_function make_package make_package_orig
-#make_package() {
-#    NUMVER=${VER::$((${#VER} -1))}
-#    ALPHAVER=${VER:$((${#VER} -1))}
-#
-#    VER=${NUMVER}.$(ord26 ${ALPHAVER}) \
-#    make_package_orig
-#}
+DEPENDS_IPS="library/security/libgpg-error"
+BUILDARCH=32
 
 init
-download_source libjpeg jpegsrc.v${VER}
+download_source $PROG $PROG $VER
 patch_source
 prep_build
 build

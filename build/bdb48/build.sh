@@ -27,34 +27,34 @@
 # Load support functions
 . ../../lib/functions.sh
 
-PROG=jpeg
-VER=9
+PROG=bdb48
+VER=4.8.30
 VERHUMAN=$VER
-PKG=library/libjpeg
-SUMMARY="$PROG - Free Library for JPEG Image Compression (v$VER)"
+PKG=database/bdb48
+SUMMARY="$PROG - Berkeley DB: an embedded database library for key/value data"
 DESC="$SUMMARY"
 
-CONFIGURE_OPTS="--enable-shared"
+PREFIX="/usr/local/db4.8"
+BUILDDIR=db-$VER/build_unix
+CONFIGURE_CMD="../dist/configure"
+CONFIGURE_OPTS="--enable-compat185
+    --prefix=$PREFIX
+    --bindir=$PREFIX/bin
+    --libdir=$PREFIX/lib
+    --includedir=$PREFIX/include"
+LDFLAGS32="$LDFLAGS32 -L/usr/local/lib -R/usr/local/lib"
+LDFLAGS64="$LDFLAGS64 -L/usr/local/lib/$ISAPART64 -R/usr/local/lib/$ISAPART64"
 
-# Turn the letter component of the version into a number for IPS versioning
-ord26() {
-    local ASCII=$(printf '%d' "'$1")
-    ASCII=$((ASCII - 64))
-    [[ $ASCII -gt 32 ]] && ASCII=$((ASCII - 32))
-    echo $ASCII
+export EXTLIBS=-lm
+
+save_function build64 build64_orig
+build64() {
+  export DLDFLAGS="-L/usr/local/lib/$ISAPART64 -R/usr/local/lib/$ISAPART64"
+  build64_orig
 }
 
-#save_function make_package make_package_orig
-#make_package() {
-#    NUMVER=${VER::$((${#VER} -1))}
-#    ALPHAVER=${VER:$((${#VER} -1))}
-#
-#    VER=${NUMVER}.$(ord26 ${ALPHAVER}) \
-#    make_package_orig
-#}
-
 init
-download_source libjpeg jpegsrc.v${VER}
+download_source bdb db $VER
 patch_source
 prep_build
 build
