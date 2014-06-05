@@ -38,7 +38,8 @@ DEPENDS_IPS="library/libpng library/libjpeg library/libtiff library/freetype2"
 CONFIGURE_OPTS="--with-png=$PREFIX \
     --with-freetype=$PREFIX \
     --with-jpeg=$PREFIX \
-    --with-tiff=$PREFIX" 
+    --with-tiff=$PREFIX \
+    --without-xpm" 
 #    --with-vpx=$PREFIX"
 
 init

@@ -1,0 +1,12 @@
+diff -rupN php-5.5.13-orig/configure php-5.5.13/configure
+--- php-5.5.13-orig/configure	2014-05-28 11:23:59.000000000 +0200
++++ php-5.5.13/configure	2014-06-04 23:41:30.213348039 +0200
+@@ -31452,7 +31452,7 @@ if ac_fn_c_try_link "$LINENO"; then :
+ /* end confdefs.h.  */
+ 
+ #include "$THIS_INCLUDE"
+-#if DB_VERSION_MAJOR == 4 || (4 == 4 && DB_VERSION_MAJOR == 5)
++#if DB_VERSION_MAJOR == 4 || (4 == 4 && DB_VERSION_MAJOR == 5) || (4 == 4 && DB_VERSION_MAJOR == 6)
+             yes
+ #endif
+ 

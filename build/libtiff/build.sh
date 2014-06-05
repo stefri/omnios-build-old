@@ -33,6 +33,7 @@ PKG=library/libtiff
 SUMMARY="$PROG - for reading and writing TIFF"
 DESC="$SUMMARY ($VER)"
 
+DEPENDS_IPS="library/libjpeg"
 BUILDDIR=tiff-$VER
 
 init

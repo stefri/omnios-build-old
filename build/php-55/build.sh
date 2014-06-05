@@ -34,7 +34,7 @@ SUMMARY="PHP Server 5.5"
 DESC="PHP is a widely-used general-purpose scripting language that is especially suited for Web development and can be embedded into HTML."
 
 BUILD_DEPENDS_IPS="compress/bzip2
-    database/sqlite-3
+    mawi/database/sqlite
     database/bdb
     library/libtool/libltdl 
     library/libxml2 
@@ -62,7 +62,8 @@ BUILDARCH=64
 PREFIX=$PREFIX/php55
 reset_configure_opts
 
-CFLAGS="-O2 -DZLIB_INTERNAL=1"
+#CFLAGS="-O2 -DZLIB_INTERNAL=1 -std=c99"
+CFLAGS="-O2 -DZLIB_INTERNAL=1 -std=gnu99"
 CPPFLAGS=""
 CPPFLAGS64="-I/usr/local/include/$ISAPART64 -I/usr/local/include/$ISAPART64/curl \
     -I/usr/local/include"
@@ -91,7 +92,7 @@ CONFIGURE_OPTS="
         --enable-zip=shared
         --with-zlib=shared,/usr/local
         --with-zlib-dir=/usr/local
-        --with-sqlite3=shared
+        --with-sqlite3=shared,/usr/local
         --with-db4=/usr/local
         --enable-pdo=shared
         --with-pgsql=shared,/usr/local
@@ -103,11 +104,12 @@ CONFIGURE_OPTS="
         --enable-mbstring=shared
         --with-mhash=/usr/local
         --with-mcrypt=shared,/usr/local
-        --with-gd=shared
+        --with-gd=shared,/usr/local
         --with-jpeg-dir=/usr/local
         --with-png-dir=/usr/local
         --with-tiff-dir=/usr/local
         --with-freetype-dir=/usr/local
+        --with-xpm=no
         --enable-gd-native-ttf
         --enable-exif=shared
         --enable-bcmath=shared

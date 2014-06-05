@@ -27,34 +27,18 @@
 # Load support functions
 . ../../lib/functions.sh
 
-PROG=jpeg
-VER=9a
+PROG=sqlite
+VER=3.8.5
+TARVER=3080500
 VERHUMAN=$VER
-PKG=library/libjpeg
-SUMMARY="$PROG - Free Library for JPEG Image Compression (v$VER)"
-DESC="$SUMMARY"
+PKG=mawi/database/sqlite
+SUMMARY="SQLite is an embedded SQL database engine"
+DESC="SQLite is an in-process library that implements a self-contained, serverless, zero-configuration, transactional SQL database engine. The code for SQLite is in the public domain and is thus free for use for any purpose, commercial or private. SQLite is currently found in more applications than we can count, including several high-profile projects."
 
-CONFIGURE_OPTS="--enable-shared"
-
-# Turn the letter component of the version into a number for IPS versioning
-ord26() {
-    local ASCII=$(printf '%d' "'$1")
-    ASCII=$((ASCII - 64))
-    [[ $ASCII -gt 32 ]] && ASCII=$((ASCII - 32))
-    echo $ASCII
-}
-
-save_function make_package make_package_orig
-make_package() {
-    NUMVER=${VER::$((${#VER} -1))}
-    ALPHAVER=${VER:$((${#VER} -1))}
-
-    VER=${NUMVER}.$(ord26 ${ALPHAVER}) \
-    make_package_orig
-}
+BUILDDIR=$PROG-autoconf-$TARVER
 
 init
-download_source libjpeg jpegsrc.v${VER}
+download_source $PROG $PROG-autoconf $TARVER
 patch_source
 prep_build
 build
