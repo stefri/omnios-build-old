@@ -125,7 +125,6 @@ CONFIGURE_OPTS="
 # TEST TODO
 #        --with-bzip2=shared,/usr/local
 #        --with-libxml-dir=/usr/local
-#        --with-sqlite3=shared,/usr/local 
 #        --with-t1lib-dir=/usr/local # for gd
 
 
