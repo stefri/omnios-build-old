@@ -31,15 +31,14 @@ PATH=$SRCDIR/bin:$PATH
 export PATH
 
 PROG=erlang
-OTPVER=R16B03
-VER=16.0.3
+VER=17.0
 VERHUMAN=$VER
 PKG=runtime/erlang
 SUMMARY="Erlang OTP Platform -- WIP --"
 DESC="$SUMMARY ($OTPVER)"
 
 TAR=gtar
-BUILDDIR=otp_src_$OTPVER
+BUILDDIR=otp_src_$VER
 ERL_TOP=$TMPDIR/$BUILDDIR
 export ERL_TOP
 ##
@@ -61,7 +60,7 @@ CONFIGURE_OPTS="--sysconfdir=/etc
     --enable-m64-build"
 
 init
-download_source $PROG otp_src_$OTPVER
+download_source $PROG otp_src_$VER
 patch_source
 prep_build
 build

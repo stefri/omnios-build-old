@@ -28,7 +28,7 @@
 . ../../lib/functions.sh
 
 PROG=clamav
-VER=0.98
+VER=0.98.3
 VERHUMAN=$VER
 PKG=service/network/clamav
 SUMMARY="ClamAV is an open source antivirus engine"
@@ -40,8 +40,8 @@ DEPENDS_IPS="system/library/gcc-4-runtime"
 
 CONFIGURE_OPTS="--sysconfdir=/etc/$PROG
     --localstatedir=/var/$PROG
-    --mandir=$PREFIX/man
-    --disable-clamav"
+    --mandir=$PREFIX/man"
+#    --disable-clamav"
 
 init
 download_source $PROG $PROG $VER
