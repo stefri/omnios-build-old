@@ -180,13 +180,6 @@ ask_to_install() {
     fi
 }
 
-ask_to_pkglint() {
-    local MANIFEST=$1
-
-    ask_to_continue_ "" "Do you want to run pkglint at this time?" "y/n" "[yYnN]"
-    [[ "$REPLY" == "y" || "$REPLY" == "Y" ]]
-}
-
 #############################################################################
 # URL encoding for package names, at least
 #############################################################################
@@ -765,7 +758,7 @@ make_package() {
         done
     fi
     $PKGMOGRIFY "${P5M_INT3}.res" "$MANUAL_DEPS" | $PKGFMT -u > $P5M_FINAL
-    if [[ -z $SKIP_PKGLINT ]] && ( [[ -n $BATCH ]] ||  ask_to_pkglint ); then
+    if [[ -z $SKIP_PKGLINT ]] && [[ -n $BATCH ]]; then
         logmsg "--- Linting manifest"
         if ! [ -d "$LINTCACHE" ]; then
             logmsg "------ Creating lint cache at $LINTCACHE using current publishers"
