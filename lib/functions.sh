@@ -23,6 +23,7 @@
 #
 # Copyright 2011-2012 OmniTI Computer Consulting, Inc.  All rights reserved.
 # Use is subject to license terms.
+# Copyright (c) 2014 by Delphix. All rights reserved.
 #
 
 umask 022
@@ -46,7 +47,8 @@ process_opts() {
     BATCH=
     AUTOINSTALL=
     DEPVER=
-    while getopts "bipf:ha:d:" opt; do
+    SKIP_PKGLINT=
+    while getopts "bipf:ha:d:lr:" opt; do
         case $opt in
             h)
                 show_usage
@@ -55,6 +57,9 @@ process_opts() {
             \?)
                 show_usage
                 exit 2
+                ;;
+            l)
+                SKIP_PKGLINT=1
                 ;;
             p)
                 SCREENOUT=1
@@ -69,6 +74,9 @@ process_opts() {
                 FLAVOR=$OPTARG
                 OLDFLAVOR=$OPTARG # Used to see if the script overrides the
                                    # flavor
+                ;;
+            r)
+                PKGSRVR=$OPTARG
                 ;;
             a)
                 BUILDARCH=$OPTARG
@@ -96,10 +104,12 @@ show_usage() {
     echo "  -b        : batch mode (exit on errors without asking)"
     echo "  -i        : autoinstall mode (install build deps)"
     echo "  -p        : output all commands to the screen as well as log file"
+    echo "  -l        : skip pkglint check"
     echo "  -f FLAVOR : build a specific package flavor"
     echo "  -h        : print this help text"
     echo "  -a ARCH   : build 32/64 bit only, or both (default: both)"
     echo "  -d DEPVER : specify an extra dependency version (no default)"
+    echo "  -r REPO   : specify the IPS repo to use (default: $PKGSRVR)"
 }
 
 #############################################################################
@@ -112,6 +122,7 @@ logcmd() {
     else
         echo Running: "$@" | tee $LOGFILE
         "$@" | tee $LOGFILE 2>&1
+        return ${PIPESTATUS[0]}
     fi
 }
 logmsg() {
@@ -169,6 +180,13 @@ ask_to_install() {
     fi
 }
 
+ask_to_pkglint() {
+    local MANIFEST=$1
+
+    ask_to_continue_ "" "Do you want to run pkglint at this time?" "y/n" "[yYnN]"
+    [[ "$REPLY" == "y" || "$REPLY" == "Y" ]]
+}
+
 #############################################################################
 # URL encoding for package names, at least
 #############################################################################
@@ -188,7 +206,8 @@ url_encode() {
 LANG=C
 export LANG
 # Set the path - This can be overriden/extended in the build script
-PATH="/opt/gcc-4.7.2/bin:/usr/ccs/bin:/usr/bin:/usr/sbin:/usr/gnu/bin:/usr/sfw/bin"
+#  - gcc will be prepended after loading config.sh for RELVER definition
+PATH="/usr/ccs/bin:/usr/bin:/usr/sbin:/usr/gnu/bin:/usr/sfw/bin"
 export PATH
 # The dir where this file is located - used for sourcing further files
 MYDIR=$PWD/`dirname $BASH_SOURCE[0]`
@@ -205,14 +224,45 @@ SRCDIR=$PWD/`dirname $0`
 # Platform information
 SUNOSVER=`uname -r` # e.g. 5.11
 
+#############################################################################
+# release-specific userland GCC path/dependency
+#############################################################################
+case "$RELVER" in
+    151002)
+        GCCPKG="developer/gcc46"
+        GCCPATH="/opt/gcc-4.6.3/bin"
+        ;;
+    151004)
+        GCCPKG="developer/gcc46"
+        GCCPATH="/opt/gcc-4.6.3/bin"
+        ;;
+    151006)
+        GCCPKG="developer/gcc47"
+        GCCPATH="/opt/gcc-4.7.2/bin"
+        ;;
+    151008)
+        GCCPKG="developer/gcc48"
+        GCCPATH="/opt/gcc-4.8.1/bin"
+        ;;
+    *)
+        echo "update lib/functions.sh this for unrecognized release $RELVER"
+        exit 2
+        ;;
+esac
+
+# update PATH with the designated GCC for this release
+PATH="$GCCPATH:$PATH"
+export PATH
+
 if [[ -f $LOGFILE ]]; then
     mv $LOGFILE $LOGFILE.1
 fi
 process_opts $@
+shift $((OPTIND - 1))
 
 BasicRequirements(){
     local needed=""
-    [[ -x /opt/gcc-4.7.2/bin/gcc ]] || needed+=" developer/gcc48"
+    [[ -x $GCCPATH/gcc ]] || needed+=" $GCCPKG"
     [[ -x /usr/bin/ar ]] || needed+=" developer/object-file"
     [[ -x /usr/bin/ld ]] || needed+=" developer/linker"
     [[ -f /usr/lib/crt1.o ]] || needed+=" developer/library/lint"
@@ -348,6 +398,7 @@ verify_depends() {
                 i=${i:1}
                 pkg info $i > /dev/null 2<&1 &&
                     logerr "--- $i cannot be installed while building this package."
+                continue
                 ;;
         esac
         pkg info $i > /dev/null 2<&1 ||
@@ -446,6 +497,25 @@ patch_file() {
 }
 
 #############################################################################
+# Attempt to download the given resource to the current directory.
+#############################################################################
+# Parameters
+#   $1 - resource to get
+#
+get_resource() {
+    local RESOURCE=$1
+    case ${MIRROR:0:1} in
+        /)
+            logcmd cp $MIRROR/$RESOURCE .
+            ;;
+        *)
+            URLPREFIX=http://$MIRROR
+            $WGET -a $LOGFILE $URLPREFIX/$RESOURCE
+            ;;
+    esac
+}
+
+#############################################################################
 # Download source tarball if needed and extract it
 #############################################################################
 # Parameters
@@ -476,16 +546,21 @@ download_source() {
         logmsg "Specified target directory $TARGETDIR does not exist.  Creating it now."
         logcmd mkdir -p $TARGETDIR
     fi
+
     pushd $TARGETDIR > /dev/null
     logmsg "Checking for source directory"
     if [ -d $BUILDDIR ]; then
         logmsg "--- Source directory found"
-        if check_for_patches "to see if we need to remove the source dir"; then
+        if [ -n "$REMOVE_PREVIOUS" ]; then
+            logmsg "--- Removing previously extracted source directory (REMOVE_PREVIOUS=$REMOVE_PREVIOUS)"
+            logcmd rm -rf $BUILDDIR || \
+                logerr "Failed to remove source directory"
+        elif check_for_patches "to see if we need to remove the source dir"; then
             logmsg "--- Patches are present, removing source directory"
             logcmd rm -rf $BUILDDIR || \
                 logerr "Failed to remove source directory"
         else
-            logmsg "--- Patches are not present, keeping source directory"
+            logmsg "--- Patches are not present and REMOVE_PREVIOUS is not set, keeping source directory"
             popd > /dev/null
             return
         fi
@@ -501,14 +576,13 @@ download_source() {
         # Try all possible archive names
         logmsg "--- Archive not found."
         logmsg "Downloading archive"
-        URLPREFIX=$MIRROR/$DLDIR/$ARCHIVEPREFIX
-        $WGET -a $LOGFILE $URLPREFIX.tar.gz || \
-            $WGET -a $LOGFILE $URLPREFIX.tar.bz2 || \
-            $WGET -a $LOGFILE $URLPREFIX.tar.xz || \
-            $WGET -a $LOGFILE $URLPREFIX.tgz || \
-            $WGET -a $LOGFILE $URLPREFIX.tbz || \
-            $WGET -a $LOGFILE $URLPREFIX.tar || \
-            $WGET -a $LOGFILE $URLPREFIX.zip || \
+        get_resource $DLDIR/$ARCHIVEPREFIX.tar.gz || \
+            get_resource $DLDIR/$ARCHIVEPREFIX.tar.bz2 || \
+            get_resource $DLDIR/$ARCHIVEPREFIX.tar.xz || \
+            get_resource $DLDIR/$ARCHIVEPREFIX.tgz || \
+            get_resource $DLDIR/$ARCHIVEPREFIX.tbz || \
+            get_resource $DLDIR/$ARCHIVEPREFIX.tar || \
+            get_resource $DLDIR/$ARCHIVEPREFIX.zip || \
             logerr "--- Failed to download file"
         find_archive $ARCHIVEPREFIX FILENAME
         if [[ "$FILENAME" == "" ]]; then
@@ -588,10 +662,10 @@ make_package() {
         DESCSTR="$DESCSTR ($FLAVOR)"
     fi
     PKGSEND=/usr/bin/pkgsend
+    PKGLINT=/usr/bin/pkglint
     PKGMOGRIFY=/usr/bin/pkgmogrify
     PKGFMT=/usr/bin/pkgfmt
     PKGDEPEND=/usr/bin/pkgdepend
-    PKGLINT=/usr/bin/pkglint
     P5M_INT=$TMPDIR/${PKGE}.p5m.int
     P5M_INT2=$TMPDIR/${PKGE}.p5m.int.2
     P5M_INT3=$TMPDIR/${PKGE}.p5m.int.3
@@ -641,7 +715,7 @@ make_package() {
     ) || logerr "--- Dependency resolution failed"
     echo > "$MANUAL_DEPS"
     if [[ -n "$RUN_DEPENDS_IPS" ]]; then
-        logmsg "--- Adding manual dependencies"
+        logmsg "------ Adding manual dependencies"
         for i in $RUN_DEPENDS_IPS; do
             # IPS dependencies have multiple types, of which we care about four:
             #    require, optional, incorporate, exclude
@@ -691,16 +765,18 @@ make_package() {
         done
     fi
     $PKGMOGRIFY "${P5M_INT3}.res" "$MANUAL_DEPS" | $PKGFMT -u > $P5M_FINAL
-    logmsg "--- Linting manifest"
-    if ! [ -d "$LINTCACHE" ]; then
-        logmsg "------ Creating lint cache at $LINTCACHE using current publishers"
-        pkg image-create "${LINTCACHE}/ref_image"
-        pkg publisher -H | while read publisher type status uri; do
-            pkg -R "${LINTCACHE}/ref_image" set-publisher -g "$uri" "$publisher"
-        done
+    if [[ -z $SKIP_PKGLINT ]] && ( [[ -n $BATCH ]] ||  ask_to_pkglint ); then
+        logmsg "--- Linting manifest"
+        if ! [ -d "$LINTCACHE" ]; then
+            logmsg "------ Creating lint cache at $LINTCACHE using current publishers"
+            pkg image-create "${LINTCACHE}/ref_image"
+            pkg publisher -H | while read publisher type status uri; do
+                pkg -R "${LINTCACHE}/ref_image" set-publisher -g "$uri" "$publisher"
+            done
+        fi
+        $PKGLINT -c "$LINTCACHE" $P5M_FINAL || logerr '--- Lint failed'
     fi
-    $PKGLINT -c "$LINTCACHE" $P5M_FINAL || logerr '--- Lint failed'
-    logmsg "--- Publishing package"
+    logmsg "--- Publishing package to $PKGSRVR"
     if [[ -z $BATCH ]]; then
         logmsg "Intentional pause: Last chance to sanity-check before publication!"
         ask_to_continue
@@ -1138,6 +1214,35 @@ save_function() {
     local ORIG_FUNC=$(declare -f $1)
     local NEWNAME_FUNC="$2${ORIG_FUNC#$1}"
     eval "$NEWNAME_FUNC"
+}
+
+# Called by builds that need a PREBUILT_ILLUMOS actually finished.
+wait_for_prebuilt() {
+    if [ ! -d ${PREBUILT_ILLUMOS:-/dev/null} ]; then
+	echo "wait_for_prebuilt() called w/o PREBUILT_ILLUMOS. Bailing."
+	clean_up
+	exit 1
+    fi
+
+    # -h means symbolic link. That's what nightly does.
+    if [ ! -h $PREBUILT_ILLUMOS/log/nightly.lock ]; then
+	return
+    fi
+
+    # NOTE -> if the nightly finishes between the above check and now, we
+    # can produce confusing output since nightly_pid will be empty.
+    nightly_pid=`ls -lt $PREBUILT_ILLUMOS/log/nightly.lock | awk -F. '{print $4}'`
+    # Wait for nightly to be finished if it's running.
+    logmsg "Waiting for illumos nightly build $nightly_pid to be finished."
+    pwait $nightly_pid
+    if [ -h $PREBUILT_ILLUMOS/log/nightly.lock ]; then
+        logmsg "Nightly lock present, but build not running.  Bailing."
+        if [[ -z $BATCH ]]; then
+            ask_to_continue
+        fi
+        clean_up
+        exit 1
+    fi
 }
 
 # Vim hints

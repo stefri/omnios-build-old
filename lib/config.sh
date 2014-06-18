@@ -20,18 +20,18 @@
 # CDDL HEADER END
 #
 #
-# Copyright 2011-2012 OmniTI Computer Consulting, Inc.  All rights reserved.
-# Use is subject to license terms.
+# Copyright 2014 OmniTI Computer Consulting, Inc.  All rights reserved.
+# Copyright (c) 2014 by Delphix. All rights reserved.
 #
 #############################################################################
 # Configuration for the build system
 #############################################################################
 
-# Default branch
 RELVER=151006
 PVER=0.$RELVER
 
-# Which server to fetch files from
+# Which server to fetch files from.
+# If $MIRROR begins with a '/', it is treated as a local directory.
 MIRROR=http://srcmirror.niksula.hut.fi/
 
 # pkglint cache directory (best to be persistent)
