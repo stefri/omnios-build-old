@@ -180,13 +180,6 @@ ask_to_install() {
     fi
 }
 
-ask_to_pkglint() {
-    local MANIFEST=$1
-
-    ask_to_continue_ "" "Do you want to run pkglint at this time?" "y/n" "[yYnN]"
-    [[ "$REPLY" == "y" || "$REPLY" == "Y" ]]
-}
-
 #############################################################################
 # URL encoding for package names, at least
 #############################################################################
