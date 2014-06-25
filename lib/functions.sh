@@ -758,7 +758,7 @@ make_package() {
         done
     fi
     $PKGMOGRIFY "${P5M_INT3}.res" "$MANUAL_DEPS" | $PKGFMT -u > $P5M_FINAL
-    if [[ -z $SKIP_PKGLINT ]] && [[ -n $BATCH ]]; then
+    if [[ -z $SKIP_PKGLINT ]]; then
         logmsg "--- Linting manifest"
         if ! [ -d "$LINTCACHE" ]; then
             logmsg "------ Creating lint cache at $LINTCACHE using current publishers"
