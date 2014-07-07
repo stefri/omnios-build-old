@@ -211,8 +211,8 @@ SRCDIR=$PWD/`dirname $0`
 #############################################################################
 # Load configuration options
 #############################################################################
-. $MYDIR/config.sh
-. $MYDIR/site.sh
+. $SRCDIR/../config.sh
+. $SRCDIR/../site.sh
 
 # Platform information
 SUNOSVER=`uname -r` # e.g. 5.11
