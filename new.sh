@@ -71,6 +71,11 @@ while getopts "hlt:" opt; do
     esac
 done
 
+if [ ! -d "$BUILDDIR" ]; then
+    echo "WARNING: Creating new build script repository at $BUILDDIR" >&2
+    git init "$BUILDDIR" || { echo "Error: Build script repository init failed." >&2; exit 1; }
+fi
+
 if [[ -d $BUILDDIR/$NAME ]]; then
     echo "Error: Directory $BUILDDIR/$NAME exists."
     exit 1
