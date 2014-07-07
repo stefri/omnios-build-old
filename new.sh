@@ -74,6 +74,7 @@ done
 if [ ! -d "$BUILDDIR" ]; then
     echo "WARNING: Creating new build script repository at $BUILDDIR" >&2
     git init "$BUILDDIR" || { echo "Error: Build script repository init failed." >&2; exit 1; }
+    cp template/{config,site}.sh build/
 fi
 
 if [[ -d $BUILDDIR/$NAME ]]; then
