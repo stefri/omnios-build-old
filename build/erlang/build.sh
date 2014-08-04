@@ -31,7 +31,7 @@ PATH=$SRCDIR/bin:$PATH
 export PATH
 
 PROG=erlang
-VER=17.0
+VER=17.1
 VERHUMAN=$VER
 PKG=runtime/erlang
 SUMMARY="Erlang OTP Platform -- WIP --"
