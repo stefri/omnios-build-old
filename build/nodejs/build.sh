@@ -33,7 +33,7 @@ export PATH
 
 PROG=nodejs
 ARCHIVENAME=node
-VER=0.10.24
+VER=0.10.30
 VERHUMAN=$VER
 PKG=runtime/nodejs
 SUMMARY="evented I/O for v8 javascript"
