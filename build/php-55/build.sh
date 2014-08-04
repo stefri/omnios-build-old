@@ -28,7 +28,7 @@
 . ../../lib/functions.sh
 
 PROG=php
-VER=5.5.13
+VER=5.5.15
 PKG=runtime/php55
 SUMMARY="PHP Server 5.5"
 DESC="PHP is a widely-used general-purpose scripting language that is especially suited for Web development and can be embedded into HTML."
@@ -131,6 +131,7 @@ CONFIGURE_OPTS="
 # DID NOT WORK
 #        --with-ldap-sasl=shared,/usr/local -> did not find sasl.h in inc/sasl/sasl.h
 #        --enable-sockets
+#        --enable-intl=shared
 #        --enable-intl=shared
 
 
