@@ -28,27 +28,41 @@
 . ../../lib/functions.sh
 
 PROG=samba
-VER="4.1.4"
+VER="4.1.11"
 VERHUMAN=$VER
 PKG=service/network/samba4
 SUMMARY="$PROG - CIFS server and active directory controller"
 DESC="$SUMMARY ($VERS)"
 
-DEPENDS_IPS="service/network/dns/mdns system/library system/library/gcc-4-runtime system/library/math"
+DEPENDS_IPS="service/network/dns/mdns system/library system/library/gcc-4-runtime system/library/math
+             library/libldap library/security/cyrus-sasl runtime/python-27"
+# blkid, gnutls, readline, cups, bsd or setproctitle, xsltproc, docbook
 
-BUILDARCH=32
+BUILDARCH=64
 CONFIGURE_OPTS="
     --bindir=$PREFIX/bin
     --sbindir=$PREFIX/sbin
     --mandir=$PREFIX/man
     --infodir=$PREFIX/info
     --sysconfdir=/etc/samba
-    --with-configdir=/etc/samba
-    --with-privatedir=/etc/samba/private
     --localstatedir=/var/samba
     --sharedstatedir=/var/samba
+    --with-configdir=/var/samba/etc
+    --with-logfilebase=/var/samba/log
+    --with-privatedir=/var/samba/private
+    --with-modulesdir=$PREFIX/lib/samba
+    --with-statedir=/var/samba/lib
+    --with-piddir=/var/samba/run
+    --with-cachedir=/var/samba/cache
+    --with-sockets-dir=/var/samba/run
+    --with-privileged-socket-dir=/var/samba/lib
+    --fatal-errors
     --enable-fhs
 "
+CFLAGS="$CFLAGS -I/opt/python27/include"
+LDFLAGS64="$LDFLAGS64 -L/opt/python27/lib -R/opt/python27/lib"
+
+export PATH="/opt/python27/bin:$PATH"
 
 service_configs() {
     logmsg "Installing SMF"
