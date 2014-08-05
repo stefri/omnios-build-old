@@ -1,0 +1,19 @@
+--- ruby-1.9.3-p327/siphash.c	2012-11-09 07:38:38.000000000 -0800
++++ ruby-1.9.3-p327-patched/siphash.c	2012-12-19 08:43:08.655075159 -0800
+@@ -8,7 +8,15 @@
+ #ifdef _WIN32
+   #define BYTE_ORDER __LITTLE_ENDIAN
+ #elif !defined BYTE_ORDER
+-  #include <endian.h>
++  #ifndef __sun
++    #include <endian.h>
++  #else
++    #ifdef __sparc
++      #define BYTE_ORDER __BIG_ENDIAN
++    #else
++      #define BYTE_ORDER __LITTLE_ENDIAN
++    #endif
++  #endif
+ #endif
+ #ifndef LITTLE_ENDIAN
+ #define LITTLE_ENDIAN __LITTLE_ENDIAN
