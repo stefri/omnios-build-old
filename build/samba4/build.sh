@@ -58,6 +58,9 @@ CONFIGURE_OPTS="
     --with-privileged-socket-dir=/var/samba/lib
     --fatal-errors
     --enable-fhs
+    --without-systemd
+    --with-acl-support
+    --with-shared-modules=nfs4_acls,vfs_zfsacl,idmap_ad,idmap_ldap,idmap_rid,idmap_tdb2
 "
 CFLAGS="$CFLAGS -I/opt/python27/include"
 LDFLAGS64="$LDFLAGS64 -L/opt/python27/lib -R/opt/python27/lib"
@@ -66,23 +69,18 @@ export PATH="/opt/python27/bin:$PATH"
 
 service_configs() {
     logmsg "Installing SMF"
-    logcmd mkdir -p $DESTDIR/lib/svc/manifest/network/samba
-    logcmd cp $SRCDIR/files/manifest-samba-nmbd.xml \
-        $DESTDIR/lib/svc/manifest/network/samba/nmbd.xml
-    logcmd cp $SRCDIR/files/manifest-samba-smbd.xml \
-        $DESTDIR/lib/svc/manifest/network/samba/smbd.xml
-    logcmd cp $SRCDIR/files/manifest-samba-winbindd.xml \
-        $DESTDIR/lib/svc/manifest/network/samba/winbindd.xml
+    logcmd mkdir -p $DESTDIR/lib/svc/manifest/network
+    logcmd cp $SRCDIR/files/manifest-samba4.xml \
+        $DESTDIR/lib/svc/manifest/network/samba4.xml
 }
 
 init
 download_source $PROG $PROG $VER
 patch_source
-#run_autogen
 prep_build
 build
 make_isa_stub
-#service_configs
+service_configs
 make_package
 clean_up
 

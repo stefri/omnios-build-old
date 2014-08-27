@@ -1,0 +1,2 @@
+license LICENSE license="Apache License, Version 2.0"
+<transform file path=var/salt/etc/.* -> set preserve true>

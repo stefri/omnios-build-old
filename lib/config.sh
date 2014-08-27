@@ -82,8 +82,8 @@ PERL_MAKE_TEST=1
 #############################################################################
 # Python
 #############################################################################
-PYTHONPATH=/usr
-PYTHON=$PYTHONPATH/bin/python2.6
+PYTHONPATH=/opt/python27
+PYTHON=$PYTHONPATH/bin/python2.7
 PYTHONLIB=$PYTHONPATH/lib
 
 
@@ -175,6 +175,7 @@ reset_configure_opts() {
         --sbindir=$PREFIX/sbin/$ISAPART
         --libdir=$PREFIX/lib
         --libexecdir=$PREFIX/libexec"
+    PYTHON_SETUP_OPTS_32="--root=$DESTDIR"
 
     CONFIGURE_OPTS_64="--prefix=$PREFIX
         --sysconfdir=$SYSCONFDIR
@@ -183,12 +184,14 @@ reset_configure_opts() {
         --sbindir=$PREFIX/sbin/$ISAPART64
         --libdir=$PREFIX/lib/$ISAPART64
         --libexecdir=$PREFIX/libexec/$ISAPART64"
+    PYTHON_SETUP_OPTS_64="--root=$DESTDIR"
 }
 reset_configure_opts
 
 # Configure options to apply to both builds - this is the one you usually want
 # to change for things like --enable-feature
 CONFIGURE_OPTS=""
+PYTHON_SETUP_OPTS=""
 
 # Vim hints
 # vim:ts=4:sw=4:et:

@@ -811,12 +811,24 @@ pre_python_32() {
     logmsg "prepping 32bit python build"
 }
 pre_python_64() {
-    logmsg "prepping 32bit python build"
+    logmsg "prepping 64bit python build"
 }
+
+
 python_build() {
     if [[ -z "$PYTHON" ]]; then logerr "PYTHON not set"; fi
     if [[ -z "$PYTHONPATH" ]]; then logerr "PYTHONPATH not set"; fi
     if [[ -z "$PYTHONLIB" ]]; then logerr "PYTHONLIB not set"; fi
+
+    if [[ $BUILDARCH == "32" || $BUILDARCH == "both" ]]; then
+        buildpython32
+    fi
+    if [[ $BUILDARCH == "64" || $BUILDARCH == "both" ]]; then
+        buildpython64
+    fi
+}
+
+buildpython32() {
     logmsg "Building using python setup.py"
     pushd $TMPDIR/$BUILDDIR > /dev/null
 
@@ -830,6 +842,12 @@ python_build() {
     logcmd $PYTHON \
         ./setup.py install --root=$DESTDIR ||
         logerr "--- install failed"
+    popd > /dev/null
+}
+
+buildpython64() {
+    logmsg "Building using python setup.py"
+    pushd $TMPDIR/$BUILDDIR > /dev/null
 
     ISALIST="amd64 i386"
     export ISALIST
@@ -842,9 +860,6 @@ python_build() {
         ./setup.py install --root=$DESTDIR ||
         logerr "--- install failed"
     popd > /dev/null
-
-    mv $DESTDIR/usr/lib/python2.6/site-packages $DESTDIR/usr/lib/python2.6/vendor-packages ||
-        logerr "Cannot move from site-packages to vendor-packages"
 }
 
 #############################################################################

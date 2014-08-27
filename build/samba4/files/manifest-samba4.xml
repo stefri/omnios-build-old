@@ -1,0 +1,76 @@
+<?xml version="1.0"?>
+<!DOCTYPE service_bundle SYSTEM "/usr/share/lib/xml/dtd/service_bundle.dtd.1">
+<!--
+**********************************************************************
+ 
+SMF Service definition for Samba 4.
+ 
+**********************************************************************
+-->
+ 
+<service_bundle type='manifest' name='Samba'>
+  <service name='network/samba4' type='service' version='1'>
+ 
+    <create_default_instance enabled='false' />
+ 
+    <!-- Only allow Samba to be running once.    -->
+    <single_instance />
+ 
+    <!-- Dependencies. Samba can start when network and local file system is up. -->
+    <dependency name='net-loopback' grouping='require_any' restart_on='none' type='service'>
+      <service_fmri value='svc:/network/loopback'/>
+    </dependency>
+    <dependency name='net-service' grouping='require_all' restart_on='none' type='service'>
+      <service_fmri value='svc:/network/service'/>
+    </dependency>
+    <dependency name='net-physical' grouping='require_all' restart_on='none' type='service'>
+      <service_fmri value='svc:/network/physical'/>
+    </dependency>
+    <dependency name='filesystem-local' grouping='require_all' restart_on='none' type='service'>
+      <service_fmri value='svc:/system/filesystem/local'/>
+    </dependency>
+ 
+    <!-- Define how to start Samba.
+         stop: we use the ":kill" special value, which means that we leave it
+               to SMF exactly how to kill Samba. SMF's default method for stopping
+               a service is to issue a kill on the contract. (If you are unfamiliar with
+               the concept of contracts - which is heavily used by SMF - then just think of
+               this action as the equivalent of issuing a kill command on the Samba
+               master process. SMF works in a way so we never again have to think of storing
+               pid files for later kill ops. Nice.)
+         restart: we do not explicitly define how to restart Samba but let
+               SMF use its default method (which is to execute the stop action
+               followed by the start action).
+    -->
+
+    <method_context>
+        <method_credential user="root" group="root" />
+        <method_environment>
+            <envvar name="PATH" value="/opt/python27/bin:/usr/local/bin:/usr/bin:/bin" />
+        </method_environment>
+    </method_context>
+ 
+    <exec_method
+      type='method'
+      name='start'
+      exec='/usr/local/sbin/samba --daemon'
+      timeout_seconds='180'>
+    </exec_method>
+ 
+    <exec_method
+      type='method'
+      name='stop'
+      exec=':kill'
+      timeout_seconds='60' >
+    </exec_method>
+ 
+    <template>
+      <common_name>
+        <loctext xml:lang='C'>
+          Samba 4 - Domain Controller, SMB server, etc
+        </loctext>
+      </common_name>
+    </template>
+ 
+  </service>
+</service_bundle>
