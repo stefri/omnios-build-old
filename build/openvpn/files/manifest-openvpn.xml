@@ -1,0 +1,58 @@
+<?xml version="1.0"?>
+<!DOCTYPE service_bundle SYSTEM "/usr/share/lib/xml/dtd/service_bundle.dtd.1">
+<service_bundle type='manifest' name=':openvpn'>
+<service name='network/openvpn' type='service'  version='1'>
+    <create_default_instance enabled='false' />
+    <dependency
+        name='fs'
+        grouping='require_all'
+        restart_on='none'
+        type='service'>
+        <service_fmri value='svc:/system/filesystem/local' />
+    </dependency>
+    <dependency
+        name='autofs'
+        grouping='optional_all'
+        restart_on='none'
+        type='service'>
+        <service_fmri value='svc:/system/filesystem/autofs' />
+    </dependency>
+    
+    <dependency
+        name='ntp'
+        grouping='optional_all'
+        restart_on='none'
+        type='service'>
+        <service_fmri value='svc:/network/ntp' />
+    </dependency>
+    <dependency
+        name='network'
+        grouping='require_all'
+        restart_on='none'
+        type='service'>
+        <service_fmri value='svc:/milestone/network' />
+    </dependency>
+
+    <exec_method
+        type='method'
+        name='start'
+        exec='/lib/svc/method/openvpn %m %{openvpn/cfg_file}'
+        timeout_seconds='0' />
+
+    <exec_method
+        type='method'
+        name='stop'
+        exec='/lib/svc/method/openvpn %m %{restarter/contract}'
+        timeout_seconds='30' />
+
+    <property_group name='openvpn' type='application'>
+        <propval name='cfg_file' type='astring' value='/etc/openvpn/openvpn.conf' />
+    </property_group>
+    <stability value='Unstable' />
+    <template>
+        <common_name>
+            <loctext xml:lang='C'>OpenVPN</loctext>
+        </common_name>
+    </template>
+</service>
+</service_bundle>
