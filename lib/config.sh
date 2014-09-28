@@ -28,7 +28,7 @@
 #############################################################################
 
 # Default branch
-PVER=0.151010
+PVER=0.151012
 
 # Which server to fetch files from
 MIRROR=scott.mathematik.uni-ulm.de/src
