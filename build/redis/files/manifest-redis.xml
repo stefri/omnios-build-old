@@ -44,7 +44,7 @@
     </property_group>
 
     <property_group name="application" type="application">
-        <propval name="config_file" type="astring" value="/etc/redis.conf" />
+        <propval name="config_file" type="astring" value="/etc/redis/redis.conf" />
     </property_group>
 
     <stability value="Evolving" />

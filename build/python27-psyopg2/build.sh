@@ -27,31 +27,26 @@
 # Load support functions
 . ../../lib/functions.sh
 
-TITLE=Jinja2
-PROG=jinja2
-VER=2.7.3
+PROG=psycopg2
+VER=2.5.4
 VERHUMAN=$VER
-PKG=library/python-27/jinja2
-SUMMARY="A small but fast and easy to use stand-alone template engine written in pure python."
-DESC="$SUMMARY ($VER)"
+PKG=library/python-27/psycopg2
+SUMMARY="PostgreSQL adapter for Python"
+DESC=$SUMMARY
 
-# uulm.mawi python is 64-bit only
+# omniti-ms python is 64-bit only
 BUILDARCH=64
-LDFLAGS64="-L$PYTHONLIB -R$PYTHONLIB -L/usr/local/lib/$ISAPART64 -R/usr/local/lib/$ISAPART64"
 PYTHON=/opt/python27/bin/python
-PATH=/usr/local/bin:/opt/python27/bin:$PATH
 
-DEPENDS_IPS="runtime/python-27"
-BUILD_DEPENDS_IPS="$DEPENDS_IPS library/python-27/setuptools"
-BUILDDIR=$TITLE-$VER
+LDFLAGS64="-L$PYTHONLIB -R$PYTHONLIB -L/usr/local/lib/$ISAPART64 -R/usr/local/lib/$ISAPART64"
+
+DEPENDS_IPS="runtime/python-27 library/libpq5"
+BUILD_DEPENDS_IPS=$DEPENDS_IPS
 
 init
-download_source python-$PROG $TITLE $VER
+download_source python-$PROG $PROG $VER
 patch_source
 prep_build
 python_build
 make_package
 clean_up
-
-# Vim hints
-# vim:ts=4:sw=4:et:

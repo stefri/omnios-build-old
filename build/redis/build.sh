@@ -54,8 +54,8 @@ make_install() {
         cp $TMPDIR/$BUILDDIR/src/$i $DESTDIR/$PREFIX/bin
         chmod 0755 $DESTDIR/$PREFIX/bin/$i
     done
-    mkdir -p $DESTDIR/etc
-    cp $TMPDIR/$BUILDDIR/redis.conf $DESTDIR/etc/redis.conf.sample
+    mkdir -p $DESTDIR/etc/redis
+    cp $TMPDIR/$BUILDDIR/redis.conf $DESTDIR/etc/redis/redis.conf.sample
 }
 
 service_configs() {
@@ -64,6 +64,7 @@ service_configs() {
     logcmd cp $SRCDIR/files/manifest-redis.xml \
         $DESTDIR/lib/svc/manifest/application/database/redis.xml
     logcmd mkdir -p $DESTDIR/var/redis/db
+    logcmd mkdir -p $DESTDIR/var/redis/logs
 }
 
 init
@@ -71,6 +72,7 @@ download_source $PROG $PROG $VER
 patch_source
 prep_build
 build
+service_configs
 make_package
 clean_up
 
