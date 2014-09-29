@@ -28,7 +28,7 @@
 . ../../lib/functions.sh
 
 PROG=dhcp
-VER=4.2.6
+VER=4.2.7
 VERHUMAN=$VER
 PKG=service/network/dhcp/isc-dhcp
 SUMMARY="ISC DHCP server"

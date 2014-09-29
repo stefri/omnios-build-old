@@ -37,6 +37,12 @@ DESC="Parse the XML produced by a BIND9.x statistics-server to list zones contai
 DEPENDS_IPS="library/libxml2"
 BUILDARCH=32
 
+export PREFIX
+export CC
+export CFLAGS="-I/usr/include/libxml2 -I/usr/local/include"
+export LDFLAGS="-R/usr/local/lib -L/usr/local/lib"
+
+
 configure32() {
     logmsg "-- Nothing to configure"
 }

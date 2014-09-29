@@ -34,7 +34,7 @@ SUMMARY="Imagick is a native php extension to create and modify images using the
 DESC="$SUMMARY ($VER)"
 
 BUILD_DEPENDS_IPS="library/pkgconf"
-DEPENDS_IPS="runtime/php55 application/image/imagemagick"
+DEPENDS_IPS="runtime/php55 application/image/graphicsmagick"
 
 BUILDARCH=64
 CONFIGURE_OPTS="--with-imagick=/usr/local \

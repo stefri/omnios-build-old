@@ -29,7 +29,7 @@
 . ../../lib/functions.sh
 
 PROG=mysql
-VER=5.6.17
+VER=5.6.21
 VERHUMAN=$VER
 
 BUILD_DEPENDS_IPS="developer/build/cmake system/library/g++-4-runtime system/library/gcc-4-runtime"

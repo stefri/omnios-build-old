@@ -27,36 +27,40 @@
 # Load support functions
 . ../../lib/functions.sh
 
-PROG=ipmitool
-VER=1.8.12
-VERHUMAN=$VER
-PKG=system/management/ipmitool
-SUMMARY="IPMI management tool"
-DESC="$SUMMARY"
+PROG=gmagick
+VER=1.1.7RC2
+PKG=runtime/php56/php-gmagick
+SUMMARY="Provides a wrapper to the GraphicsMagick library."
+DESC="$SUMMARY ($VER)"
 
-DEPENDS_IPS="driver/ipmi"
+BUILD_DEPENDS_IPS="library/pkgconf"
+DEPENDS_IPS="runtime/php55 application/image/graphicsmagick"
 
-BUILDARCH=32
-CONFIGURE_OPTS_32="$CONFIGURE_OPTS_32 --bindir=/usr/local/sbin --sbindir=/usr/local/lib"
-CONFIGURE_OPTS="$CONFIGURE_OPTS --mandir=/usr/local/share/man
-	--enable-intf-free=no
-	--enable-solaris-opt"
+BUILDARCH=64
+CONFIGURE_OPTS="--with-gmagick=/usr/local \
+    --with-php-config=/usr/local/php55/bin/php-config"
 
-install_smf(){
-    logcmd mkdir -p $DESTDIR/lib/svc/manifest/network
-    logcmd mkdir -p $DESTDIR/lib/svc/method
-    logcmd cp $SRCDIR/files/ipmievd.xml $DESTDIR/lib/svc/manifest/network/ipmievd.xml
-    logcmd cp $SRCDIR/files/svc-ipmievd $DESTDIR/lib/svc/method/svc-ipmievd
+save_function configure64 configure64.orig
+configure64() {
+    logmsg "--- phpize the extension"
+    logcmd /usr/local/php56/bin/phpize
+    configure64.orig
+}
+
+make_install() {
+    logmsg "--- make install"
+    logcmd mkdir -p $DESTDIR/usr/local/php56/lib/modules/ && \
+    logcmd cp modules/gmagick.so $DESTDIR/usr/local/php56/lib/modules/ || \
+        logerr "--- Make install failed"
 }
 
 init
 download_source $PROG $PROG $VER
 patch_source
 prep_build
-run_autoconf
 build
-install_smf
 make_isa_stub
+VER=${VER//RC/.}
 make_package
 clean_up
 

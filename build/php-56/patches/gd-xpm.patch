@@ -1,0 +1,12 @@
+diff -rupN php-5.5.13-orig/configure php-5.5.13/configure
+--- php-5.5.13-orig/configure	2014-05-28 11:23:59.000000000 +0200
++++ php-5.5.13/configure	2014-06-05 23:46:35.958508740 +0200
+@@ -42278,7 +42278,7 @@ char gdImageCreateFromXpm ();
+ int
+ main ()
+ {
+-return gdImageCreateFromXpm ();
++if(gdImageCreateFromXpm() != NULL) { return 1; } else { return 0; }
+   ;
+   return 0;
+ }

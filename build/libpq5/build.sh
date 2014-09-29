@@ -29,7 +29,7 @@
 . ../../lib/functions.sh
 
 PROG=postgresql
-VER=9.3.4
+VER=9.3.5
 VERHUMAN=$VER
 PKG=library/libpq5
 SUMMARY="PostgreSQL Libs (libpq.so.5)"

@@ -28,9 +28,9 @@
 . ../../lib/functions.sh
 
 PROG=php
-VER=5.5.17
-PKG=runtime/php55
-SUMMARY="PHP Server 5.5"
+VER=5.6.0
+PKG=runtime/php56
+SUMMARY="PHP Server 5.6"
 DESC="PHP is a widely-used general-purpose scripting language that is especially suited for Web development and can be embedded into HTML."
 
 BUILD_DEPENDS_IPS="compress/bzip2
@@ -60,7 +60,7 @@ BUILD_DEPENDS_IPS="compress/bzip2
 
 # Though not strictly needed since we override build(), still nice to set
 BUILDARCH=64
-PREFIX=$PREFIX/php55
+PREFIX=$PREFIX/php56
 reset_configure_opts
 
 #CFLAGS="-O2 -DZLIB_INTERNAL=1 -std=c99"
@@ -308,8 +308,8 @@ clean_dotfiles
 INSTALLDIR=$DESTDIR
 
 PROG=php-bcmath
-PKG=runtime/php55/php-bcmath
-SUMMARY="PHP 5.5 - bcmath extension"
+PKG=runtime/php56/php-bcmath
+SUMMARY="PHP 5.6 - bcmath extension"
 DESC="PHP is a widely-used general-purpose scripting language that is especially suited for Web development and can be embedded into HTML."
 DEPENDS_IPS=""
 prep_build
@@ -317,8 +317,8 @@ install_ext_bcmath
 make_package ext.mog
 
 PROG=php-calendar
-PKG=runtime/php55/php-calendar
-SUMMARY="PHP 5.5 - calendar extension"
+PKG=runtime/php56/php-calendar
+SUMMARY="PHP 5.6 - calendar extension"
 DESC="PHP is a widely-used general-purpose scripting language that is especially suited for Web development and can be embedded into HTML."
 DEPENDS_IPS=""
 prep_build
@@ -326,8 +326,8 @@ install_ext_calendar
 make_package ext.mog
 
 PROG=php-curl
-PKG=runtime/php55/php-curl
-SUMMARY="PHP 5.5 - curl extension"
+PKG=runtime/php56/php-curl
+SUMMARY="PHP 5.6 - curl extension"
 DESC="PHP is a widely-used general-purpose scripting language that is especially suited for Web development and can be embedded into HTML."
 DEPENDS_IPS="local/web/curl library/security/cyrus-sasl library/libldap"
 prep_build
@@ -335,8 +335,8 @@ install_ext_curl
 make_package ext.mog
 
 PROG=php-exif
-PKG=runtime/php55/php-exif
-SUMMARY="PHP 5.5 - exif extension"
+PKG=runtime/php56/php-exif
+SUMMARY="PHP 5.6 - exif extension"
 DESC="PHP is a widely-used general-purpose scripting language that is especially suited for Web development and can be embedded into HTML."
 DEPENDS_IPS=""
 prep_build
@@ -344,8 +344,8 @@ install_ext_exif
 make_package ext.mog
 
 PROG=php-ftp
-PKG=runtime/php55/php-ftp
-SUMMARY="PHP 5.5 - ftp extension"
+PKG=runtime/php56/php-ftp
+SUMMARY="PHP 5.6 - ftp extension"
 DESC="PHP is a widely-used general-purpose scripting language that is especially suited for Web development and can be embedded into HTML."
 DEPENDS_IPS=""
 prep_build
@@ -353,8 +353,8 @@ install_ext_ftp
 make_package ext.mog
 
 PROG=php-gd
-PKG=runtime/php55/php-gd
-SUMMARY="PHP 5.5 - gd extension"
+PKG=runtime/php56/php-gd
+SUMMARY="PHP 5.6 - gd extension"
 DESC="PHP is a widely-used general-purpose scripting language that is especially suited for Web development and can be embedded into HTML."
 DEPENDS_IPS="library/freetype2 
     library/libjpeg 
@@ -365,8 +365,8 @@ install_ext_gd
 make_package ext.mog
 
 PROG=php-mbstring
-PKG=runtime/php55/php-mbstring
-SUMMARY="PHP 5.5 - mcrypt extension"
+PKG=runtime/php56/php-mbstring
+SUMMARY="PHP 5.6 - mcrypt extension"
 DESC="PHP is a widely-used general-purpose scripting language that is especially suited for Web development and can be embedded into HTML."
 DEPENDS_IPS=""
 prep_build
@@ -374,8 +374,8 @@ install_ext_mbstring
 make_package ext.mog
 
 PROG=php-mcrypt
-PKG=runtime/php55/php-mcrypt
-SUMMARY="PHP 5.5 - mcrypt extension"
+PKG=runtime/php56/php-mcrypt
+SUMMARY="PHP 5.6 - mcrypt extension"
 DESC="PHP is a widely-used general-purpose scripting language that is especially suited for Web development and can be embedded into HTML."
 DEPENDS_IPS="library/libmcrypt"
 prep_build
@@ -383,8 +383,8 @@ install_ext_mcrypt
 make_package ext.mog
 
 PROG=php-mysql
-PKG=runtime/php55/php-mysql
-SUMMARY="PHP 5.5 - MySQL Extensions"
+PKG=runtime/php56/php-mysql
+SUMMARY="PHP 5.6 - MySQL Extensions"
 DESC="PHP is a widely-used general-purpose scripting language that is especially suited for Web development and can be embedded into HTML."
 DEPENDS_IPS=""
 prep_build
@@ -392,8 +392,8 @@ install_ext_mysql
 make_package ext_mysql.mog
 
 PROG=php-pdo
-PKG=runtime/php55/php-pdo
-SUMMARY="PHP 5.5 - pdo extension"
+PKG=runtime/php56/php-pdo
+SUMMARY="PHP 5.6 - pdo extension"
 DESC="PHP is a widely-used general-purpose scripting language that is especially suited for Web development and can be embedded into HTML."
 DEPENDS_IPS=""
 prep_build
@@ -401,8 +401,8 @@ install_ext_pdo
 make_package ext.mog
 
 PROG=php-pgsql
-PKG=runtime/php55/php-pgsql
-SUMMARY="PHP 5.5 - PostgreSQL Extension"
+PKG=runtime/php56/php-pgsql
+SUMMARY="PHP 5.6 - PostgreSQL Extension"
 DESC="PHP is a widely-used general-purpose scripting language that is especially suited for Web development and can be embedded into HTML."
 DEPENDS_IPS="library/libpq5"
 prep_build
@@ -410,8 +410,8 @@ install_ext_pgsql
 make_package ext_pgsql.mog
 
 PROG=php-sqlite
-PKG=runtime/php55/php-sqlite
-SUMMARY="PHP 5.5 - sqlite extension"
+PKG=runtime/php56/php-sqlite
+SUMMARY="PHP 5.6 - sqlite extension"
 DESC="PHP is a widely-used general-purpose scripting language that is especially suited for Web development and can be embedded into HTML."
 DEPENDS_IPS="database/sqlite-3"
 prep_build
@@ -419,8 +419,8 @@ install_ext_sqlite
 make_package ext_sqlite.mog
 
 PROG=php-zib
-PKG=runtime/php55/php-zip
-SUMMARY="PHP 5.5 - zip extension"
+PKG=runtime/php56/php-zip
+SUMMARY="PHP 5.6 - zip extension"
 DESC="PHP is a widely-used general-purpose scripting language that is especially suited for Web development and can be embedded into HTML."
 DEPENDS_IPS="local/library/zlib"
 prep_build
@@ -428,8 +428,8 @@ install_ext_zip
 make_package ext.mog
 
 PROG=php-zlib
-PKG=runtime/php55/php-zlib
-SUMMARY="PHP 5.5 - zlib extension"
+PKG=runtime/php56/php-zlib
+SUMMARY="PHP 5.6 - zlib extension"
 DESC="PHP is a widely-used general-purpose scripting language that is especially suited for Web development and can be embedded into HTML."
 DEPENDS_IPS="local/library/zlib"
 prep_build
@@ -438,14 +438,14 @@ make_package ext.mog
 
 
 ##############################
-### CREATE PHP 5.5 PACKAGE ###
+### CREATE PHP 5.6 PACKAGE ###
 ##############################
 
 
 DESTDIR=$INSTALLDIR
 PROG=php
-PKG=runtime/php55
-SUMMARY="PHP Server 5.5"
+PKG=runtime/php56
+SUMMARY="PHP Server 5.6"
 DESC="PHP is a widely-used general-purpose scripting language that is especially suited for Web development and can be embedded into HTML."
 DEPENDS_IPS="database/sqlite-3 
     database/bdb
@@ -455,7 +455,7 @@ DEPENDS_IPS="database/sqlite-3
     local/library/zlib
     library/libssh2 
     library/mhash"
-make_package php55.mog
+make_package php56.mog
 
 clean_up
 

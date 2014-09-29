@@ -34,7 +34,7 @@ PKG=service/network/samba
 SUMMARY="$PROG - CIFS server and domain controller"
 DESC="$SUMMARY ($VERS)"
 
-DEPENDS_IPS="service/network/dns/mdns developer/build/autoconf
+DEPENDS_IPS="service/network/dns/mdns developer/build/autoconf runtime/python-27
              system/library system/library/gcc-4-runtime system/library/math"
 
 BUILDDIR=$PROG-$VER/source3

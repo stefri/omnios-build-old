@@ -1,3 +1,4 @@
+#!/usr/bin/bash
 #
 # CDDL HEADER START
 #
@@ -23,14 +24,32 @@
 # Copyright 2011-2012 OmniTI Computer Consulting, Inc.  All rights reserved.
 # Use is subject to license terms.
 #
-<transform dir path=usr/local/share/doc.* -> drop>
-<transform file path=usr/local/share/doc.* -> drop>
-<transform dir path=usr/lcoal/share/ipmitool -> drop>
-<transform file path=usr/local/share/ipmitool/.* -> drop>
-<transform file path=usr/local/share/man.* -> set mode 0444>
-<transform file path=usr/local/lib/ipmievd -> set mode 0555>
-<transform file path=usr/local/sbin/ipmitool -> set mode 0555>
-<transform file path=lib/svc/manifest/network/ipmievd.xml -> set mode 0444>
-<transform file path=lib/svc/manifest/network/ipmievd.xml -> set group sys>
-<transform file path=lib/svc/method/svc-ipmievd -> set mode 0555>
-license usr/local/share/doc/ipmitool/COPYING license=Sun
+# Load support functions
+. ../../lib/functions.sh
+
+PROG=GraphicsMagick
+VER=1.3.20
+VERHUMAN=$VER
+PKG=application/image/graphicsmagick
+SUMMARY="GraphicsMagick is the swiss army knife of image processing."
+DESC="$SUMMARY"
+
+BUILD_DEPENDS_IPS="library/freetype2 library/libjpeg library/libpng library/libtiff"
+DEPENDS_IPS="library/freetype2 library/libjpeg library/libpng library/libtiff"
+
+CONFIGURE_OPTS="--enable-shared \
+        --disable-openmp"
+
+init
+download_source graphicsmagick $PROG $VER
+patch_source
+prep_build
+build
+make_isa_stub
+PROG=graphicsmagick
+VER=${VER//-/.}
+make_package
+clean_up
+
+# Vim hints
+# vim:ts=4:sw=4:et:

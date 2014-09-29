@@ -27,45 +27,44 @@
 # Load support functions
 . ../../lib/functions.sh
 
-PROG=tmux
-VER=1.7
-VERHUMAN=$VER
-PKG=custom/terminal/tmux
-SUMMARY="terminal multiplexer"
-DESC="$SUMMARY"
-LIBEVENT_VER=2.0.20
-LDIR=libevent-${LIBEVENT_VER}-stable
+PROG=gmagick
+VER=1.1.7RC2
+PKG=runtime/php55/php-gmagick
+SUMMARY="Provides a wrapper to the GraphicsMagick library."
+DESC="$SUMMARY ($VER)"
 
-BUILDARCH=32
-CONFIGURE_OPTS_32="$CONFIGURE_OPTS_32 --bindir=/usr/bin"
-CPPFLAGS="-I$TMPDIR/$PROG-$VER/$LDIR/include/event2 \
-    -I$TMPDIR/$PROG-$VER/$LDIR/include"
-CFLAGS="-std=c99 -D_XPG6 -D_POSIX_C_SOURCE=200112L"
-LDFLAGS="-L$TMPDIR/$PROG-$VER/$LDIR/.libs -lsocket -lnsl -lsendfile"
+BUILD_DEPENDS_IPS="library/pkgconf"
+DEPENDS_IPS="runtime/php55 application/image/graphicsmagick"
 
-save_function configure32 configure32_orig
-configure32(){
-  pushd $TMPDIR/$BUILDDIR/$LDIR > /dev/null
-  logmsg "configuring libevent"
-  logcmd ./configure --disable-static --disable-libevent-install || \
-    logerr "failed libevent configure"
-  logcmd "building a static libevent"
-  logcmd make || logerr "failed libevent build"
-  popd > /dev/null
-  configure32_orig
+BUILDARCH=64
+CONFIGURE_OPTS="--with-gmagick=/usr/local \
+    --with-php-config=/usr/local/php55/bin/php-config"
+#CPPFLAGS64="$CPPFLAGS64 \
+#    -I/usr/local/include/amd64/ImageMagick-6 \
+#    -I/usr/local/include/amd64/ImageMagick-6/magick \
+#    -I/usr/local/include/amd64/ImageMagick-6/wand"
+
+save_function configure64 configure64.orig
+configure64() {
+    logmsg "--- phpize the extension"
+    logcmd /usr/local/php55/bin/phpize
+    configure64.orig
+}
+
+make_install() {
+    logmsg "--- make install"
+    logcmd mkdir -p $DESTDIR/usr/local/php55/lib/modules/ && \
+    logcmd cp modules/gmagick.so $DESTDIR/usr/local/php55/lib/modules/ || \
+        logerr "--- Make install failed"
 }
 
 init
 download_source $PROG $PROG $VER
-MAINBUILDDIR=$BUILDDIR
-BUILDDIR=$LDIR
-download_source libevent libevent ${LIBEVENT_VER}-stable $TMPDIR/$PROG-$VER
-BUILDDIR=$MAINBUILDDIR
 patch_source
 prep_build
 build
 make_isa_stub
-strip_install
+VER=${VER//RC/.}
 make_package
 clean_up
 
