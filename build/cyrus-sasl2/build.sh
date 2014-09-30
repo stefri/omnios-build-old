@@ -48,7 +48,8 @@ CONFIGURE_OPTS="--prefix=$PREFIX
     --enable-java=no
     --enable-gssapi=no
     --enable-ldapdb=no
-    --without-saslauthd"
+    --without-saslauthd
+    --without-libdb"
 CONFIGURE_OPTS_32="--includedir=$PREFIX/include
     --bindir=$PREFIX/bin/$ISAPART
     --sbindir=$PREFIX/sbin/$ISAPART
