@@ -27,6 +27,7 @@
 # Configuration for the build system
 #############################################################################
 
+# Default branch
 RELVER=151011
 PVER=0.$RELVER
 
