@@ -103,3 +103,11 @@
 # If you ship an SMF manifest, it should be imported upon pkg install
 <transform file path=(var|lib)/svc/manifest/.*\.xml -> \
     add restart_fmri svc:/system/manifest-import:default>
+
+<transform file path=opt/niksula/etc/ -> set preserve renamenew>
+<transform file path=etc/ -> set preserve renamenew>
+
+# if $PREFIX/man exists it will break all manpages in $PREFIX/share/man by
+# default
+<transform dir -> edit path opt/niksula/man opt/niksula/share/man>
+<transform file -> edit path opt/niksula/man opt/niksula/share/man>

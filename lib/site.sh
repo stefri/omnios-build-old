@@ -1,3 +1,3 @@
 # Package server URL and publisher
-PKGPUBLISHER=custom
-PKGSRVR=http://custom-server:10000/
+PKGPUBLISHER=niksula.hut.fi
+PKGSRVR=/net/elbereth/niksula/pkg/niksula.hut.fi

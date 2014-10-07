@@ -180,13 +180,6 @@ ask_to_install() {
     fi
 }
 
-ask_to_pkglint() {
-    local MANIFEST=$1
-
-    ask_to_continue_ "" "Do you want to run pkglint at this time?" "y/n" "[yYnN]"
-    [[ "$REPLY" == "y" || "$REPLY" == "Y" ]]
-}
-
 #############################################################################
 # URL encoding for package names, at least
 #############################################################################
@@ -509,7 +502,7 @@ get_resource() {
             logcmd cp $MIRROR/$RESOURCE .
             ;;
         *)
-            URLPREFIX=http://$MIRROR
+            URLPREFIX=$MIRROR
             $WGET -a $LOGFILE $URLPREFIX/$RESOURCE
             ;;
     esac
@@ -765,9 +758,16 @@ make_package() {
         done
     fi
     $PKGMOGRIFY "${P5M_INT3}.res" "$MANUAL_DEPS" | $PKGFMT -u > $P5M_FINAL
-    if [[ -z $SKIP_PKGLINT ]] && ( [[ -n $BATCH ]] ||  ask_to_pkglint ); then
-        $PKGLINT -c $TMPDIR/lint-cache -r $PKGSRVR $P5M_FINAL || \
-            logerr "----- pkglint failed"
+    if [[ -z $SKIP_PKGLINT ]]; then
+        logmsg "--- Linting manifest"
+        if ! [ -d "$LINTCACHE" ]; then
+            logmsg "------ Creating lint cache at $LINTCACHE using current publishers"
+            pkg image-create "${LINTCACHE}/ref_image"
+            pkg publisher -H | while read publisher type status uri; do
+                pkg -R "${LINTCACHE}/ref_image" set-publisher -g "$uri" "$publisher"
+            done
+        fi
+        $PKGLINT -c "$LINTCACHE" $P5M_FINAL || logerr '--- Lint failed'
     fi
     logmsg "--- Publishing package to $PKGSRVR"
     if [[ -z $BATCH ]]; then
@@ -806,14 +806,14 @@ make_isaexec_stub_arch() {
     for file in $1/*; do
         [[ -f $file ]] || continue # Deals with empty dirs & non-files
         # Check to make sure we don't have a script
-        read -n 5 < $file
+        read -n 4 REPLY < $file
         file=`echo $file | sed -e "s/$1\///;"`
         # Skip if we already made a stub for this file
         [[ -f $file ]] && continue
         # Only copy non-binaries if we set NOSCRIPTSTUB
         if [[ $REPLY != $'\177'ELF && -n "$NOSCRIPTSTUB" ]]; then
-            logmsg "------ Non-binary file: $file - copying instead"
-            cp $1/$file .
+            logmsg "------ Non-binary file: $file - moving instead"
+            mv $1/$file .
             chmod +x $file
             continue
         fi

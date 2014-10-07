@@ -28,15 +28,18 @@
 #############################################################################
 
 # Default branch
-RELVER=151011
+RELVER=151006
 PVER=0.$RELVER
 
 # Which server to fetch files from.
 # If $MIRROR begins with a '/', it is treated as a local directory.
-MIRROR=mirrors.omniti.com
+MIRROR=http://srcmirror.niksula.hut.fi/
+
+# pkglint cache directory (best to be persistent)
+LINTCACHE=${HOME}/pkglint.cache
 
 # Default prefix for packages (may be overridden)
-PREFIX=/usr
+PREFIX=/opt/niksula
 
 # Temporary directories
 # TMPDIR is used for source archives and build directories
@@ -60,17 +63,17 @@ NOSCRIPTSTUB=
 #############################################################################
 
 # Perl versions we currently build against
-PERLVERLIST="5.16.1"
+PERLVERLIST="5.18.1"
 
 # Full paths to bins
-PERL32=/usr/perl5/5.16.1/bin/$ISAPART/perl
-PERL64=/usr/perl5/5.16.1/bin/$ISAPART64/perl
+PERL32=$PREFIX/perl5/bin/i386/perl
+PERL64=$PREFIX/perl5/bin/amd64/perl
 
 # Default Makefile.PL options
-PERL_MAKEFILE_OPTS="INSTALLSITEBIN=$PREFIX/bin/_ARCHBIN_ \
-                    INSTALLSITESCRIPT=$PREFIX/bin/_ARCHBIN_ \
-                    INSTALLSITEMAN1DIR=$PREFIX/share/man/man1 \
-                    INSTALLSITEMAN3DIR=$PREFIX/share/man/man3 \
+PERL_MAKEFILE_OPTS="INSTALLSITEBIN=$PREFIX/perl5/bin/_ARCHBIN_ \
+                    INSTALLSITESCRIPT=$PREFIX/perl5/bin/_ARCHBIN_ \
+                    INSTALLSITEMAN1DIR=$PREFIX/perl5/man/man1 \
+                    INSTALLSITEMAN3DIR=$PREFIX/perl5/man/man3 \
                     INSTALLDIRS=site"
 
 # Accept MakeMaker defaults so as not to stall build scripts
@@ -100,7 +103,7 @@ BUNZIP2=bunzip2
 XZCAT=xzcat
 UNZIP=unzip
 AWK=gawk
-SUDO=sudo
+SUDO=pfexec
 
 # Figure out number of logical CPUs for use with parallel gmake jobs (-j)
 # Default to 1.5*nCPUs as we assume the build machine is 100% devoted to
@@ -140,13 +143,13 @@ CFLAGS64="-m64"
 
 # Linker flags
 LDFLAGS=""
-LDFLAGS32=""
-LDFLAGS64="-m64"
+LDFLAGS32="-L${PREFIX}/lib -R${PREFIX}/lib"
+LDFLAGS64="-m64 -L${PREFIX}/lib/${ISAPART64} -R${PREFIX}/lib/${ISAPART64}"
 
 # C pre-processor flags
 CPPFLAGS=""
-CPPFLAGS32=""
-CPPFLAGS64=""
+CPPFLAGS32="-I${PREFIX}/include"
+CPPFLAGS64="-I${PREFIX}/include/$ISAPART64"
 
 # C++ flags
 CXXFLAGS=""
