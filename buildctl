@@ -7,6 +7,7 @@ if [ "${BATCH}" = 1 ]; then
     echo "Enabling batch mode."
     batch_flag="-b"
 fi
+cd build
 . ../lib/functions.sh
 
 [ "${1}" == "licenses" ] && AUDIT_LICENSE=1
