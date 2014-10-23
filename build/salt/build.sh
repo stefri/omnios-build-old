@@ -28,7 +28,7 @@
 . ../../lib/functions.sh
 
 PROG=salt
-VER=2014.7.0.1
+VER=2014.7.0.5
 VERHUMAN=$VER
 PKG=system/management/salt
 SUMMARY="Portable, distributed, remote execution and configuration management system"

@@ -28,7 +28,7 @@
 . ../../lib/functions.sh
 
 PROG=netatalk
-VER=3.1.6
+VER=3.1.3
 VERHUMAN=$VER
 PKG=service/network/netatalk
 SUMMARY="Open Source Apple Filing Protocol (AFP) fileserver"
@@ -39,6 +39,8 @@ DEPENDS_IPS="database/bdb library/libevent service/network/dns/mdns
              system/library system/library/gcc-4-runtime system/library/math 
              library/security/libgcrypt library/libldap library/security/cyrus-sasl
              library/libmysqlclient18"
+
+export MYSQL_LIBS="-lstdc++"
 
 BUILDARCH=32
 CONFIGURE_OPTS="

@@ -28,7 +28,7 @@
 . ../../lib/functions.sh
 
 PROG=php
-VER=5.6.0
+VER=5.6.2
 PKG=runtime/php56
 SUMMARY="PHP Server 5.6"
 DESC="PHP is a widely-used general-purpose scripting language that is especially suited for Web development and can be embedded into HTML."
@@ -36,23 +36,23 @@ DESC="PHP is a widely-used general-purpose scripting language that is especially
 BUILD_DEPENDS_IPS="compress/bzip2
     mawi/database/sqlite
     database/bdb
-    library/libtool/libltdl 
-    library/libxml2 
-    library/libxslt 
-    system/library/iconv/unicode 
-    system/library/iconv/utf-8 
-    system/library/iconv/utf-8/manual 
-    system/library/iconv/xsh4/latin 
-    local/web/curl 
+    library/libtool/libltdl
+    library/libxml2
+    library/libxslt
+    system/library/iconv/unicode
+    system/library/iconv/utf-8
+    system/library/iconv/utf-8/manual
+    system/library/iconv/xsh4/latin
+    local/web/curl
     local/library/zlib
     library/libldap
-    library/freetype2 
-    library/libgd  
-    library/libjpeg 
-    library/libmcrypt 
-    library/libpng 
-    library/libpq5 
-    library/libssh2 
+    library/freetype2
+    library/libgd
+    library/libjpeg
+    library/libmcrypt
+    library/libpng
+    library/libpq5
+    library/libssh2
     library/libtiff
     library/security/cyrus-sasl
     library/mhash
@@ -356,10 +356,10 @@ PROG=php-gd
 PKG=runtime/php56/php-gd
 SUMMARY="PHP 5.6 - gd extension"
 DESC="PHP is a widely-used general-purpose scripting language that is especially suited for Web development and can be embedded into HTML."
-DEPENDS_IPS="library/freetype2 
-    library/libjpeg 
+DEPENDS_IPS="library/freetype2
+    library/libjpeg
     library/libpng
-    library/libtiff" 
+    library/libtiff"
 prep_build
 install_ext_gd
 make_package ext.mog
@@ -447,13 +447,13 @@ PROG=php
 PKG=runtime/php56
 SUMMARY="PHP Server 5.6"
 DESC="PHP is a widely-used general-purpose scripting language that is especially suited for Web development and can be embedded into HTML."
-DEPENDS_IPS="database/sqlite-3 
+DEPENDS_IPS="database/sqlite-3
     database/bdb
-    system/library/iconv/unicode 
-    system/library/iconv/utf-8 
-    system/library/iconv/xsh4/latin 
+    system/library/iconv/unicode
+    system/library/iconv/utf-8
+    system/library/iconv/xsh4/latin
     local/library/zlib
-    library/libssh2 
+    library/libssh2
     library/mhash"
 make_package php56.mog
 
