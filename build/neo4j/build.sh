@@ -28,32 +28,27 @@
 . ../../lib/functions.sh
 
 PROG="neo4j"
-VER="2.0.0-M04"
+VER="2.1.5"
 VERHUMAN=$VER
 SUMMARY="Neo4j is a robust (fully ACID) transactional property graph database."
 DESC="Neo4j is a robust (fully ACID) transactional property graph database. Due to its graph data model, Neo4j is highly agile and blazing fast. For connected data operations, Neo4j runs a thousand times faster than relational databases."
 
-PREFIX="/opt/neo4j"
+PREFIX="/usr/local/neo4j"
 NO_AUTO_DEPENDS=true
 
-case $FLAVOR in 
+case $FLAVOR in
 
     # Default - build community edition
     ""|default)
         EDITION=community
     ;;
 
-    # Advanced - build ad 
-    advanced)
-        EDITION=advanced
-    ;;
-
     enterprise)
         EDITION=enterprise
     ;;
 esac
- 
-PKG="database/neo4j/$EDITION"
+
+PKG="database/$PROG/$PROG-$EDITION"
 BUILDDIR=$PROG-$EDITION-$VER
 
 build() {
@@ -64,9 +59,12 @@ build() {
     logcmd cp -r $TMPDIR/$BUILDDIR/* $DESTDIR$PREFIX
 
     logmsg "--- Configuration"
-    logcmd mkdir -p $DESTDIR/opt/etc
-    logcmd mv $DESTDIR$PREFIX/conf $DESTDIR/opt/etc/neo4j
-    logcmd ln -s /opt/etc/neo4j $DESTDIR$PREFIX/conf
+    logcmd mkdir -p $DESTDIR/var/$PROG
+    logcmd mv $DESTDIR$PREFIX/conf $DESTDIR/var/$PROG
+    logcmd mkdir $DESTDIR/var/$PROG/conf/ssl
+    logcmd ln -s /var/$PROG/conf $DESTDIR$PREFIX/conf
+    logcmd mv $DESTDIR$PREFIX/data $DESTDIR/var/$PROG
+    logcmd ln -s /var/$PROG/data $DESTDIR$PREFIX/data
 
     logmsg "--- SMF manifest"
     logcmd mkdir -p $DESTDIR/lib/svc/manifest/database
