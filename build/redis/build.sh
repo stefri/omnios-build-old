@@ -28,7 +28,7 @@
 . ../../lib/functions.sh
 
 PROG=redis
-VER=2.8.17
+VER=2.8.18
 VERHUMAN=$VER
 PKG=database/redis
 SUMMARY="Redis is an open source, advanced key-value store."
@@ -65,6 +65,7 @@ service_configs() {
         $DESTDIR/lib/svc/manifest/application/database/redis.xml
     logcmd mkdir -p $DESTDIR/var/redis/db
     logcmd mkdir -p $DESTDIR/var/redis/logs
+    logcmd mkdir -p $DESTDIR/var/redis/run
 }
 
 init
