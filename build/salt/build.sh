@@ -105,9 +105,15 @@ runtime_config() {
     logcmd cp $TMPDIR/$BUILDDIR/conf/* $DESTDIR/var/salt/etc
 }
 
+add_modules() {
+    logmsg "Adding experimental and custom modules"
+    logcmd cp $SRCDIR/modules/solarisips.py $TMPDIR/$BUILDDIR/salt/modules/
+}
+
 init
 download_source $PROG $PROG $VER
 patch_source
+add_modules
 prep_build
 python_build
 service_configs
