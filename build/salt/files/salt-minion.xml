@@ -33,7 +33,7 @@
 
       <method_context>
         <method_environment>
-          <envvar name="PATH" value="/opt/python27/bin:/usr/local/bin:/usr/bin:/bin:/usr/local/sbin:/usr/sbin:/sbin"/>
+          <envvar name="PATH" value="/usr/local/ruby/2.1/bin:/opt/python27/bin:/usr/local/bin:/usr/bin:/bin:/usr/local/sbin:/usr/sbin:/sbin"/>
           <envvar name="SHELL" value="/bin/bash"/>
         </method_environment>
       </method_context>
