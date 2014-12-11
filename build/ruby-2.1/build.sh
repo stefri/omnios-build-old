@@ -36,6 +36,7 @@ SUMMARY="A dynamic, open source programming language with a focus on simplicity 
 DESC="$SUMMARY ($VER)"
 
 BUILD_DEPENDS_IPS="runtime/ruby-1.8 custom/library/libffi custom/library/readline developer/build/autoconf"
+DEPENDS_IPS="library/yaml"
 BASERUBY="$PREFIX/$PROG/1.8/bin/ruby"
 PREFIX="$PREFIX/$PROG/$MAIN_VER"
 
