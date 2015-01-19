@@ -2,15 +2,15 @@
 <!DOCTYPE service_bundle SYSTEM "/usr/share/lib/xml/dtd/service_bundle.dtd.1">
 
 <service_bundle type="manifest" name="MySQL">
-    <service 
-            name="application/database/mysql_56" 
-            type="service" 
+    <service
+            name="application/database/mysql_56"
+            type="service"
             version="1">
 
         <!-- Wait for all local filesystems to be mounted -->
-        <dependency 
-                name="filesystem" 
-                grouping="require_all" 
+        <dependency
+                name="filesystem"
+                grouping="require_all"
                 restart_on="none"
                 type="service">
             <service_fmri value="svc:/system/filesystem/local" />
@@ -24,32 +24,32 @@
                 type='service'>
                 <service_fmri value='svc:/milestone/network:default' />
         </dependency>
-        
+
 
         <!-- Execution method for start, stop and restart -->
-        <exec_method 
-                type="method" 
-                name="start" 
+        <exec_method
+                type="method"
+                name="start"
                 exec="/lib/svc/method/mysql_56 start"
                 timeout_seconds="30" />
 
-        <exec_method 
-                type="method" 
-                name="stop" 
-                exec="/lib/svc/method/mysql_56 stop" 
+        <exec_method
+                type="method"
+                name="stop"
+                exec="/lib/svc/method/mysql_56 stop"
                 timeout_seconds="30" />
 
-        <exec_method 
-                type="method" 
-                name="refresh" 
-                exec="/lib/svc/method/mysql_56 reload" 
+        <exec_method
+                type="method"
+                name="refresh"
+                exec="/lib/svc/method/mysql_56 reload"
                 timeout_seconds="30" />
 
         <!-- Other properties and configs -->
         <property_group name="general" type="framework">
-            <propval name="value_authorization" type="astring" 
+            <propval name="value_authorization" type="astring"
                     value="solaris.smf.value.mysql" />
-            <propval name="action_authorization" type="astring" 
+            <propval name="action_authorization" type="astring"
                     value="solaris.smf.manage.mysql" />
         </property_group>
 
@@ -57,7 +57,7 @@
             <method_context>
                 <method_credential user='mysql' group='mysql'/>
             </method_context>
-        
+
             <property_group name='mysql_56' type='application'>
                 <propval name='base' type='astring'
                     value='/usr/local/mysql/5.6'/>
@@ -71,7 +71,7 @@
                     value='/var/mysql/5.6/run/mysqld.socket'/>
                 <propval name='pidfile' type='astring'
                     value='/var/mysql/5.6/run/mysqld.pid'/>
-            </property_group>    
+            </property_group>
         </instance>
 
         <stability value="Evolving" />

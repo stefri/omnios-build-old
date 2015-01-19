@@ -40,7 +40,7 @@ check_data_dir() {
         echo "Error: mysql_56/data directory $datadir is not writeable by mysql"
         exit $SMF_EXIT_ERR_CONFIG
     fi
-    
+
     if [ ! -d $datadir/mysql ]; then
         echo "Error: mysql_56/data directory $datadir is not initialized"
         echo "Notice: execute as user mysql:"
@@ -54,7 +54,7 @@ bindir=`getproparg mysql_56/bin`
 sbindir=$bindir
 libexecdir=$bindir
 datadir=`getproparg mysql_56/data`
-myconf=`getproparg mysql_56/mycnf`
+mycnf=`getproparg mysql_56/mycnf`
 socket=`getproparg mysql_56/socket`
 mysql_pid=`getproparg mysql_56/pidfile`
 
@@ -112,7 +112,7 @@ case "$1" in
 
 'stop')
     if [ -f $mysql_pid ]; then
-        kill `cat $mysql_pid` || true 
+        kill `cat $mysql_pid` || true
     fi
     ;;
 

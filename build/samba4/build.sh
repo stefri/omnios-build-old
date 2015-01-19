@@ -28,7 +28,7 @@
 . ../../lib/functions.sh
 
 PROG=samba
-VER="4.1.14"
+VER="4.1.16"
 VERHUMAN=$VER
 PKG=service/network/samba4
 SUMMARY="$PROG - CIFS server and active directory controller"
