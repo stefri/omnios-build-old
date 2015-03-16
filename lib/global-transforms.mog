@@ -22,6 +22,7 @@
 #
 # Copyright 2011-2012 OmniTI Computer Consulting, Inc.  All rights reserved.
 # Use is subject to license terms.
+# Copyright (c) 2014 by Delphix. All rights reserved.
 #
 # Make all directories usable
 <transform dir -> default mode 0755>
@@ -41,7 +42,7 @@
 <transform dir path=usr/share/locale$ -> set group other>
 
 # drop GNU info dir files
-<transform file path=share/info/dir$ -> drop>
+<transform file path=.*/share/info/dir$ -> drop>
 
 # Libtool archives can suck it
 <transform file path=.*/lib/.*\.la$ -> drop>
@@ -100,3 +101,11 @@
 # If you ship an SMF manifest, it should be imported upon pkg install
 <transform file path=(var|lib)/svc/manifest/.*\.xml -> \
     add restart_fmri svc:/system/manifest-import:default>
+
+<transform file path=opt/mawi/etc/ -> set preserve renamenew>
+<transform file path=etc/ -> set preserve renamenew>
+
+# if $PREFIX/man exists it will break all manpages in $PREFIX/share/man by
+# default
+<transform dir -> edit path opt/mawi/man opt/mawi/share/man>
+<transform file -> edit path opt/mawi/man opt/mawi/share/man>

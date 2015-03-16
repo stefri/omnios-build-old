@@ -21,13 +21,12 @@
 # CDDL HEADER END
 #
 #
-# Copyright 2011-2012 OmniTI Computer Consulting, Inc.  All rights reserved.
+# Copyright @@CYEAR@@ OmniTI Computer Consulting, Inc.  All rights reserved.
 # Use is subject to license terms.
 #
 # Load support functions
 . ../../lib/functions.sh
 
-MIRROR=ftp-stud.hs-esslingen.de/pub/Mirrors
 
 AUTHORID=FOOBAR              # Module author's ID
 PROG=Module-Name             # Name of source download
@@ -35,25 +34,30 @@ MODNAME=Module::Name         # Module name for testing
 VER=1.0                      # Module version
 VERHUMAN=$VER                # Human-readable version
 #PVER=                       # Branch (set in config.sh, override here if needed)
+
 PKG=perl/$(echo $PROG | tr '[A-Z]' '[a-z]')  # Module name, lowercased
+PKG=mawi/perl/$(echo $PROG | tr '[A-Z]' '[a-z]')  # Module name, lowercased
 SUMMARY=""                   # Change this
 DESC=""                      # Change this
 
-PREFIX=/usr/perl5
+MIRROR=ftp-stud.hs-esslingen.de/pub/Mirrors
+
+PREFIX=/opt/perl5
 reset_configure_opts
 
 NO_PARALLEL_MAKE=1
 
-# Only 5.16.1 and later will get individual module builds
-PERLVERLIST="5.16.1"
+# Only 5.20.2 and later will get individual module builds
+PERLVERLIST="5.20.2"
 
-# Add any additional deps here; OMNIperl added below
-#DEPENDS_IPS=
+# Add any additional deps here; perl runtime added below
+#BUILD_DEPENDS_IPS=
+#RUN_DEPENDS_IPS=
 
 # We require a Perl version to use for this build and there is no default
 case $DEPVER in
-    5.16.1)
-        DEPENDS_IPS="$DEPENDS_IPS runtime/perl"
+    5.20.2)
+        RUN_DEPENDS_IPS="$RUN_DEPENDS_IPS mawi/runtime/perl =mawi/runtime/perl@5.20.2"
         ;;
     "")
         logerr "You must specify a version with -d DEPVER. Valid versions: $PERLVERLIST"

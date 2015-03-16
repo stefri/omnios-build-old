@@ -21,7 +21,7 @@
 # CDDL HEADER END
 #
 #
-# Copyright 2011-2012 OmniTI Computer Consulting, Inc.  All rights reserved.
+# Copyright 2014 OmniTI Computer Consulting, Inc.  All rights reserved.
 # Use is subject to license terms.
 #
 
@@ -71,13 +71,26 @@ while getopts "hlt:" opt; do
     esac
 done
 
+if [ ! -d "$BUILDDIR" ]; then
+    echo "WARNING: Creating new build script repository at $BUILDDIR" >&2
+    git init "$BUILDDIR" || { echo "Error: Build script repository init failed." >&2; exit 1; }
+    cp template/{config,site}.sh build/
+fi
+
 if [[ -d $BUILDDIR/$NAME ]]; then
     echo "Error: Directory $BUILDDIR/$NAME exists."
     exit 1
 fi
 
+year=`date +%Y`
+
 echo "Creating new $TYPE build script under $BUILDDIR/$NAME"
 mkdir $BUILDDIR/$NAME
+<<<<<<< HEAD
 cp $SCRIPTDIR/template/${TYPE}-template.sh $BUILDDIR/$NAME/build.sh
+=======
+cat $SCRIPTDIR/template/${TYPE}-template.sh | \
+    sed -e "s/@@CYEAR@@/$year/" > $BUILDDIR/$NAME/build.sh
+>>>>>>> f24ecd905d15f1857969b2f92ce7db946cabbc67
 chmod +x $BUILDDIR/$NAME/build.sh
 mkdir $BUILDDIR/$NAME/patches

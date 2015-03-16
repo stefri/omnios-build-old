@@ -20,21 +20,26 @@
 # CDDL HEADER END
 #
 #
-# Copyright 2011-2012 OmniTI Computer Consulting, Inc.  All rights reserved.
-# Use is subject to license terms.
+# Copyright 2014 OmniTI Computer Consulting, Inc.  All rights reserved.
+# Copyright (c) 2014 by Delphix. All rights reserved.
 #
 #############################################################################
 # Configuration for the build system
 #############################################################################
 
 # Default branch
-PVER=0.151012
+RELVER=151006
+PVER=0.$RELVER
 
-# Which server to fetch files from
-MIRROR=scott.mathematik.uni-ulm.de/src
+# Which server to fetch files from.
+# If $MIRROR begins with a '/', it is treated as a local directory.
+MIRROR=http://srcmirror.niksula.hut.fi/
+
+# pkglint cache directory (best to be persistent)
+LINTCACHE=${HOME}/pkglint.cache
 
 # Default prefix for packages (may be overridden)
-PREFIX=/usr/local
+PREFIX=/opt/niksula
 
 # Temporary directories
 # TMPDIR is used for source archives and build directories
@@ -58,18 +63,17 @@ NOSCRIPTSTUB=
 #############################################################################
 
 # Perl versions we currently build against
-PERLVERLIST="5.16.1"
+PERLVERLIST="5.18.1"
 
 # Full paths to bins
-PERLBIN=/usr/perl5/5.16.1/bin
-PERL32=/usr/perl5/5.16.1/bin/$ISAPART/perl
-PERL64=/usr/perl5/5.16.1/bin/$ISAPART64/perl
+PERL32=$PREFIX/perl5/bin/i386/perl
+PERL64=$PREFIX/perl5/bin/amd64/perl
 
 # Default Makefile.PL options
-PERL_MAKEFILE_OPTS="INSTALLSITEBIN=$PREFIX/bin/_ARCHBIN_ \
-                    INSTALLSITESCRIPT=$PREFIX/bin/_ARCHBIN_ \
-                    INSTALLSITEMAN1DIR=$PREFIX/share/man/man1 \
-                    INSTALLSITEMAN3DIR=$PREFIX/share/man/man3 \
+PERL_MAKEFILE_OPTS="INSTALLSITEBIN=$PREFIX/perl5/bin/_ARCHBIN_ \
+                    INSTALLSITESCRIPT=$PREFIX/perl5/bin/_ARCHBIN_ \
+                    INSTALLSITEMAN1DIR=$PREFIX/perl5/man/man1 \
+                    INSTALLSITEMAN3DIR=$PREFIX/perl5/man/man3 \
                     INSTALLDIRS=site"
 
 # Accept MakeMaker defaults so as not to stall build scripts
@@ -82,8 +86,8 @@ PERL_MAKE_TEST=1
 #############################################################################
 # Python
 #############################################################################
-PYTHONPATH=/opt/python27
-PYTHON=$PYTHONPATH/bin/python2.7
+PYTHONPATH=/usr
+PYTHON=$PYTHONPATH/bin/python2.6
 PYTHONLIB=$PYTHONPATH/lib
 
 
@@ -99,6 +103,7 @@ BUNZIP2=bunzip2
 XZCAT=xzcat
 UNZIP=unzip
 AWK=gawk
+SUDO=pfexec
 
 # Figure out number of logical CPUs for use with parallel gmake jobs (-j)
 # Default to 1.5*nCPUs as we assume the build machine is 100% devoted to
@@ -127,8 +132,8 @@ ISAPART=i386
 ISAPART64=amd64
 
 # For OmniOS we (almost) always want GCC
-CC=/opt/gcc-4.8.1/bin/gcc
-CXX=/opt/gcc-4.8.1/bin/g++
+CC=gcc
+CXX=g++
 
 # CFLAGS applies to both builds, 32/64 only gets applied to the respective
 # build
@@ -138,13 +143,13 @@ CFLAGS64="-m64"
 
 # Linker flags
 LDFLAGS=""
-LDFLAGS32="-R/usr/local/lib -L/usr/local/lib"
-LDFLAGS64="-m64 -R/usr/local/lib/$ISAPART64 -L/usr/local/lib/$ISAPART64"
+LDFLAGS32="-L${PREFIX}/lib -R${PREFIX}/lib"
+LDFLAGS64="-m64 -L${PREFIX}/lib/${ISAPART64} -R${PREFIX}/lib/${ISAPART64}"
 
 # C pre-processor flags
-CPPFLAGS="-I/usr/local/include"
-CPPFLAGS32=""
-CPPFLAGS64=""
+CPPFLAGS=""
+CPPFLAGS32="-I${PREFIX}/include"
+CPPFLAGS64="-I${PREFIX}/include/$ISAPART64"
 
 # C++ flags
 CXXFLAGS=""
@@ -175,23 +180,20 @@ reset_configure_opts() {
         --sbindir=$PREFIX/sbin/$ISAPART
         --libdir=$PREFIX/lib
         --libexecdir=$PREFIX/libexec"
-    PYTHON_SETUP_OPTS_32="--root=$DESTDIR"
 
     CONFIGURE_OPTS_64="--prefix=$PREFIX
         --sysconfdir=$SYSCONFDIR
-        --includedir=$PREFIX/include/$ISAPART64
+        --includedir=$PREFIX/include
         --bindir=$PREFIX/bin/$ISAPART64
         --sbindir=$PREFIX/sbin/$ISAPART64
         --libdir=$PREFIX/lib/$ISAPART64
         --libexecdir=$PREFIX/libexec/$ISAPART64"
-    PYTHON_SETUP_OPTS_64="--root=$DESTDIR"
 }
 reset_configure_opts
 
 # Configure options to apply to both builds - this is the one you usually want
 # to change for things like --enable-feature
 CONFIGURE_OPTS=""
-PYTHON_SETUP_OPTS=""
 
 # Vim hints
 # vim:ts=4:sw=4:et:
