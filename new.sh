@@ -86,11 +86,7 @@ year=`date +%Y`
 
 echo "Creating new $TYPE build script under $BUILDDIR/$NAME"
 mkdir $BUILDDIR/$NAME
-<<<<<<< HEAD
-cp $SCRIPTDIR/template/${TYPE}-template.sh $BUILDDIR/$NAME/build.sh
-=======
 cat $SCRIPTDIR/template/${TYPE}-template.sh | \
     sed -e "s/@@CYEAR@@/$year/" > $BUILDDIR/$NAME/build.sh
->>>>>>> f24ecd905d15f1857969b2f92ce7db946cabbc67
 chmod +x $BUILDDIR/$NAME/build.sh
 mkdir $BUILDDIR/$NAME/patches
