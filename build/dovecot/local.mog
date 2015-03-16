@@ -1,9 +1,0 @@
-group gid=92 groupname=dovecot
-user ftpuser=false gcos-field="Dovecot Reserved UID" group=dovecot password=NP uid=92 username=dovecot home-dir=/
-group gid=93 groupname=dovenull
-user ftpuser=false gcos-field="Dovecot Reserved UID" group=dovenull password=NP uid=93 username=dovenull home-dir=/
-license COPYING license="General Copyright Information"
-license COPYING.MIT license="MIT"
-license COPYING.LGPL license="LGPL"
-<transform file path=/etc/dovecot/.* -> set preserve true>
-<transform file path=/etc/dovecot/conf.d/.* -> set preserve true>

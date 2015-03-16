@@ -1,2 +1,0 @@
-license LICENSE license=WebM
-<transform file path=usr/local/include/vpx/.* -> set mode 0644>

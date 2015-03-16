@@ -1,6 +1,0 @@
-license COPYING license=BSD
-group gid=98 groupname=redis
-user ftpuser=false gcos-field="Redis Reserved UID" group=redis login-shell=/usr/bin/pfbash password=NP uid=98 username=redis home-dir=/var/redis
-<transform dir path=var/redis.* -> set owner redis>
-<transform dir path=var/redis.* -> set group redis>
-<transform dir path=var/redis.* -> set mode 0755>

@@ -1,4 +1,0 @@
-group gid=95 groupname=dspam
-user ftpuser=false gcos-field="DSPAM Reserved UID" group=dspam password=NP uid=95 username=dspam home-dir=/var/dspam
-license LICENSE license="AGPLv3"
-<transform file path=etc/dspam/.* -> set preserve true>

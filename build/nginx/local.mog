@@ -1,2 +1,0 @@
-license LICENSE license=nginx
-<transform file path=etc/nginx/.* -> set preserve renamenew>

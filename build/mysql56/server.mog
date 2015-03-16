@@ -1,7 +1,0 @@
-license COPYING license=GPLv2
-<transform dir path="var/mysql/5.6/data" -> set owner mysql>
-<transform dir path="var/mysql/5.6/data" -> set group mysql>
-<transform dir path="var/mysql/5.6/data" -> set mode 750>
-<transform dir path="var/mysql/5.6/run" -> set owner mysql>
-<transform dir path="var/mysql/5.6/run" -> set group mysql>
-<transform dir path="var/mysql/5.6/run" -> set mode 755>
