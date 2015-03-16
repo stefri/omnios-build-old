@@ -1,0 +1,12 @@
+diff -rupN protobuf-2.6.1.orig/autogen.sh protobuf-2.6.1/autogen.sh
+--- protobuf-2.6.1.orig/autogen.sh	2015-03-13 10:29:00.503040344 +0100
++++ protobuf-2.6.1/autogen.sh	2015-03-13 10:29:30.153999639 +0100
+@@ -19,7 +19,7 @@ fi
+ # directory is set up as an SVN external.
+ if test ! -e gtest; then
+   echo "Google Test not present.  Fetching gtest-1.5.0 from the web..."
+-  curl http://googletest.googlecode.com/files/gtest-1.5.0.tar.bz2 | tar jx
++  curl http://googletest.googlecode.com/files/gtest-1.5.0.tar.bz2 | $TAR jx
+   mv gtest-1.5.0 gtest
+ fi
+ 

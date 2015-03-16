@@ -1,0 +1,14 @@
+diff -rupN protobuf-2.6.1.orig/src/google/protobuf/stubs/platform_macros.h protobuf-2.6.1/src/google/protobuf/stubs/platform_macros.h
+--- protobuf-2.6.1.orig/src/google/protobuf/stubs/platform_macros.h	2015-03-13 11:01:14.813482945 +0100
++++ protobuf-2.6.1/src/google/protobuf/stubs/platform_macros.h	2015-03-13 11:50:18.622146522 +0100
+@@ -94,8 +94,8 @@ GOOGLE_PROTOBUF_PLATFORM_ERROR
+ #define GOOGLE_PROTOBUF_OS_APPLE
+ #elif defined(__native_client__)
+ #define GOOGLE_PROTOBUF_OS_NACL
+-#elif defined(sun)
+-#define GOOGLE_PROTOBUF_OS_SOLARIS
++//#elif defined(sun)
++//#define GOOGLE_PROTOBUF_OS_SOLARIS
+ #endif
+ 
+ #undef GOOGLE_PROTOBUF_PLATFORM_ERROR

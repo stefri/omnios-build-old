@@ -1,0 +1,13 @@
+diff -rupN gnutls-3.0.32.orig/gl/stdio.in.h gnutls-3.0.32/gl/stdio.in.h
+--- gnutls-3.0.32.orig/gl/stdio.in.h	2013-08-02 23:12:21.000000000 +0200
++++ gnutls-3.0.32/gl/stdio.in.h	2015-03-12 14:06:38.382925367 +0100
+@@ -710,7 +710,8 @@ _GL_WARN_ON_USE (getline, "getline is un
+    removed it.  */
+ #undef gets
+ #if HAVE_RAW_DECL_GETS
+-_GL_WARN_ON_USE (gets, "gets is a security hole - use fgets instead");
++/*_GL_WARN_ON_USE (gets, "gets is a security hole - use fgets instead");*/
++#define gets(a) fgets( a, sizeof(*(a)), stdin)
+ #endif
+
+

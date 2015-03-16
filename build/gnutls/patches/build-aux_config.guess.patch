@@ -1,0 +1,12 @@
+diff -rupN gnutls-3.0.32.orig/build-aux/config.guess gnutls-3.0.32/build-aux/config.guess
+--- gnutls-3.0.32.orig/build-aux/config.guess	2013-08-31 11:29:22.000000000 +0200
++++ gnutls-3.0.32/build-aux/config.guess	2015-03-12 12:15:09.206207362 +0100
+@@ -365,7 +365,7 @@ case "${UNAME_MACHINE}:${UNAME_SYSTEM}:$
+ 	# This test works for both compilers.
+ 	if [ "$CC_FOR_BUILD" != 'no_compiler_found' ]; then
+ 	    if (echo '#ifdef __amd64'; echo IS_64BIT_ARCH; echo '#endif') | \
+-		(CCOPTS= $CC_FOR_BUILD -E - 2>/dev/null) | \
++		(CCOPTS= $CC_FOR_BUILD $CFLAGS -E - 2>/dev/null) | \
+ 		grep IS_64BIT_ARCH >/dev/null
+ 	    then
+ 		SUN_ARCH="x86_64"
