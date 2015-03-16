@@ -1,0 +1,39 @@
+diff -rupN imaging-1.1.7.orig/_imagingft.c imaging-1.1.7/_imagingft.c
+--- imaging-1.1.7.orig/_imagingft.c	2009-11-01 01:44:12.000000000 +0100
++++ imaging-1.1.7/_imagingft.c	2015-02-26 15:49:13.196189013 +0100
+@@ -70,7 +70,7 @@ struct {
+     const char* message;
+ } ft_errors[] =
+ 
+-#include <freetype/fterrors.h>
++#include <freetype2/fterrors.h>
+ 
+ /* -------------------------------------------------------------------- */
+ /* font objects */
+@@ -160,7 +160,7 @@ getfont(PyObject* self_, PyObject* args,
+ 
+     return (PyObject*) self;
+ }
+-    
++
+ static int
+ font_getchar(PyObject* string, int index, FT_ULong* char_out)
+ {
+@@ -285,7 +285,7 @@ font_getabc(FontObject* self, PyObject*
+             return geterror(error);
+         a = face->glyph->metrics.horiBearingX / 64.0;
+         b = face->glyph->metrics.width / 64.0;
+-        c = (face->glyph->metrics.horiAdvance - 
++        c = (face->glyph->metrics.horiAdvance -
+              face->glyph->metrics.horiBearingX -
+              face->glyph->metrics.width) / 64.0;
+     } else
+@@ -420,7 +420,7 @@ static PyMethodDef font_methods[] = {
+     {NULL, NULL}
+ };
+ 
+-static PyObject*  
++static PyObject*
+ font_getattr(FontObject* self, char* name)
+ {
+     PyObject* res;
