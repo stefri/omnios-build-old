@@ -28,15 +28,16 @@
 . ../../lib/functions.sh
 
 PROG=samba
-VER="4.1.16"
+VER="4.2.0"
 VERHUMAN=$VER
 PKG=service/network/samba4
 SUMMARY="$PROG - CIFS server and active directory controller"
 DESC="$SUMMARY ($VERS)"
 
 DEPENDS_IPS="service/network/dns/mdns system/library system/library/gcc-4-runtime system/library/math
-             library/libldap library/security/cyrus-sasl runtime/python-27"
-# blkid, gnutls, readline, cups, bsd or setproctitle, xsltproc, docbook
+             library/libldap library/security/cyrus-sasl runtime/python-27 library/security/gnutls
+             library/security/libgcrypt"
+# blkid, readline, cups, bsd or setproctitle, xsltproc, docbook
 
 BUILDARCH=64
 CONFIGURE_OPTS="
@@ -60,6 +61,7 @@ CONFIGURE_OPTS="
     --enable-fhs
     --without-systemd
     --with-acl-support
+    --with-automount
     --with-shared-modules=nfs4_acls,vfs_zfsacl,idmap_ad,idmap_ldap,idmap_rid,idmap_tdb2
 "
 CFLAGS="$CFLAGS -I/opt/python27/include"
